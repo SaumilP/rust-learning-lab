@@ -1,0 +1,5 @@
+[package]
+name = "command"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true

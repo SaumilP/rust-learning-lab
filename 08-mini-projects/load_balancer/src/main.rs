@@ -35,6 +35,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 1. Initial Configuration Setup
     // We wrap the config in ArcSwap to allow lock-free hot reloading
     let mut raw_conf = load_config(config_path);
+    
     // Initialize live_backends with all backends until first health check completes
     raw_conf.live_backends = raw_conf.all_backends.clone();
     let shared_config = Arc::new(ArcSwap::from_pointee(raw_conf));

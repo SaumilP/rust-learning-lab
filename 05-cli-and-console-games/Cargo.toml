@@ -1,7 +1,6 @@
 [workspace]
 members = [
-    "calculator",
-    "todo_app",
+    "hangman",
 ]
 
 # Shared workspace properties

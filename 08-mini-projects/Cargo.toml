@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "load_balancer",
+]
+
+# Shared workspace properties
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+authors = [ "Saumil Patel <email2saumil2024@gmail.com>" ]

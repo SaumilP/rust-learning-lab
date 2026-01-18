@@ -1,3 +1,7 @@
+![CI](https://github.com/SaumilP/rust-learning-lab/actions/workflows/ci.yml/badge.svg)
+![Rust](https://img.shields.io/badge/rust-stable-orange)
+![License](https://img.shields.io/badge/license-MIT-blue)
+
 # 🦀 Rust Learning Lab
 
 A **hands-on, beginner-to-intermediate Rust learning repository** focused on:

@@ -1,0 +1,11 @@
+[package]
+name = "rfind"
+description = "A simple Rust CLI tool for recursive file searching"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+walkdir = "2.3"
+regex = "1.9"

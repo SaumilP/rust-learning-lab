@@ -1,11 +1,12 @@
 [workspace]
-resolver = "3"
+resolver = "2"
 members = [
     "hangman",
+    "tic_tac_toe",
 ]
 
 # Shared workspace properties
 [workspace.package]
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 authors = [ "Saumil Patel <email2saumil2024@gmail.com>" ]

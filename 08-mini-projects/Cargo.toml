@@ -1,11 +1,14 @@
 [workspace]
-resolver = "3"
+resolver = "2"
 members = [
     "load_balancer",
+    "http_server",
+    "chat_app",
+    "key_value_store",
 ]
 
 # Shared workspace properties
 [workspace.package]
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 authors = [ "Saumil Patel <email2saumil2024@gmail.com>" ]

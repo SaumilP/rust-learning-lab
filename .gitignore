@@ -10,3 +10,6 @@ target/
 *.json
 *.mmd
 *.dot
+
+# Internal project tracking files
+*IMPLEMENTATION_STATUS.md

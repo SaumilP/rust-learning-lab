@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello WebAssembly - Rust</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #DE9148;
+            padding-bottom: 10px;
+        }
+        .demo {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #DE9148;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #c57a32;
+        }
+        .output {
+            background: #e8f4f8;
+            padding: 15px;
+            border-left: 4px solid #2196F3;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .rust-logo {
+            font-size: 48px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="rust-logo">🦀</span> Hello WebAssembly with Rust!</h1>
+
+        <div class="demo">
+            <h3>1. Greeting</h3>
+            <input type="text" id="nameInput" placeholder="Enter your name" value="World">
+            <button onclick="runGreeting()">Greet Me!</button>
+            <div id="greetOutput" class="output"></div>
+        </div>
+
+        <div class="demo">
+            <h3>2. Addition</h3>
+            <input type="number" id="num1" value="42"> +
+            <input type="number" id="num2" value="58"> =
+            <button onclick="runAdd()">Calculate</button>
+            <div id="addOutput" class="output"></div>
+        </div>
+
+        <div class="demo">
+            <h3>3. Factorial</h3>
+            <input type="number" id="factNum" value="10" min="0" max="20">
+            <button onclick="runFactorial()">Calculate n!</button>
+            <div id="factOutput" class="output"></div>
+        </div>
+
+        <div class="demo">
+            <h3>4. Prime Number Check</h3>
+            <input type="number" id="primeNum" value="17">
+            <button onclick="runPrime()">Check Prime</button>
+            <div id="primeOutput" class="output"></div>
+        </div>
+
+        <div class="demo">
+            <h3>5. String Reverse</h3>
+            <input type="text" id="reverseInput" value="WebAssembly">
+            <button onclick="runReverse()">Reverse</button>
+            <div id="reverseOutput" class="output"></div>
+        </div>
+
+        <div class="demo">
+            <h3>6. Vowel Counter</h3>
+            <input type="text" id="vowelInput" value="Rust and WebAssembly">
+            <button onclick="runVowels()">Count Vowels</button>
+            <div id="vowelOutput" class="output"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import init, {
+            greet,
+            add,
+            factorial,
+            is_prime,
+            reverse_string,
+            count_vowels
+        } from './pkg/hello_wasm.js';
+
+        async function run() {
+            await init();
+            console.log("✅ WebAssembly module loaded successfully!");
+
+            // Make functions globally available
+            window.wasmGreet = greet;
+            window.wasmAdd = add;
+            window.wasmFactorial = factorial;
+            window.wasmIsPrime = is_prime;
+            window.wasmReverse = reverse_string;
+            window.wasmCountVowels = count_vowels;
+        }
+
+        run();
+
+        // Make functions available globally
+        window.runGreeting = function() {
+            const name = document.getElementById('nameInput').value;
+            const result = window.wasmGreet(name);
+            document.getElementById('greetOutput').textContent = result;
+        };
+
+        window.runAdd = function() {
+            const a = parseInt(document.getElementById('num1').value);
+            const b = parseInt(document.getElementById('num2').value);
+            const result = window.wasmAdd(a, b);
+            document.getElementById('addOutput').textContent = `${a} + ${b} = ${result}`;
+        };
+
+        window.runFactorial = function() {
+            const n = parseInt(document.getElementById('factNum').value);
+            const result = window.wasmFactorial(n);
+            document.getElementById('factOutput').textContent = `${n}! = ${result}`;
+        };
+
+        window.runPrime = function() {
+            const n = parseInt(document.getElementById('primeNum').value);
+            const result = window.wasmIsPrime(n);
+            document.getElementById('primeOutput').textContent =
+                `${n} is ${result ? '' : 'NOT '}a prime number`;
+        };
+
+        window.runReverse = function() {
+            const s = document.getElementById('reverseInput').value;
+            const result = window.wasmReverse(s);
+            document.getElementById('reverseOutput').textContent =
+                `"${s}" reversed is "${result}"`;
+        };
+
+        window.runVowels = function() {
+            const s = document.getElementById('vowelInput').value;
+            const result = window.wasmCountVowels(s);
+            document.getElementById('vowelOutput').textContent =
+                `"${s}" contains ${result} vowel${result !== 1 ? 's' : ''}`;
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+[package]
+name = "profiling"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[profile.release]
+debug = true  # Enable debug symbols for profiling

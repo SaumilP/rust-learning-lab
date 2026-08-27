@@ -1,0 +1,19 @@
+[package]
+name = "async-database-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.35", features = ["full"] }
+sqlx = { version = "0.7", features = ["runtime-tokio-native-tls", "sqlite", "postgres"] }
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+dotenv = "0.15"
+futures = "0.3"
+
+[dev-dependencies]
+tokio-test = "0.4"
+
+[[bin]]
+name = "async-database-client"
+path = "src/main.rs"

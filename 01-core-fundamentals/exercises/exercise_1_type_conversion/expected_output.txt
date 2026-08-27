@@ -1,0 +1,20 @@
+Temperature Converter
+====================
+
+Input temperature: 32
+32°F (i32)
+32 (i64)
+32.0°F (f64 from conversion)
+Converted to Celsius: 0.0°C
+
+Input temperature: 98
+98°F (i32)
+98 (i64)
+98.0°F (f64 from conversion)
+Converted to Celsius: 36.66666666666667°C
+
+Input temperature: 212
+212°F (i32)
+212 (i64)
+212.0°F (f64 from conversion)
+Converted to Celsius: 100.0°C

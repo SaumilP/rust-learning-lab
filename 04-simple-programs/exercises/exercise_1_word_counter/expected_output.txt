@@ -1,0 +1,12 @@
+     1→=== Word Counter ===
+     2→
+     3→File: sample.txt
+     4→Total words: 16
+     5→Unique words: 10
+     6→
+     7→Top 5 most common words:
+     8→1. the (3 occurrences)
+     9→2. fox (2 occurrences)
+    10→3. quick (1 occurrence)
+    11→4. brown (1 occurrence)
+    12→5. jumps (1 occurrence)

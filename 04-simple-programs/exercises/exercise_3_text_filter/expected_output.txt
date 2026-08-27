@@ -1,0 +1,16 @@
+     1→=== Text Filter ===
+     2→
+     3→Input: lines.txt
+     4→Output: output.txt
+     5→Filter: Minimum length 5, Contains "g"
+     6→
+     7→Processing complete:
+     8→  Total lines: 5
+     9→  Filtered lines: 2
+    10→  Removed lines: 3
+    11→
+    12→Output written to: output.txt
+    13→
+    14→Output file should contain:
+    15→hello
+    16→programming language

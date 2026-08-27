@@ -1,0 +1,21 @@
+     1→=== Option and Result Handling ===
+     2→
+     3→=== Test 1: Number Parsing ===
+     4→Parsing strings:
+     5→Success: [42, 87, -15]
+     6→Failed: ["abc", "xyz"], total failures: 2
+     7→
+     8→=== Test 2: Collection Access ===
+     9→Vector: [10, 20, 30, 40, 50]
+    10→First: Some(10)
+    11→Last: Some(50)
+    12→At index 2: Some(30)
+    13→At index 10: None
+    14→Find > 25: Some(30)
+    15→
+    16→=== Test 3: Validation ===
+    17→Validation results:
+    18→Validate (12, "Alice"): Err: age too young
+    19→Validate (150, "Alice"): Err: age out of range
+    20→Validate (25, "A"): Err: name too short
+    21→Validate (25, "Bob"): Ok, valid age and name

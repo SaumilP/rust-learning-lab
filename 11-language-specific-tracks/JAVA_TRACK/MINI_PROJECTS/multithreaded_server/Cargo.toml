@@ -1,0 +1,10 @@
+[package]
+name = "multithreaded-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# No external dependencies - using only std library
+# This demonstrates Rust's powerful standard library
+
+[dev-dependencies]

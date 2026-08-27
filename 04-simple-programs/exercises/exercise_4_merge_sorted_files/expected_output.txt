@@ -1,0 +1,25 @@
+     1→=== Merge Sorted Files ===
+     2→
+     3→Input 1: numbers1.txt
+     4→Input 2: numbers2.txt
+     5→Output: output.txt
+     6→
+     7→Processing:
+     8→  File 1 lines: 5
+     9→  File 2 lines: 5
+    10→  Total lines: 10
+    11→
+    12→Merge complete!
+    13→Output written to: output.txt
+    14→
+    15→Output file should contain (sorted):
+    16→1
+    17→2
+    18→3
+    19→4
+    20→5
+    21→6
+    22→7
+    23→8
+    24→9
+    25→10

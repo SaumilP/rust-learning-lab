@@ -1,0 +1,14 @@
+Original text: "Hello World from Rust"
+Length: 21 characters
+
+Uppercase: HELLO WORLD FROM RUST
+Lowercase: hello world from rust
+Reverse words: Rust from World Hello
+
+Char counter: Letters: 16, Spaces: 4
+
+Statistics:
+Original text: 21 chars, 4 words
+Uppercase: 21 chars, 4 words
+Lowercase: 21 chars, 4 words
+Reverse words: 21 chars, 4 words

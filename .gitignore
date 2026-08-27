@@ -13,3 +13,5 @@ target/
 
 # Internal project tracking files
 *IMPLEMENTATION_STATUS.md
+PHASE_*_COMPLETION_SUMMARY.md
+REORGANIZATION_SUMMARY.md

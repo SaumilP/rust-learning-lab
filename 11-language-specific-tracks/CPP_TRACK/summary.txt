@@ -1,0 +1,11 @@
+C/C++ Track - Summary of Remaining Files to Create:
+
+3. FUNDAMENTALS_COMPARISON.md - Comprehensive C/C++ to Rust comparison
+4. DESIGN_PATTERNS_GUIDE.md - RAII, smart pointers, design patterns
+5. ANTI_PATTERNS.md - Common mistakes C/C++ devs make
+6. CHEAT_SHEET.md - Quick reference table
+7. GOTCHAS.md - Surprising differences  
+8. TIPS_AND_TRICKS.md - Productivity guide
+
+All files will follow same high-quality format as Java/Python/Go tracks.
+Total expected: ~15,000-20,000 words for remaining 6 files.

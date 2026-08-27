@@ -1,0 +1,28 @@
+     1→=== Search Results ===
+     2→
+     3→Pattern: "fox"
+     4→File: text.txt
+     5→
+     6→Matches found: 2
+     7→1: The quick brown fox
+     8→3: the fox runs away
+     9→
+    10→
+    11→=== With Case-Insensitive Flag ===
+    12→
+    13→Pattern: "the"
+    14→File: text.txt (case-insensitive)
+    15→
+    16→Matches found: 3
+    17→1: The quick brown fox
+    18→2: jumps over the lazy dog
+    19→3: the fox runs away
+    20→
+    21→
+    22→=== With Whole-Word Flag ===
+    23→
+    24→Pattern: "the"
+    25→File: text.txt (whole-word)
+    26→
+    27→Matches found: 1
+    28→2: jumps over the lazy dog

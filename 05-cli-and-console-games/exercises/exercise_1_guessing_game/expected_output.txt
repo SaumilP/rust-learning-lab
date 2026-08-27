@@ -1,0 +1,31 @@
+╔════════════════════════════════╗
+║ NUMBER GUESSING GAME           ║
+║ Guess a number (1-100)         ║
+╚════════════════════════════════╝
+
+Guesses: 0
+> 50
+Too low! Try higher.
+
+Guesses: 1
+> 75
+Too high! Try lower.
+
+Guesses: 2
+> 62
+Too low! Try higher.
+
+Guesses: 3
+> 68
+Too high! Try lower.
+
+Guesses: 4
+> 65
+Correct! You found it!
+
+╔════════════════════════════════╗
+║ GAME OVER                      ║
+║ Final Score: 92 points         ║
+║ Guesses: 4                     ║
+║ Efficiency: 92%                ║
+╚════════════════════════════════╝

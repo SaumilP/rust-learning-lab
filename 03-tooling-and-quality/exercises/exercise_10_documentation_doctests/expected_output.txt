@@ -1,0 +1,19 @@
+     1→running 3 doc tests
+     2→
+     3→running 1 test
+     4→test gcd - example::gcd ... ok
+     5→
+     6→running 1 test
+     7→test is_valid_email - example::is_valid_email ... ok
+     8→
+     9→running 1 test
+    10→test calculate_average - example::calculate_average ... ok
+    11→
+    12→test result: ok. 3 passed; 0 failed; 0 ignored
+    13→
+    14→running 3 tests
+    15→test tests::test_average ... ok
+    16→test tests::test_email_validation ... ok
+    17→test tests::test_gcd ... ok
+    18→
+    19→test result: ok. 3 passed; 0 failed; 0 ignored

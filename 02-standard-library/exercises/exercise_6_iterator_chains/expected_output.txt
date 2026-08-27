@@ -1,0 +1,23 @@
+     1→=== Iterator Chains and Transformations ===
+     2→
+     3→=== Test 1: Number Pipeline ===
+     4→Original: 1..=20
+     5→Evens: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+     6→Evens squared: [4, 16, 36, 64, 100, 144, 196, 256, 324, 400]
+     7→Skip 2, take 3: [36, 64, 100]
+     8→Sum of result: 200
+     9→Product of result: 230400
+    10→
+    11→=== Test 2: String Processing ===
+    12→Original: "the quick brown fox jumps"
+    13→Words with length > 3: ["quick", "brown", "jumps"]
+    14→Uppercase: ["QUICK", "BROWN", "JUMPS"]
+    15→Enumerated: [(0, "QUICK"), (1, "BROWN"), (2, "JUMPS")]
+    16→Joined: "QUICK-BROWN-JUMPS"
+    17→
+    18→=== Test 3: Statistics ===
+    19→Numbers: [5, 12, 8, 15, 3, 20, 7, 9]
+    20→Greater than 5: [12, 8, 15, 20, 7, 9]
+    21→Count: 6
+    22→Sum: 71
+    23→Average: 11.83

@@ -1,0 +1,12 @@
+     1→running 8 tests
+     2→test tests::test_factorial_positive ... ok
+     3→test tests::test_factorial_zero ... ok
+     4→test tests::test_find_max_empty ... ok
+     5→test tests::test_find_max_normal ... ok
+     6→test tests::test_is_even ... ok
+     7→test tests::test_is_even_negative ... ok
+     8→test tests::test_is_even_single_odd ... ok
+     9→test tests::test_string_reverse_empty ... ok
+    10→test tests::test_string_reverse_normal ... ok
+    11→
+    12→test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured

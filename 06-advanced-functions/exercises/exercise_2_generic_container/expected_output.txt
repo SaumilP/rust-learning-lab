@@ -1,0 +1,15 @@
+Integer: 42
+String: Hello
+
+Display-only operations:
+Item: 42
+Item: Hello
+
+Mapped operations:
+i32 mapped to String: "42"
+String mapped to uppercase: "HELLO"
+
+Type information:
+Box<i32>: 42
+Box<String>: Hello
+Box<f64>: 3.14

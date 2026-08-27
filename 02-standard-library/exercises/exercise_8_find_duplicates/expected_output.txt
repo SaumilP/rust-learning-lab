@@ -1,0 +1,27 @@
+     1→=== Find Duplicates ===
+     2→
+     3→=== Test 1: Integer Duplicates ===
+     4→Numbers: [1, 2, 3, 2, 4, 5, 3, 1]
+     5→Has duplicates: true
+     6→First duplicate value: Some(2)
+     7→All duplicates: [1, 2, 3]
+     8→Duplicate counts: 1->2, 2->2, 3->2
+     9→
+    10→=== Test 2: String Duplicates ===
+    11→Words: ["apple", "banana", "apple", "cherry", "banana"]
+    12→Has duplicates: true
+    13→First duplicate: Some("apple")
+    14→All duplicates: ["apple", "banana"]
+    15→Duplicate counts:
+    16→  apple:2
+    17→  banana:2
+    18→
+    19→=== Test 3: Character Duplicates ===
+    20→Text: "programming"
+    21→Has duplicates: true
+    22→First duplicate char: Some('r')
+    23→All duplicates: ['g', 'm', 'r']
+    24→Character counts:
+    25→  g:2
+    26→  m:2
+    27→  r:2

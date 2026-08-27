@@ -1,0 +1,45 @@
+╔════════════════════════════════╗
+║ MEMORY SEQUENCE GAME           ║
+╚════════════════════════════════╝
+
+Level 1
+Sequence: 2
+
+Memorize the sequence...
+(display shown for 2 seconds, then cleared)
+
+Enter the sequence:
+Number 1: > 2
+
+✓ Correct! Level Complete!
+
+Level 2
+Sequence: 2 4
+
+Memorize the sequence...
+
+Enter the sequence:
+Number 1: > 2
+Number 2: > 4
+
+✓ Correct! Level Complete!
+
+Level 3
+Sequence: 2 4 1
+
+Memorize the sequence...
+
+Enter the sequence:
+Number 1: > 2
+Number 2: > 4
+Number 3: > 3
+
+✗ Wrong at position 3!
+Sequence was: [2, 4, 1]
+You entered:  [2, 4, 3]
+
+╔════════════════════════════════╗
+║ GAME OVER                      ║
+║ Final Level: 3                 ║
+║ Score: 30 points               ║
+╚════════════════════════════════╝

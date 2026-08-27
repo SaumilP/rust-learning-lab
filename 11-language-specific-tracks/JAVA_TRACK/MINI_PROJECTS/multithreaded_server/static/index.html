@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static File Example</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        .highlight {
+            color: #667eea;
+        }
+
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .feature h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            font-size: 0.9em;
+            margin: 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #5568d3;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #999;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 <span class="highlight">Static File</span> Example</h1>
+        <p>
+            This HTML file is being served as a static file by our Rust HTTP server!
+            The server read this file from the <code>static/</code> directory and
+            sent it to your browser with the correct <code>Content-Type</code> header.
+        </p>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🚀</div>
+                <h3>Fast</h3>
+                <p>Served directly from disk with minimal overhead</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure</h3>
+                <p>Protected against directory traversal attacks</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Efficient</h3>
+                <p>Zero-cost abstractions in action</p>
+            </div>
+        </div>
+
+        <h2>How It Works</h2>
+        <p>
+            When you requested this file, the server:
+        </p>
+        <ol style="margin-left: 20px; color: #666;">
+            <li>Received your HTTP GET request</li>
+            <li>Matched the path to the static file handler</li>
+            <li>Read the file from disk</li>
+            <li>Determined the Content-Type from the file extension</li>
+            <li>Sent the HTTP response with the file contents</li>
+        </ol>
+
+        <div class="code-block">
+            <code>
+// Simplified static file handler in Rust<br>
+fn static_file_handler(path: &str) -> Response {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;let contents = fs::read_to_string(path)?;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Response::new(StatusCode::OK)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.content_type("text/html")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.body(contents)<br>
+}
+            </code>
+        </div>
+
+        <p style="text-align: center; margin-top: 30px;">
+            <a href="/" class="button">← Back to Home</a>
+        </p>
+
+        <footer>
+            <p>Served by Rust Multithreaded HTTP Server 🦀</p>
+            <p>Built with ❤️ and zero external dependencies</p>
+        </footer>
+    </div>
+</body>
+</html>

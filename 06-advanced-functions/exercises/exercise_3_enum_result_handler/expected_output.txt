@@ -1,0 +1,9 @@
+Parsing "42": Ok(42)
+Parsing "abc": Err(InvalidNumber)
+Parsing "": Err(Empty)
+Parsing "9999": Err(OutOfRange)
+
+Handling division...
+Error: Cannot divide by zero
+
+Division result: 50

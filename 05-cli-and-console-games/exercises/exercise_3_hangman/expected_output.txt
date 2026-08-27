@@ -1,0 +1,55 @@
+╔════════════════════════════════╗
+║ HANGMAN GAME                   ║
+╚════════════════════════════════╝
+
+Word: _ _ _ _ _ _ _
+Guessed letters:
+Wrong guesses: 0/6
+
+Guess a letter: > e
+✓ Correct!
+
+Word: _ _ _ _ _ _ e
+Guessed letters: e
+Wrong guesses: 0/6
+
+Guess a letter: > a
+✓ Correct!
+
+Word: _ a _ _ a _ e
+Guessed letters: a e
+Wrong guesses: 0/6
+
+Guess a letter: > x
+✗ Wrong!
+
+Word: _ a _ _ a _ e
+Guessed letters: a e
+Wrong guesses: 1/6
+
+Guess a letter: > m
+✓ Correct!
+
+Word: _ a _ _ a m e
+Guessed letters: a e m
+Wrong guesses: 1/6
+
+Guess a letter: > p
+✓ Correct!
+
+Word: _ a m p a m e
+Guessed letters: a e m p
+Wrong guesses: 1/6
+
+Guess a letter: > l
+✓ Correct!
+
+Word: l a m p a m e
+Guessed letters: a e l m p
+Wrong guesses: 1/6
+
+╔════════════════════════════════╗
+║ YOU WIN!                       ║
+║ Word: example                  ║
+║ Score: 50 points               ║
+╚════════════════════════════════╝

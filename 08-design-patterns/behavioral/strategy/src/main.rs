@@ -22,7 +22,7 @@ impl FlyBehaviour for DoNotFly {
 // Object which has-a relationship to above defined trait
 struct Duck {
     // behaviour off type `FlyBehaviour`
-    fly_behaviour : Box<dyn FlyBehaviour>,
+    fly_behaviour: Box<dyn FlyBehaviour>,
 }
 
 impl Duck {
@@ -37,7 +37,9 @@ impl Duck {
 fn main() {
     let do_not_fly_behaviour = Box::new(DoNotFly);
     let fly_with_wings_behaviour = Box::new(FlyWithWings);
-    let mut donald_duck = Duck { fly_behaviour: do_not_fly_behaviour };
+    let mut donald_duck = Duck {
+        fly_behaviour: do_not_fly_behaviour,
+    };
 
     // Lets see what is printed for `Duck` on no fly behaviour
     donald_duck.fly();

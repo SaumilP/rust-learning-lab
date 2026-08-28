@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
-use std::path::Path;
 use std::fs;
+use std::path::Path;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct AppConfig {

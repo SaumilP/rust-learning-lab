@@ -2,14 +2,14 @@
 #![allow(unused_variables)]
 
 trait Command {
-     fn execute(&self);
+    fn execute(&self);
 }
 
 struct NullCommand;
 impl NullCommand {
-     fn new() -> NullCommand {
-         NullCommand
-     }
+    fn new() -> NullCommand {
+        NullCommand
+    }
 }
 impl Command for NullCommand {
     fn execute(&self) {
@@ -34,19 +34,17 @@ impl Light {
 
 // First command to turn on the light
 struct LightOnCommand {
-    light : Light,
+    light: Light,
 }
 impl LightOnCommand {
-     fn new(_light: Light) -> LightOnCommand {
-         LightOnCommand {
-             light: _light
-         }
-     }
+    fn new(_light: Light) -> LightOnCommand {
+        LightOnCommand { light: _light }
+    }
 }
 impl Command for LightOnCommand {
-     fn execute(&self) {
-         self.light.on();
-     }
+    fn execute(&self) {
+        self.light.on();
+    }
 }
 
 // Light off command
@@ -54,11 +52,9 @@ struct LightOffCommand {
     light: Light,
 }
 impl LightOffCommand {
-     fn new(_light: Light) -> LightOffCommand {
-         LightOffCommand {
-             light: _light
-         }
-     }
+    fn new(_light: Light) -> LightOffCommand {
+        LightOffCommand { light: _light }
+    }
 }
 impl Command for LightOffCommand {
     fn execute(&self) {
@@ -71,17 +67,17 @@ struct SimpleRemoteControl<'a> {
     command: Box<dyn Command + 'a>,
 }
 impl<'a> SimpleRemoteControl<'a> {
-     fn new() -> SimpleRemoteControl<'a> {
-         SimpleRemoteControl {
-             command: Box::new(NullCommand::new())
+    fn new() -> SimpleRemoteControl<'a> {
+        SimpleRemoteControl {
+            command: Box::new(NullCommand::new()),
         }
-     }
-     fn set_command(&mut self, cmd: Box<dyn Command + 'a>) {
-         self.command = cmd;
-     }
-     fn button_was_pressed(&self) {
-         self.command.execute();
-     }
+    }
+    fn set_command(&mut self, cmd: Box<dyn Command + 'a>) {
+        self.command = cmd;
+    }
+    fn button_was_pressed(&self) {
+        self.command.execute();
+    }
 }
 
 fn main() {

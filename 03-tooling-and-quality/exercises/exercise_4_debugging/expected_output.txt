@@ -1,0 +1,10 @@
+Shopping Cart Calculator
+========================
+Item: Widget at $10.00 x 5
+Subtotal: $50.00
+After quantity discount: $45.00
+After coupon (SAVE15): $38.25
+Tax (8%): $3.06
+-----------
+TOTAL: $41.31
+========================

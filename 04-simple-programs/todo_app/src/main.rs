@@ -1,7 +1,7 @@
 use clap::{Parser, Subcommand};
 use serde::{Deserialize, Serialize};
-use std::io::BufReader;
 use std::fs::{self, File};
+use std::io::BufReader;
 use std::path::PathBuf;
 
 fn get_storage_path() -> PathBuf {
@@ -49,9 +49,13 @@ fn main() {
     match cli.command {
         Commands::Add { task } => {
             let id = todos.last().map(|t| t.id + 1).unwrap_or(1);
-            todos.push(Todo { id, task, completed: false });
+            todos.push(Todo {
+                id,
+                task,
+                completed: false,
+            });
             println!("🚀 Task added!");
-        },
+        }
         Commands::List => {
             if todos.is_empty() {
                 println!("Your list is empty. Take a nap! 😴");
@@ -61,7 +65,7 @@ fn main() {
                     println!("{} {}: {}", status, todo.id, todo.task);
                 }
             }
-        },
+        }
         Commands::Done { id } => {
             if let Some(todo) = todos.iter_mut().find(|todo| todo.id == id) {
                 todo.completed = true;
@@ -69,7 +73,7 @@ fn main() {
             } else {
                 println!("❗ Task with ID {} not found.", id);
             }
-        },
+        }
         Commands::Remove { id } => {
             todos.retain(|todo| todo.id != id);
             println!("🗑️ Task {} removed!", id);
@@ -92,7 +96,7 @@ fn load_todos(path: &PathBuf) -> Result<Vec<Todo>, Box<dyn std::error::Error>> {
     Ok(todos)
 }
 
-fn save_todos(path: &PathBuf,todos: &Vec<Todo>) -> Result<(), Box<dyn std::error::Error>> {
+fn save_todos(path: &PathBuf, todos: &Vec<Todo>) -> Result<(), Box<dyn std::error::Error>> {
     let json_data = serde_json::to_string_pretty(todos)?;
     fs::write(path, json_data)?;
     Ok(())

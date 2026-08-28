@@ -1,0 +1,3 @@
+Largest number: Some(34)
+Largest letter: Some('y')
+Empty: None

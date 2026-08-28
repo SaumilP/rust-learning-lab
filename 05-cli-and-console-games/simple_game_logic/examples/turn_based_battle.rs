@@ -7,7 +7,6 @@
 /// - Combat logic and validation
 ///
 /// Run with: cargo run --example turn_based_battle
-
 use std::io::{self, Write};
 
 #[derive(Debug, PartialEq)]
@@ -91,7 +90,7 @@ impl Battle {
     }
 
     fn player_attack(&mut self) {
-        let damage = self.player.damage + rand::random::<i32>() % 3 - 1;
+        let damage = self.player.damage + rand::random() as i32 % 3 - 1;
         self.enemy.take_damage(damage);
         println!("\n⚔️  Player attacks for {} damage!", damage);
 
@@ -125,7 +124,7 @@ impl Battle {
             let healed = self.enemy.health - old_health;
             println!("\n🩹 Enemy heals for {} HP!", healed);
         } else {
-            let damage = self.enemy.damage + rand::random::<i32>() % 2;
+            let damage = self.enemy.damage + rand::random() as i32 % 2;
             self.player.take_damage(damage);
             println!("\n⚔️  Enemy attacks for {} damage!", damage);
 
@@ -206,14 +205,11 @@ impl Battle {
 mod rand {
     use std::time::{SystemTime, UNIX_EPOCH};
 
-    pub fn random<T>() -> T
-    where
-        T: From<u32>,
-    {
+    pub fn random() -> u32 {
         let duration = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .unwrap_or_default();
-        T::from((duration.as_nanos() as u32) % 256)
+        (duration.as_nanos() as u32) % 256
     }
 }
 

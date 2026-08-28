@@ -1,0 +1,15 @@
+running 12 tests
+test tests::test_count_vowels_mixed_case ... ok
+test tests::test_count_vowels_no_vowels ... ok
+test tests::test_count_vowels_simple ... ok
+test tests::test_fibonacci_base_cases ... ok
+test tests::test_fibonacci_larger ... ok
+test tests::test_fibonacci_sequence ... ok
+test tests::test_find_max_empty ... ok
+test tests::test_find_max_negative ... ok
+test tests::test_find_max_normal ... ok
+test tests::test_is_palindrome_mixed_case ... ok
+test tests::test_is_palindrome_simple ... ok
+test tests::test_is_palindrome_with_spaces ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out

@@ -123,7 +123,7 @@ fn is_even(n: i32) -> bool {
 }
 
 // Function with early return
-fn check_age(age: u32) {
+fn check_age(age: i32) {
     println!("Checking age: {}", age);
 
     if age < 0 {

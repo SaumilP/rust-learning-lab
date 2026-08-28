@@ -75,7 +75,10 @@ fn process_content(content: &str) -> String {
 }
 
 fn print_usage(program_name: &str) {
-    eprintln!("Usage: {} <input_file> <output_file> [--verbose]", program_name);
+    eprintln!(
+        "Usage: {} <input_file> <output_file> [--verbose]",
+        program_name
+    );
     eprintln!();
     eprintln!("Arguments:");
     eprintln!("  input_file   - Path to input file to process");

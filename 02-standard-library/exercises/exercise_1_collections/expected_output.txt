@@ -1,0 +1,27 @@
+=== Vector Operations ===
+Original: [5, 2, 8, 1, 9, 3, 7]
+After push 4: [5, 2, 8, 1, 9, 3, 7, 4]
+After pop: [5, 2, 8, 1, 9, 3, 7]
+After remove index 2: [5, 2, 1, 9, 3, 7]
+Even numbers: [2]
+Min: 1, Max: 9
+
+=== Word Frequency ===
+Text: "the quick brown fox jumps over the lazy dog the"
+Word counts:
+  the: 3
+  quick: 1
+  brown: 1
+  fox: 1
+  jumps: 1
+  over: 1
+  lazy: 1
+  dog: 1
+Most common word: "the" (3 times)
+
+=== Statistics ===
+Numbers: [10, 20, 30, 40, 50]
+Sum: 150
+Average: 30.0
+Count > 25: 3
+Above average: [30, 40, 50]

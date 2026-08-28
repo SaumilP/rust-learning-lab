@@ -1,0 +1,5 @@
+[package]
+name = "memento"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true

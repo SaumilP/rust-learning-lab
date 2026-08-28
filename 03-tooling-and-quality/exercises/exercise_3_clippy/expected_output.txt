@@ -1,0 +1,14 @@
+Testing is_even:
+  2 is even: true
+  3 is even: false
+
+Testing find_longest:
+  Longest word: banana
+
+Testing sum_positives:
+  Sum of positives: 15
+
+Testing format_greeting:
+  Greeting: Hello, World!
+
+All functions work correctly!

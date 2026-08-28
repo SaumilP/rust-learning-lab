@@ -7,7 +7,6 @@
 /// - Input validation and error handling
 ///
 /// Run with: cargo run --example menu_system
-
 use std::io::{self, Write};
 
 struct UserProfile {
@@ -148,6 +147,7 @@ fn save_profile(profile: &UserProfile) {
 }
 
 fn main() {
+    clear_screen();
     let mut profile = UserProfile::new();
     let mut running = true;
 

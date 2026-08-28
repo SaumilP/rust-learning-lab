@@ -3,19 +3,19 @@ mod health;
 mod lb;
 mod plugins;
 
-use arc_swap::ArcSwap;
 use crate::config::load_config;
 use crate::lb::LoadBalancer;
-use crate::plugins::HeaderPlugin;
+use crate::plugins::{HeaderPlugin, LoggingPlugin};
+use arc_swap::ArcSwap;
 use hyper::server::conn::http1;
 use hyper_util::client::legacy::Client;
 use hyper_util::rt::{TokioExecutor, TokioIo};
 use notify::{RecursiveMode, Watcher};
-use std::sync::Arc;
+use std::fmt;
 use std::sync::atomic::AtomicUsize;
+use std::sync::Arc;
 use std::time::Duration;
 use tokio::net::TcpListener;
-use std::fmt;
 
 #[derive(Debug)]
 struct ServiceError(Box<dyn std::error::Error + Send + Sync + 'static>);
@@ -35,7 +35,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 1. Initial Configuration Setup
     // We wrap the config in ArcSwap to allow lock-free hot reloading
     let mut raw_conf = load_config(config_path);
-    
+
     // Initialize live_backends with all backends until first health check completes
     raw_conf.live_backends = raw_conf.all_backends.clone();
     let shared_config = Arc::new(ArcSwap::from_pointee(raw_conf));
@@ -49,6 +49,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         config: Arc::clone(&shared_config),
         client,
         plugins: vec![
+            Box::new(LoggingPlugin),
             Box::new(HeaderPlugin {
                 key: "X-Proxy-Powered-By".to_string(),
                 value: "Rust-Hyper-1.0".to_string(),
@@ -82,13 +83,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 6. Start the Server Binding
     let addr = "127.0.0.1:3000";
     let listener = TcpListener::bind(addr).await?;
-    println!("🚀 High-performance Load Balancer listening on http://{}", addr);
+    println!(
+        "🚀 High-performance Load Balancer listening on http://{}",
+        addr
+    );
 
     loop {
         // Accept incoming TCP connections
         let (stream, _) = listener.accept().await?;
         let io = TokioIo::new(stream);
-        
+
         // Clone the LB pointer for the task
         let lb_ref = Arc::clone(&lb);
 
@@ -99,15 +103,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 async move {
                     match lb.proxy(req).await {
                         Ok(resp) => Ok::<_, ServiceError>(resp),
-                        Err(e) => Err::<hyper::Response<http_body_util::Full<bytes::Bytes>>, _>(ServiceError(e)),
+                        Err(e) => Err::<hyper::Response<http_body_util::Full<bytes::Bytes>>, _>(
+                            ServiceError(e),
+                        ),
                     }
                 }
             });
 
-            if let Err(err) = http1::Builder::new()
-                .serve_connection(io, service)
-                .await
-            {
+            if let Err(err) = http1::Builder::new().serve_connection(io, service).await {
                 eprintln!("❌ Error serving connection: {:?}", err);
             }
         });

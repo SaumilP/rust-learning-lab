@@ -1,0 +1,5 @@
+[package]
+name = "facade"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true

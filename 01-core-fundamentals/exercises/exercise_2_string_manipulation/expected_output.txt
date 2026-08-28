@@ -1,36 +1,35 @@
-     1→String Manipulation Challenge
-     2→=============================
-     3→
-     4→Input string: "Hello Rust"
-     5→
-     6→Original: "Hello Rust"
-     7→Uppercase: "HELLO RUST"
-     8→Lowercase: "hello rust"
-     9→Length: 10
-    10→Reversed: "tsuR olleH"
-    11→Without spaces: "HelloRust"
-    12→Character count (l): 3
-    13→Words: ["Hello", "Rust"]
-    14→
-    15→Input string: "   Rust Programming   "
-    16→
-    17→Original: "   Rust Programming   "
-    18→Uppercase: "   RUST PROGRAMMING   "
-    19→Lowercase: "   rust programming   "
-    20→Length: 21
-    21→Reversed: "   gnimmargorP tsuR   "
-    22→Without spaces: "RustProgramming"
-    23→Character count (r): 4
-    24→Words: ["", "", "", "Rust", "Programming", "", "", ""]
-    25→
-    26→Input string: "The quick brown fox"
-    27→
-    28→Original: "The quick brown fox"
-    29→Uppercase: "THE QUICK BROWN FOX"
-    30→Lowercase: "the quick brown fox"
-    31→Length: 19
-    32→Reversed: "xof nworb kciuq ehT"
-    33→Without spaces: "Thequickbrownfox"
-    34→Character count (o): 4
-    35→Words: ["The", "quick", "brown", "fox"]
-    36→
+String Manipulation Challenge
+=============================
+
+Input string: "Hello Rust"
+
+Original: "Hello Rust"
+Uppercase: "HELLO RUST"
+Lowercase: "hello rust"
+Length: 10
+Reversed: "tsuR olleH"
+Without spaces: "HelloRust"
+Character count (l): 3
+Words: ["Hello", "Rust"]
+
+Input string: "   Rust Programming   "
+
+Original: "   Rust Programming   "
+Uppercase: "   RUST PROGRAMMING   "
+Lowercase: "   rust programming   "
+Length: 21
+Reversed: "   gnimmargorP tsuR   "
+Without spaces: "RustProgramming"
+Character count (r): 4
+Words: ["", "", "", "Rust", "Programming", "", "", ""]
+
+Input string: "The quick brown fox"
+
+Original: "The quick brown fox"
+Uppercase: "THE QUICK BROWN FOX"
+Lowercase: "the quick brown fox"
+Length: 19
+Reversed: "xof nworb kciuq ehT"
+Without spaces: "Thequickbrownfox"
+Character count (o): 4
+Words: ["The", "quick", "brown", "fox"]

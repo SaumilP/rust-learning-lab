@@ -1,129 +1,133 @@
-![CI](https://github.com/SaumilP/rust-learning-lab/actions/workflows/ci.yml/badge.svg)
-![Rust](https://img.shields.io/badge/rust-stable-orange)
-![License](https://img.shields.io/badge/license-MIT-blue)
+[![CI](https://github.com/SaumilP/rust-learning-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/SaumilP/rust-learning-lab/actions/workflows/ci.yml)
+[![Rust](https://img.shields.io/badge/Rust-stable-b7410e)](rust-toolchain.toml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-# 🦀 Rust Learning Lab
+# Rust Learning Lab
 
-A **hands-on, beginner-to-intermediate Rust learning repository** focused on:
+Rust Learning Lab is a collection of short explanations, runnable examples,
+exercises, and small projects for learning Rust by writing code. It starts with
+the language basics, spends time on ownership and borrowing, and then moves into
+tooling, application design, concurrency, patterns, and project work.
 
-- Understanding **Rust fundamentals deeply**
-- Writing **idiomatic, safe and performant Rust**
-- Building **real CLI apps and console games**
-- Learning **Rust-specific design patterns**
-- Preparing for **real-world Rust Development**
+The repository is intended for people learning Rust for the first time and for
+developers coming from Java, Python, Go, C++, or a similar language. Examples
+favour clarity over compactness so that the reason behind each Rust feature is
+visible in the code.
 
-> Learn Rust by **building**, **breaking**, and **fixing** small programs-correctly.
+## What is included
 
----
+- Focused examples that can be compiled and changed independently
+- Exercises built around common mistakes and compiler feedback
+- Concept notes, key takeaways, and suggested experiments
+- Cargo projects for command-line applications and larger examples
+- Make targets for compiling standalone examples and generating rustdoc output
+- Transition guides for developers arriving from other languages
 
-## 🞋 Target Audience
+The material is under active development. The foundations and intermediate
+modules are usable now; some advanced project folders are still planned or are
+being expanded. The [roadmap](ROADMAP.md) records that distinction.
 
-- Beginners starting their Rust journey
-- Developers transitioning from C/C++/Java/Python
-- Intermediate Rustaceans waiting better structure & patterns
-- Anyone preparing for Rust interviews or real projects
+## Prerequisites
 
----
+Install the stable Rust toolchain with `rustup`. You will need `rustc`, `cargo`,
+`rustfmt`, `clippy`, Git, and Make. The included [toolchain file](rust-toolchain.toml)
+selects the required Rust channel and components.
 
-## 🎯 Learning Philosophy
-
-This repository is:
-
-- 📈 **Progressive** - concepts build on each other
-- 🧠 **Concept-first** - explain why, not just how
-- 🧪 **Hands-on** - every topic has runnable code
-- 🦀 **Idiomatic Rust** - no forced OOP patterns
-- 🏗️ **Real-world focused** - error handling, testing, tooling
-
----
-
-## 🗺️ Learning Path
-
-### Beginner
-
-- Rust setup and basics
-- Ownership & borrowing
-- Structs, enums, pattern matching
-- Simple CLI programs
-
-### Intermediate
-
-- Traits and generics
-- Error handling best practices
-- Concurrency and async
-- CLI games and mini projects
-
-### Advanced (Optional)
-
-- Unsafe Rust
-- Performance & Profiling
-- FFI
-- Real-world patterns
-
-See full roadmap -> [ROADMAP.md](ROADMAP.md)
-
----
-
-## 📂 Repository Structure
-
-Each folder contains:
-
-- 📄 `README.md` explaining concepts
-- 🧩 Small, Focused examples
-- 🧪 Exercises
-- ⚠️ Common Mistakes
-
-You are encouraged to **read the README first**, then run the code.
-
----
-
-## ▶️ Running Examples
+Verify the installation:
 
 ```bash
-cd 04-simple-programs/word_counter
+rustc --version
+cargo --version
+```
+
+## Getting started
+
+```bash
+git clone https://github.com/SaumilP/rust-learning-lab.git
+cd rust-learning-lab
+cd 00-setup-and-basics/hello_world
 cargo run
 ```
 
-All examples use **stable Rust** unless stated otherwise.
+If you already know the basics, use the [learning path](LEARNING_PATH.md) to
+choose a suitable starting point.
 
----
+## Repository map
 
-## 🧪 Testing & Quality
+| Module | Subject | Current role |
+|---|---|---|
+| [`00-setup-and-basics`](00-setup-and-basics/) | Installation, variables, data types, and control flow | Starting point |
+| [`01-core-fundamentals`](01-core-fundamentals/) | Ownership, borrowing, lifetimes, functions, and errors | Core foundation |
+| [`02-standard-library`](02-standard-library/) | Collections, strings, iterators, traits, and smart pointers | Core library skills |
+| [`03-tooling-and-quality`](03-tooling-and-quality/) | Cargo, testing, documentation, debugging, and code quality | Development workflow |
+| [`04-simple-programs`](04-simple-programs/) | Small command-line programs and file processing | Applied practice |
+| [`05-cli-and-console-games`](05-cli-and-console-games/) | Console I/O, game loops, state, and randomness | Applied practice |
+| [`06-intermediate-rust`](06-intermediate-rust/) | Modules, concurrency, async, macros, and deeper type-system work | Intermediate study |
+| [`06-advanced-functions`](06-advanced-functions/) | Supplementary examples for generics, traits, enums, and ownership | Optional review |
+| [`07-advanced-concepts`](07-advanced-concepts/) | Networking, web APIs, WebAssembly, procedural macros, and performance | Advanced reference |
+| [`08-design-patterns`](08-design-patterns/) | Creational, structural, behavioural, and Rust-specific patterns | Pattern study |
+| [`09-mini-projects`](09-mini-projects/) | Multi-file programs that combine several concepts | Project practice |
+| [`10-real-world-rust`](10-real-world-rust/) | Profiling, unsafe Rust, FFI, deployment, and organization | Production topics |
+| [`11-language-specific-tracks`](11-language-specific-tracks/) | Rust guidance for Java, Python, Go, and C++ developers | Transition guides |
+| [`challenges`](challenges/) | Progressive practice and interview-style problems | Additional exercises |
 
-Most projects include:
+## Working with examples
 
-- Unit tests
-- Integration tests
-- `cargo fmt` & `cargo clippy`
+Many concept modules contain standalone `.rs` files instead of Cargo packages.
+Run their Makefile from the module directory:
 
----
+```bash
+cd 01-core-fundamentals
+make list
+make run EXAMPLE=control_flow/examples/loops.rs
+make check
+make clean
+```
 
-## 🤝 Contributing
+`make check` verifies formatting, compiles the examples with warnings denied,
+runs embedded tests, and generates rustdoc pages under `build/docs/`. Generated
+files are temporary; `make clean` removes the complete `build/` directory.
 
-Contributions are welcome!
+For a Cargo workspace or package, use Cargo from the directory containing its
+`Cargo.toml`:
 
-- Fix bugs
-- Improve explanations
-- Add exercises
-- Add new mini-projects
+```bash
+cd 04-simple-programs
+cargo run -p calculator
+cargo test --workspace
+```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md)
+Some exercises are deliberately incomplete and should not compile until you
+repair them. Read the exercise instructions before treating a compiler error as
+a repository defect.
 
----
+## A practical study routine
 
-## 📚 Resources
+1. Read the topic's `README.md` and `key_takeaways.md`.
+2. Run the example without changing it.
+3. Predict the result of a small change, then test that prediction.
+4. Complete the related exercise using the compiler messages as feedback.
+5. Apply the topic in a program from modules 04, 05, or 09.
 
-Curated learning resources live in `/resources`.
+## Project status and quality
 
----
+Continuous integration checks the tracked Cargo packages and the standalone
+examples used by the main learning modules. Local checks should be run before a
+pull request; the exact commands are documented in
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
-## ⭐ Why this repo?
+Planned additions and known content gaps are listed in [ROADMAP.md](ROADMAP.md).
+For a compact sequence through the current material, see
+[LEARNING_PATH.md](LEARNING_PATH.md).
 
-This is not another "copy-paste tutorial repo".
-It focuses on:
+## Contributing
 
-- Correct mental models
-- Rust's ownership-driven design
-- Writing maintainable Rust code
+Corrections, clearer explanations, new exercises, tests, and small focused
+examples are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before
+opening a pull request. Community expectations are described in the
+[Code of Conduct](CODE_OF_CONDUCT.md), and security reports should follow
+[SECURITY.md](SECURITY.md).
 
-If this helps you, consider ⭐ starring the repo.
+## License
+
+This project is available under the [MIT License](LICENSE).

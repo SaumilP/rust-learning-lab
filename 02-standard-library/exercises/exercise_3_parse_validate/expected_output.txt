@@ -1,0 +1,24 @@
+=== Number Parsing ===
+Parsing "42": Ok(42)
+Parsing "3.14": Err(invalid digit found in string)
+Parsing "hello": Err(invalid digit found in string)
+Parsing "999999999999": Err(number too large to fit in target type)
+
+Valid numbers: [42, 100, -5]
+Invalid inputs: ["abc", "12.34.56"]
+
+=== Safe Collection Access ===
+Numbers: [10, 20, 30, 40, 50]
+First element: Some(10)
+Last element: Some(50)
+Element at index 2: Some(30)
+Element at index 10: None
+Find first > 25: Some(30)
+Find first > 100: None
+
+=== Input Validation ===
+Validate age=25, name="Alice": Ok("Valid input")
+Validate age=150, name="Alice": Err("Age must be between 0 and 120")
+Validate age=25, name="A": Err("Name must be at least 2 characters")
+Validate age=25, name="Bob", email="bob@email.com": Ok("Valid input")
+Validate age=25, name="Bob", email="invalid": Err("Email must contain '@'")

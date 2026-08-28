@@ -63,10 +63,7 @@ impl Board {
         println!("\n     1   2   3");
         println!("   ╔═══╦═══╦═══╗");
         for (row_idx, row) in self.cells.iter().enumerate() {
-            println!(" {} ║ {} ║ {} ║ {} ║",
-                row_idx + 1,
-                row[0], row[1], row[2]
-            );
+            println!(" {} ║ {} ║ {} ║ {} ║", row_idx + 1, row[0], row[1], row[2]);
             if row_idx < 2 {
                 println!("   ╠═══╬═══╬═══╣");
             }
@@ -120,7 +117,9 @@ impl Board {
     }
 
     fn is_full(&self) -> bool {
-        self.cells.iter().all(|row| row.iter().all(|cell| !cell.is_empty()))
+        self.cells
+            .iter()
+            .all(|row| row.iter().all(|cell| !cell.is_empty()))
     }
 
     fn available_moves(&self) -> Vec<(usize, usize)> {
@@ -208,7 +207,7 @@ impl Game {
             let mut input = String::new();
             io::stdin().read_line(&mut input).unwrap();
 
-            let parts: Vec<&str> = input.trim().split_whitespace().collect();
+            let parts: Vec<&str> = input.split_whitespace().collect();
             if parts.len() != 2 {
                 println!("Please enter two numbers separated by space.");
                 continue;
@@ -218,7 +217,7 @@ impl Game {
             let col: Result<usize, _> = parts[1].parse();
 
             match (row, col) {
-                (Ok(r), Ok(c)) if r >= 1 && r <= 3 && c >= 1 && c <= 3 => {
+                (Ok(r), Ok(c)) if (1..=3).contains(&r) && (1..=3).contains(&c) => {
                     return (r - 1, c - 1);
                 }
                 _ => {

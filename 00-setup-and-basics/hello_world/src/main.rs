@@ -7,7 +7,8 @@ fn main() {
     println!("Hello, world!");
 
     // You can also use formatting
-    println!("Hello, {}!", "Rust");
+    let audience = "Rust";
+    println!("Hello, {}!", audience);
 
     // Multiple arguments
     let language = "Rust";
@@ -15,9 +16,9 @@ fn main() {
     println!("{} was created in 2010 and it's {}", language, year);
 
     // Named arguments (Rust 1.58+)
-    println!("My name is {name} and I'm {age} years old",
-             name = "Ferris",
-             age = "the crab mascot");
+    let name = "Ferris";
+    let role = "the Rust crab mascot";
+    println!("My name is {name} and I'm {role}");
 
     // Debug formatting with {:?}
     let numbers = vec![1, 2, 3, 4, 5];

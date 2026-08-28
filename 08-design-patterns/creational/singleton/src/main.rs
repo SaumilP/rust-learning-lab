@@ -2,7 +2,7 @@
 // Ensures a class has only one instance and provides global access to it
 
 use once_cell::sync::Lazy;
-use std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Mutex, RwLock};
 
 fn main() {
     println!("=== Singleton Pattern in Rust ===\n");
@@ -12,6 +12,7 @@ fn main() {
 
     println!("   Config: {}", CONFIG.app_name);
     println!("   Version: {}", CONFIG.version);
+    println!("   Maximum connections: {}", CONFIG.max_connections);
     println!("   ✓ Initialized once, thread-safe, immutable\n");
 
     // APPROACH 2: Lazy with Mutex (thread-safe, mutable)

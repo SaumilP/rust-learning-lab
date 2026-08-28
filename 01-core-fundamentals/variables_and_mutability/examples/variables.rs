@@ -17,16 +17,16 @@ fn main() {
     // Mutable variable
     let mut y = 10;
     println!("y = {}", y);
-    y = 20;  // OK: y is mutable
+    y = 20; // OK: y is mutable
     println!("y after mutation = {}", y);
 
     println!("\n=== Type Inference ===\n");
 
     // Type inference
-    let a = 42;  // Inferred as i32
-    let b = 3.14;  // Inferred as f64
-    let c = true;  // Inferred as bool
-    let d = 'Z';   // Inferred as char
+    let a = 42; // Inferred as i32
+    let b = 3.14; // Inferred as f64
+    let c = true; // Inferred as bool
+    let d = 'Z'; // Inferred as char
 
     println!("a: {} (type: i32)", a);
     println!("b: {} (type: f64)", b);
@@ -63,7 +63,8 @@ fn main() {
     let (x1, x2, x3) = (10, 20, 30);
     println!("x1: {}, x2: {}, x3: {}", x1, x2, x3);
 
-    let mut (m1, m2) = (1, 2);
+    let (mut m1, mut m2) = (1, 2);
+    println!("before mutation: m1 = {}, m2 = {}", m1, m2);
     m1 = 10;
     m2 = 20;
     println!("m1: {}, m2: {} (mutable)", m1, m2);
@@ -73,7 +74,7 @@ fn main() {
     let int_var: i32 = -42;
     let unsigned: u32 = 42;
     let float_var: f64 = 3.14159;
-    let small_int: i8 = 127;  // Range: -128 to 127
+    let small_int: i8 = 127; // Range: -128 to 127
 
     println!("int_var: {} (i32)", int_var);
     println!("unsigned: {} (u32)", unsigned);

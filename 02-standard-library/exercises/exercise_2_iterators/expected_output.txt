@@ -1,0 +1,20 @@
+=== Number Processing Pipeline ===
+Range: 1..=20
+Even numbers: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+Squared: [4, 16, 36, 64, 100, 144, 196, 256, 324, 400]
+Skip 2, take 3: [36, 64, 100]
+Sum: 200
+Product: 230400
+
+=== String Processing ===
+Original: "the quick brown fox jumps over the lazy dog"
+Words > 3 chars: ["quick", "brown", "jumps", "over", "lazy"]
+Uppercase: ["QUICK", "BROWN", "JUMPS", "OVER", "LAZY"]
+Joined: "QUICK-BROWN-JUMPS-OVER-LAZY"
+
+=== Data Aggregation ===
+Numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Running sum using fold: 55
+Running product using fold: 3628800
+Count of odds: 5
+Sum of squares of evens: 220

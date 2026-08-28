@@ -6,38 +6,41 @@ fn main() {
 
     // INTEGERS
     println!("   A. Integers:");
-    let int8: i8 = -128;  // 8-bit signed (-128 to 127)
-    let int16: i16 = 32_767;  // 16-bit signed
-    let int32: i32 = 2_147_483_647;  // 32-bit signed (default)
-    let int64: i64 = 9_223_372_036_854_775_807;  // 64-bit signed
-    let int128: i128 = 1_000_000;  // 128-bit signed
+    let int8: i8 = -128; // 8-bit signed (-128 to 127)
+    let int16: i16 = 32_767; // 16-bit signed
+    let int32: i32 = 2_147_483_647; // 32-bit signed (default)
+    let int64: i64 = 9_223_372_036_854_775_807; // 64-bit signed
+    let int128: i128 = 1_000_000; // 128-bit signed
 
-    let uint8: u8 = 255;  // 8-bit unsigned (0 to 255)
-    let uint16: u16 = 65_535;  // 16-bit unsigned
-    let uint32: u32 = 4_294_967_295;  // 32-bit unsigned
-    let uint64: u64 = 18_446_744_073_709_551_615;  // 64-bit unsigned
+    let uint8: u8 = 255; // 8-bit unsigned (0 to 255)
+    let uint16: u16 = 65_535; // 16-bit unsigned
+    let uint32: u32 = 4_294_967_295; // 32-bit unsigned
+    let uint64: u64 = 18_446_744_073_709_551_615; // 64-bit unsigned
 
-    let arch_int: isize = 100;  // size depends on architecture (32 or 64 bit)
-    let arch_uint: usize = 100;  // unsigned arch-dependent
+    let arch_int: isize = 100; // size depends on architecture (32 or 64 bit)
+    let arch_uint: usize = 100; // unsigned arch-dependent
 
-    println!("      i8 = {}, i32 = {}", int8, int32);
-    println!("      u8 = {}, u32 = {}", uint8, uint32);
+    println!("      Signed: i8={int8}, i16={int16}, i32={int32}, i64={int64}, i128={int128}");
+    println!("      Unsigned: u8={uint8}, u16={uint16}, u32={uint32}, u64={uint64}");
     println!("      isize = {}, usize = {}", arch_int, arch_uint);
 
     // Integer literals
-    let decimal = 98_222;  // Decimal
-    let hex = 0xff;  // Hexadecimal
-    let octal = 0o77;  // Octal
-    let binary = 0b1111_0000;  // Binary
-    let byte = b'A';  // Byte (u8 only)
+    let decimal = 98_222; // Decimal
+    let hex = 0xff; // Hexadecimal
+    let octal = 0o77; // Octal
+    let binary = 0b1111_0000; // Binary
+    let byte = b'A'; // Byte (u8 only)
 
-    println!("      Decimal: {}, Hex: {}, Binary: {}", decimal, hex, binary);
+    println!(
+        "      Decimal: {}, Hex: {}, Octal: {}, Binary: {}",
+        decimal, hex, octal, binary
+    );
     println!("      Byte 'A': {}\n", byte);
 
     // FLOATING POINT
     println!("   B. Floating Point:");
-    let float32: f32 = 3.14159;  // 32-bit float
-    let float64: f64 = 2.718281828;  // 64-bit float (default)
+    let float32: f32 = std::f32::consts::PI;
+    let float64: f64 = std::f64::consts::E;
 
     println!("      f32 = {}, f64 = {}", float32, float64);
     println!("      Addition: {}", 5.5 + 2.3);
@@ -46,11 +49,13 @@ fn main() {
     // BOOLEAN
     println!("   C. Boolean:");
     let is_true: bool = true;
-    let is_false = false;  // Type inferred
+    let is_false = false; // Type inferred
 
     println!("      true: {}, false: {}", is_true, is_false);
     println!("      1 < 2: {}", 1 < 2);
-    println!("      5 == 5: {}\n", 5 == 5);
+    let expected = 5;
+    let actual = 5;
+    println!("      expected == actual: {}\n", expected == actual);
 
     // CHARACTER
     println!("   D. Character:");
@@ -98,7 +103,7 @@ fn main() {
     println!("      Typed [i32; 5]: {:?}", typed_array);
 
     // Array with same value
-    let fives = [5; 3];  // Same as [5, 5, 5]
+    let fives = [5; 3]; // Same as [5, 5, 5]
     println!("      Repeated [5; 3]: {:?}", fives);
 
     // Arrays are FIXED SIZE
@@ -121,7 +126,7 @@ fn main() {
     println!("4. TYPE CONVERSION:\n");
 
     let int_value = 42;
-    let float_value = int_value as f64;  // Casting
+    let float_value = int_value as f64; // Casting
     println!("   i32 {} as f64: {}", int_value, float_value);
 
     let char_value = 'A';
@@ -148,7 +153,7 @@ fn main() {
     println!("   Use: wrapping_*, checked_*, saturating_*, overflowing_*\n");
 
     let num: u8 = 255;
-    let wrapped = num.wrapping_add(1);  // Wraps to 0
+    let wrapped = num.wrapping_add(1); // Wraps to 0
     println!("   255.wrapping_add(1) = {}", wrapped);
 
     match 200u8.checked_add(100) {
@@ -165,7 +170,10 @@ fn main() {
     println!("   f64: {} bytes", std::mem::size_of::<f64>());
     println!("   char: {} bytes", std::mem::size_of::<char>());
     println!("   bool: {} byte", std::mem::size_of::<bool>());
-    println!("   usize/isize: {} bytes (on this machine)", std::mem::size_of::<usize>());
+    println!(
+        "   usize/isize: {} bytes (on this machine)",
+        std::mem::size_of::<usize>()
+    );
 }
 
 /*

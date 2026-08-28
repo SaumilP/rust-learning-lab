@@ -76,14 +76,12 @@ fn main() {
     let evens: Vec<i32> = numbers.iter().filter(|&&x| x % 2 == 0).copied().collect();
     println!("   Even numbers: {:?}", evens);
 
-    let greater_than_five: Vec<i32> =
-        numbers.iter().filter(|&&x| x > 5).copied().collect();
+    let greater_than_five: Vec<i32> = numbers.iter().filter(|&&x| x > 5).copied().collect();
     println!("   Greater than 5: {:?}", greater_than_five);
 
     // Example 6: Partitioning (split into two groups)
     println!("\n6. PARTITIONING");
-    let (evens, odds): (Vec<i32>, Vec<i32>) =
-        numbers.iter().partition(|&&x| x % 2 == 0);
+    let (evens, odds): (Vec<i32>, Vec<i32>) = numbers.iter().partition(|&&x| x % 2 == 0);
     println!("   Even: {:?}", evens);
     println!("   Odd: {:?}", odds);
 

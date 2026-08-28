@@ -29,9 +29,7 @@ impl KeyValueStore {
                     file_path: file_path.to_string(),
                 })
             }
-            Err(e) if e.kind() == io::ErrorKind::NotFound => {
-                Ok(KeyValueStore::new(file_path))
-            }
+            Err(e) if e.kind() == io::ErrorKind::NotFound => Ok(KeyValueStore::new(file_path)),
             Err(e) => Err(e),
         }
     }
@@ -74,7 +72,7 @@ impl KeyValueStore {
         self.data.clear();
     }
 
-    fn list(&self) -> Vec<(& String, &String)> {
+    fn list(&self) -> Vec<(&String, &String)> {
         self.data.iter().collect()
     }
 }
@@ -83,8 +81,7 @@ fn main() {
     println!("=== Key-Value Store ===\n");
 
     let file_path = "kvstore.json";
-    let mut store = KeyValueStore::load(file_path)
-        .expect("Failed to load store");
+    let mut store = KeyValueStore::load(file_path).expect("Failed to load store");
 
     println!("Loaded store from {}", file_path);
     println!("Current entries: {}\n", store.len());
@@ -223,12 +220,10 @@ fn main() {
                 }
             }
 
-            "save" => {
-                match store.save() {
-                    Ok(_) => println!("Saved to {}", file_path),
-                    Err(e) => println!("Failed to save: {}", e),
-                }
-            }
+            "save" => match store.save() {
+                Ok(_) => println!("Saved to {}", file_path),
+                Err(e) => println!("Failed to save: {}", e),
+            },
 
             "quit" | "exit" => {
                 print!("Save before exiting? (yes/no): ");

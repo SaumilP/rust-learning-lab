@@ -12,15 +12,13 @@ fn main() {
     // 2. LIFETIME SCOPE
     println!("2. LIFETIME SCOPE:\n");
 
-    let r;                // ---------+-- 'a
-                         //          |
-    {                    //          |
-        let x = 5;       // -+-- 'b  |
-        r = &x;          //  |       |
-    }                    // -+       |
-                         //          |
-    // println!("{}", r); // ERROR! x doesn't live long enough
-                         // ---------+
+    // This version would fail because `r` outlives `x`:
+    // let r;
+    // {
+    //     let x = 5;
+    //     r = &x;
+    // }
+    // println!("{}", r); // ERROR: x does not live long enough
 
     println!("   ✓ Reference cannot outlive the data it points to");
     println!("   ✓ The borrow checker prevents dangling references\n");
@@ -28,12 +26,12 @@ fn main() {
     // 3. VALID LIFETIMES
     println!("3. VALID LIFETIMES:\n");
 
-    let x = 5;            // ----------+-- 'a
-    let r = &x;           // --+-- 'b  |
-                          //   |       |
-    println!("   r: {}", r);  //   |       |
-                          // --+       |
-                          // ----------+
+    let x = 5; // ----------+-- 'a
+    let r = &x; // --+-- 'b  |
+                //   |       |
+    println!("   r: {}", r); //   |       |
+                             // --+       |
+                             // ----------+
 
     println!("   ✓ Reference r's lifetime 'b is contained in x's lifetime 'a\n");
 
@@ -87,6 +85,11 @@ fn main() {
     };
 
     println!("   Excerpt: {}", excerpt.part);
+    println!("   Importance level: {}", excerpt.level());
+    println!(
+        "   Returned excerpt: {}",
+        excerpt.announce_and_return_part("Lifetimes connect borrowed data")
+    );
     println!("   ✓ Struct holds reference, needs lifetime annotation\n");
 
     // 9. LIFETIME BOUNDS
@@ -159,7 +162,7 @@ fn first_word(s: &str) -> &str {
         }
     }
 
-    &s[..]
+    s
 }
 
 // Struct with lifetime annotation
@@ -183,11 +186,7 @@ impl<'a> ImportantExcerpt<'a> {
 }
 
 // Multiple lifetime parameters with generic type and trait bound
-fn longest_with_announcement<'a, T>(
-    x: &'a str,
-    y: &'a str,
-    ann: T,
-) -> &'a str
+fn longest_with_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
 where
     T: std::fmt::Display,
 {
@@ -215,7 +214,7 @@ fn example_elision(s: &str) -> &str {
 }
 
 // Return reference to first element
-fn get_first(data: &Vec<i32>) -> Option<&i32> {
+fn get_first(data: &[i32]) -> Option<&i32> {
     data.first()
 }
 

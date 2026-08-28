@@ -12,11 +12,11 @@ fn main() {
     let x = 5;
     println!("x = {}", x);
 
-    let x = x + 1;  // Shadow x
+    let x = x + 1; // Shadow x
     println!("x after shadowing = {}", x);
 
     {
-        let x = x * 2;  // Shadow x in inner scope
+        let x = x * 2; // Shadow x in inner scope
         println!("x in inner scope = {}", x);
     }
 
@@ -27,7 +27,7 @@ fn main() {
     let spaces = "   ";
     println!("spaces (String): '{}'", spaces);
 
-    let spaces = spaces.len();  // Shadow: change from &str to usize
+    let spaces = spaces.len(); // Shadow: change from &str to usize
     println!("spaces (usize): {}", spaces);
 
     println!("\n=== Shadowing vs Mutation ===\n");
@@ -37,7 +37,7 @@ fn main() {
     number = number + 1;
     println!("number after mutation: {}", number);
 
-    let number = "not a number";  // Can't change type with mutation
+    let number = "not a number"; // Can't change type with mutation
     println!("number (shadowed to string): '{}'", number);
 
     println!("\n=== Multiple Shadows ===\n");
@@ -90,6 +90,6 @@ fn main() {
     println!("x = {}", x);
 
     let add_one = |n: i32| n + 1;
-    let x = add_one(x);  // Shadow x with result
+    let x = add_one(x); // Shadow x with result
     println!("x after closure: {}", x);
 }

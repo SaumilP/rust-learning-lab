@@ -4,6 +4,14 @@
 
 Module 10 explores production-ready patterns and advanced concepts used in real Rust projects. Bridges gap between learning and professional development.
 
+## Concept Guides
+
+- [Project organization](project_organization/README.md)
+- [Performance and optimization](performance_optimization/README.md)
+- [Deployment](deployment/README.md)
+- [Concurrency introduction](concurrency_intro/README.md)
+- [Advanced error handling](error_handling_advanced/README.md)
+
 ## Topics
 
 ### 1. Project Organization
@@ -218,4 +226,3 @@ Advanced Async
 3. Study domain-specific libraries
 4. Implement custom async runtime
 5. Optimize production applications
-

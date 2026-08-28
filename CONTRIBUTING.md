@@ -1,157 +1,95 @@
-# 🤝 Contributing to Rust Learning Lab
+# Contributing to Rust Learning Lab
 
-Thank you for your interest in contributing! <br />
-This project aims to be a **high-quality, beginner-friendly Rust learning resource**. <br />
-All contributions that improve clarity, correctness, or learning experience are welcome.
+Contributions that improve correctness, clarity, or the learning sequence are
+welcome. A small correction with a clear explanation is just as useful as a new
+example.
 
----
+By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
-## 📌 Ways to contribute
+## Before starting
 
-You can help by:
+Check existing issues and pull requests to avoid duplicating active work. For a
+larger topic or structural change, open an issue first and describe:
 
-- Fixing bugss or incorrect explanations
-- Improve documentation or README files
-- Adding exercises or solutions
-- Adding new examples or mini-projects
-- Refactoring code to be more idiomatic
-- Improving test coverage
-- Reporting issues or suggesting improvements
+- the learner problem you want to solve;
+- where the material belongs in the learning path;
+- the examples or exercises you expect to add or change.
 
----
+## Educational guidelines
 
-## ⏱️ Contribution Guidelines
+Content should be technically correct on stable Rust and understandable at the
+level where it appears. Prefer a direct implementation over a clever one when
+the direct version makes the concept easier to see.
 
-### 1. Follow the Learning Philosophy
+When adding a topic:
 
-All contributions should:
+- explain what problem it solves before introducing syntax;
+- keep each example focused on one main idea;
+- include the exact command needed to run it;
+- explain important ownership, error-handling, or performance trade-offs;
+- use comments to explain reasoning, not to repeat the code;
+- distinguish deliberately broken exercises from runnable examples.
 
-- Prefer **clarify over cleverness**
-- Use **idiomatic Rust**
-- Avoid unnecessary complexity
-- Be understandable by beginner/intermediate developers
+Avoid unnecessary dependencies. If a crate is needed, explain what it provides
+and why the standard library is not enough for that example.
 
-If adding advanced concepts, **explain them clearly**.
+## Repository structure
 
----
-
-### 2. Project structure rules
-
-- Each topic folder **must include `README.md`**
-- Code examples should be:
-  - Small
-  - Focused
-  - Runnable with `cargo run`
-- Larger examples should be modular (`src/` split logically)
-
----
-
-### 3. Code style
-
-Before submitting:
-
-```bash
-cargo fmt
-cargo clippy --all-targets --all-features
-cargo test
-```
-
-Guidelines:
-
-- Prefer explicit code over magic
-- Avoid `unwrap()` in non-trival examples
-- Use meaningful variable and function names
-- Add comments only when they add value
-
----
-
-### 4. Adding new Content
-
-#### New example or Module Checklist
-
-- [ ] Clear folder name
-- [ ] `README.md` explaining:
-  - What is being taught
-  - Why it matters
-  - Common mistakes
-- [ ] Runnable code
-- [ ] At least one exercise (if applicable)
-- [ ] Tests (when reasonable)
-
----
-
-### 5. Exercises & Challenges
-
-Exercises should:
-
-- Be incremental
-- Encourage compiler-driven learning
-- Avoid requiring external crates unless necessary
-- Include comments or hints (not full solutions)
-
----
-
-### 6. Issues & Discussions
-
-Before opening an issue:
-
-- Check existing issues
-- Be specific and concise
-- Include code snippets or error messages when relevant
-
-Use issues for:
-
-- Bugs
-- Incorrect explanations
-- Learning flow improvements
-- Content suggestions
-
----
-
-## 🔀 Pull Request Process
-
-1. Fork the repository
-2. Create a feature branch:
-
-```bash
-git checkout -b feature/my-improvement
-```
-
-3. Commit with clear message:
+Most concept topics use this layout:
 
 ```text
-Add ownership exercise for move semantics
+topic/
+├── README.md
+├── key_takeaways.md
+├── examples/
+└── exercises/        # when appropriate
 ```
 
-4. Push and open a Pull Request
+Larger applications use Cargo packages under `src/`. Follow the surrounding
+module's layout rather than moving files solely for consistency.
 
-Your PR should:
+## Local validation
 
-- Explain *what* you changed
-- Explain *why* it improves the repo
-- Reference related issues if applicable
+For standalone examples in modules with a Makefile:
 
----
+```bash
+cd 01-core-fundamentals
+make check
+make clean
+```
 
-## 🧪 CI & Reviews
+For a Cargo package or workspace:
 
-- All PRs must pass CI checks
-- Reviews focus on:
-  - Clarity
-  - Correctness
-  - Idiomatic Rust
-  - Educational value
+```bash
+cargo fmt --all -- --check
+cargo clippy --all-targets --all-features -- -D warnings
+cargo test --all-targets
+```
 
----
+Run Cargo commands from the directory containing the relevant `Cargo.toml`.
+The repository intentionally has no root Cargo workspace. Do not commit
+generated `build/`, `target/`, or rustdoc files.
 
-## 📔 Code of Conduct
+Exercises containing `broken_code.rs` are allowed to fail before the learner
+repairs them and are excluded from normal build checks.
 
-Be respectful and constructive. <br/>
-This repository is meant to be a **safe learning space** for everyone.
+## Pull requests
 
----
+Create a focused branch and use a descriptive commit message. A pull request
+should explain what changed, why it helps learners, how it was verified, and any
+known follow-up work. Include terminal output only when it helps reviewers
+understand a failure or behaviour change.
 
-## 🙏 Thank you
+Reviewers will primarily consider:
 
-Every contribution - small or large - helps make Rust more accessible. <br />
-Thank you for helping others learn Rust the right way 🦀.
+- technical correctness;
+- fit with the learning sequence;
+- clarity for the intended audience;
+- idiomatic Rust without unexplained complexity;
+- reproducible build and test instructions.
+
+## Reporting problems
+
+Use the issue template for incorrect explanations, build failures, learning-flow
+problems, or content proposals. Security concerns should not be posted in a
+public issue; follow [SECURITY.md](SECURITY.md) instead.

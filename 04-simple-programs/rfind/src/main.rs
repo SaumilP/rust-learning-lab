@@ -1,6 +1,6 @@
 use clap::Parser;
-use walkdir::{DirEntry, WalkDir};
 use std::path::Path;
+use walkdir::{DirEntry, WalkDir};
 
 /// Simple program to search for files with a given name in a directory and its subdirectories.
 #[derive(Parser, Debug)]

@@ -6,7 +6,6 @@
 /// - Collecting statistics on random outcomes
 ///
 /// Run with: cargo run --example dice_roller
-
 use rand::Rng;
 use std::collections::HashMap;
 use std::io::{self, Write};
@@ -56,7 +55,10 @@ impl DiceRoller {
             let bar_length = (count * 20) / (self.rolls.len() as u32).max(1);
             let bar = "█".repeat(bar_length as usize);
 
-            println!("║ {:2}: [{:<20}] {:3} ({:5.1}%) ║", side, bar, count, percentage);
+            println!(
+                "║ {:2}: [{:<20}] {:3} ({:5.1}%) ║",
+                side, bar, count, percentage
+            );
         }
 
         println!("╚════════════════════════════════╝");
@@ -108,7 +110,10 @@ fn main() {
     println!("\n╔════════════════════════════════╗");
     println!("║ STATISTICS SUMMARY             ║");
     println!("║ Actual Average:     {:.2}        ║", roller.get_average());
-    println!("║ Expected Average:   {:.2}        ║", roller.get_expected_average());
+    println!(
+        "║ Expected Average:   {:.2}        ║",
+        roller.get_expected_average()
+    );
     let min = results.iter().min().unwrap_or(&0);
     let max = results.iter().max().unwrap_or(&0);
     println!("║ Min Roll:           {:4}        ║", min);

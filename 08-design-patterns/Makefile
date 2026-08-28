@@ -1,170 +1,116 @@
-# =======================
-# Rust Module Makefile
-# =======================
+# Build, test, run, and document every published design-pattern example.
 
-PROJECT_NAME := $(notdir $(CURDIR))
-CARGO := cargo
-MERMAID := mmdc
+CARGO ?= cargo
+RUSTFMT ?= rustfmt
+
+PACKAGES := abstract-factory builder factory factory-method prototype singleton \
+	adapter bridge composite decorator facade flyweight proxy \
+	chain-of-responsibility command iterator mediator memento observer state \
+	strategy template-method visitor
+PATTERN_DIRS := \
+	creational/abstract-factory \
+	creational/builder \
+	creational/factory \
+	creational/factory-method \
+	creational/prototype \
+	creational/singleton \
+	structural/adapter \
+	structural/bridge \
+	structural/composite \
+	structural/decorator \
+	structural/facade \
+	structural/flyweight \
+	structural/proxy \
+	behavioral/chain-of-responsibility \
+	behavioral/command \
+	behavioral/iterator \
+	behavioral/mediator \
+	behavioral/memento \
+	behavioral/observer \
+	behavioral/state \
+	behavioral/strategy \
+	behavioral/template-method \
+	behavioral/visitor
+DESIGN_FILES := $(addsuffix /design.puml,$(PATTERN_DIRS))
+DESIGN_DOCS := $(addsuffix /DESIGN.md,$(PATTERN_DIRS))
+STANDALONE_SOURCES := creational/examples.rs structural/examples.rs behavioral/examples.rs
+STANDALONE_BINS := $(patsubst %.rs,build/%,$(STANDALONE_SOURCES))
 
 .DEFAULT_GOAL := help
-.PHONY: design clean-docs check-tools
 
-DOCS_DIR := docs/design
-SRC_FILES := $(shell find src -name '*.rs')
-RA := rust-analyzer
-
-# ----------------------------
-# Help
-# ----------------------------
+.PHONY: help list build run run-all test fmt fmt-check lint standalone design-check check clean
 
 help:
-	@echo "🦀 Rust Module Makefile for $(PROJECT_NAME)"
-	@echo ""
-	@echo "Available commands:"
-	@echo "  make build        - Build the Rust project"
-	@echo "  make run          - Run the Rust project"
-	@echo "  make test         - Run tests for the Rust project"
-	@echo "  make fmt          - Format the Rust project"
-	@echo "  make lint         - Run clippy on the Rust project"
-	@echo "  make check        - Run fmt + lint + test"
-	@echo "  make clean        - Clean the Rust project"
-	@echo "  make design       - Generate mermaid diagrams"
-	@echo "  make check-tools  - Check required tools are installed"
-	@echo ""
+	@echo "Rust design-pattern examples"
+	@echo
+	@echo "  make list                 List pattern packages"
+	@echo "  make build                Build every pattern"
+	@echo "  make run PATTERN=adapter  Run one pattern"
+	@echo "  make run-all              Run every pattern"
+	@echo "  make test                 Test every pattern"
+	@echo "  make fmt                  Format every pattern"
+	@echo "  make fmt-check            Check formatting"
+	@echo "  make lint                 Run Clippy with warnings denied"
+	@echo "  make standalone           Compile the category overview programs"
+	@echo "  make design-check         Check PlantUML and design documentation"
+	@echo "  make check                Run all non-mutating checks"
+	@echo "  make clean                Remove target/ and build/"
+
+list:
+	@printf '%s\n' $(PACKAGES)
 
 build:
-	@echo "🔨 Building $(PROJECT_NAME)..."
-	@$(CARGO) build
+	$(CARGO) build --workspace
 
 run:
-	@echo "🚀 Running $(PROJECT_NAME)..."
-	@$(CARGO) run
+	@if [ -z "$(PATTERN)" ]; then \
+		echo "Usage: make run PATTERN=adapter"; \
+		exit 2; \
+	fi
+	$(CARGO) run --package "$(PATTERN)"
+
+run-all:
+	@set -eu; \
+	for package in $(PACKAGES); do \
+		echo "Running $$package"; \
+		$(CARGO) run --quiet --package "$$package"; \
+	done
 
 test:
-	@echo "🧪 Testing $(PROJECT_NAME)..."
-	@$(CARGO) test
+	$(CARGO) test --workspace --all-targets
 
 fmt:
-	@echo "📝 Formatting $(PROJECT_NAME)..."
-	@$(CARGO) fmt
+	$(CARGO) fmt --all
+	$(RUSTFMT) --edition=2021 $(STANDALONE_SOURCES)
+
+fmt-check:
+	$(CARGO) fmt --all -- --check
+	$(RUSTFMT) --edition=2021 --check $(STANDALONE_SOURCES)
 
 lint:
-	@echo "🔍 Linting $(PROJECT_NAME)..."
-	@$(CARGO) clippy --all-targets --all_backends -- -D warnings
+	$(CARGO) clippy --workspace --all-targets --all-features -- -D warnings
 
-check:
-	@echo "🔍 Checking $(PROJECT_NAME)..."
-	@$(CARGO) fmt lint test
-	@echo "✅ All checks passed for $(PROJECT_NAME)..."
+standalone: $(STANDALONE_BINS)
+	@echo "Compiled $(words $(STANDALONE_BINS)) category overview programs"
+
+build/%: %.rs
+	@mkdir -p "$(dir $@)"
+	rustc --edition=2021 -D warnings "$<" -o "$@"
+
+design-check:
+	@set -eu; \
+	for file in $(DESIGN_FILES); do \
+		grep -q '^@startuml' "$$file"; \
+		grep -q '^@enduml' "$$file"; \
+	done; \
+	for file in $(DESIGN_DOCS); do \
+		test -s "$$file"; \
+	done
+	@echo "Checked $(words $(DESIGN_FILES)) C4-PlantUML designs"
+
+check: fmt-check lint test standalone design-check
+	@echo "All design-pattern checks passed"
 
 clean:
-	@echo "🧹 Cleaning $(PROJECT_NAME)..."
-	@$(CARGO) clean
-
-design: check-tools $(DOCS_DIR)/DESIGN.md
-	@echo "✅ Design documentation generated."
-
-clean-docs:
-	rm -rf $(DOCS_DIR)
-	@echo "🧹 Cleaned design documentation."
-
-render:
-	@echo "🖼️  Rendering mermaid diagrams to PNG..."
-	@for file in $(DOCS_DIR)/*.mmd ; do \
-		$(MERMAID) -i $$file -o $${file%.mmd}.png ; \
-	done
-	@echo "✅ Mermaid diagrams rendered."
-
-check-tools:
-	@command -v rust-analyzer >/dev/null || (echo "❌ rust-analyzer missing" && exit 1)
-	@command -v jq >/dev/null || (echo "❌ jq missing" && exit 1)
-	@command -v dot >/dev/null || (echo "❌ graphviz (dot) missing" && exit 1)
-	@command -v mmdc >/dev/null || (echo "❌ mermaid-cli missing" && exit 1)
-	@echo "✅ All required tools are installed."
-
-$(DOCS_DIR):
-	@mkdir -p $(DOCS_DIR)
-
-# ---------------------------------------------------------
-# Workspace metadata
-# ---------------------------------------------------------
-$(DOCS_DIR)/metadata.json: | $(DOCS_DIR)
-	@echo "🔍 Collecting workspace metadata..."
-	@$(CARGO) metadata --format-version 1 > $@
-
-# ---------------------------------------------------------
-# rust-analyzer analysis
-# ---------------------------------------------------------
-$(DOCS_DIR)/analysis.json: | $(DOCS_DIR)
-	@echo "🧠 Running rust-analyzer analysis..."
-	@$(RA) analysis-stats --json > $@
-
-# ---------------------------------------------------------
-# Module hierarchy (indent-aware via JSON)
-# ---------------------------------------------------------
-$(DOCS_DIR)/modules.mmd: $(DOCS_DIR)/analysis.json
-	@echo "📐 Generating module hierarchy diagram..."
-	@echo "graph TD" > $@
-	@jq -r '
-	  .crates[] |
-	  .modules[]? |
-	  select(.parent != null) |
-	  "\(.parent) --> \(.name)"
-	' $< | sed 's/::/_/g' >> $@
-
-# ---------------------------------------------------------
-# Module dependencies
-# ---------------------------------------------------------
-$(DOCS_DIR)/module_deps.mmd: $(DOCS_DIR)/analysis.json
-	@echo "🔗 Generating module dependency graph..."
-	@echo "graph LR" > $@
-	@jq -r '
-	  .crates[] |
-	  .dependencies[]? |
-	  "\(.from) --> \(.to)"
-	' $< | sed 's/::/_/g' >> $@
-
-# ---------------------------------------------------------
-# Crate dependencies (workspace-aware)
-# ---------------------------------------------------------
-$(DOCS_DIR)/crate_deps.mmd: $(DOCS_DIR)/metadata.json
-	@echo "📦 Generating crate dependency graph..."
-	@echo "graph LR" > $@
-	@jq -r '
-	  .packages[] as $$p |
-	  $$p.dependencies[]? |
-	  "\($$p.name) --> \(.name)"
-	' $< >> $@
-
-# ---------------------------------------------------------
-# File layout (accurate, workspace-safe)
-# ---------------------------------------------------------
-$(DOCS_DIR)/files.mmd: | $(DOCS_DIR)
-	@echo "📁 Generating file layout..."
-	@echo "graph TD" > $@
-	@if [ -d src ]; then \
-		find src -name '*.rs' | \
-			sed 's|/|_|g' | \
-			awk '{print "src --> " $$0}' >> $@; \
-	else \
-		echo "⚠️ No src/ directory found, skipping file layout." >&2; \
-	fi
-
-# ---------------------------------------------------------
-# Assemble DESIGN.md
-# ---------------------------------------------------------
-$(DOCS_DIR)/DESIGN.md: \
-	$(DOCS_DIR)/modules.mmd \
-	$(DOCS_DIR)/module_deps.mmd \
-	$(DOCS_DIR)/crate_deps.mmd \
-	$(DOCS_DIR)/files.mmd
-	@echo "📝 Writing DESIGN.md..."
-	@echo "# Design Documentation — $(PROJECT_NAME)" > $@
-	@for f in $^; do \
-		echo "" >> $@; \
-		echo "## $$(basename $$f .mmd | tr '_' ' ')" >> $@; \
-		echo '```mermaid' >> $@; \
-		cat $$f >> $@; \
-		echo '```' >> $@; \
-	done
-
+	$(CARGO) clean
+	rm -rf build

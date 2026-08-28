@@ -1,7 +1,6 @@
 // Simple HTTP Server in Rust
 // Demonstrates TCP networking, threading, and HTTP protocol basics
 
-use std::fs;
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
 use std::sync::{Arc, Mutex};
@@ -18,8 +17,7 @@ fn main() {
     let stats = Arc::new(Mutex::new(ServerStats::new()));
 
     // Bind to localhost:7878
-    let listener = TcpListener::bind("127.0.0.1:7878")
-        .expect("Failed to bind to address");
+    let listener = TcpListener::bind("127.0.0.1:7878").expect("Failed to bind to address");
 
     println!("Server running on http://127.0.0.1:7878");
     println!("Routes:");
@@ -57,7 +55,8 @@ fn handle_connection(mut stream: TcpStream, stats: Arc<Mutex<ServerStats>>) {
         // Parse request line
         let request_line = request.lines().next().unwrap_or("");
 
-        println!("[{}] {}",
+        println!(
+            "[{}] {}",
             std::thread::current().name().unwrap_or("unknown"),
             request_line
         );
@@ -67,25 +66,15 @@ fn handle_connection(mut stream: TcpStream, stats: Arc<Mutex<ServerStats>>) {
 
         // Route handling
         let response = match request_line {
-            line if line.starts_with("GET / ") => {
-                handle_root()
-            }
-            line if line.starts_with("GET /hello") => {
-                handle_hello()
-            }
-            line if line.starts_with("GET /sleep") => {
-                handle_sleep()
-            }
+            line if line.starts_with("GET / ") => handle_root(),
+            line if line.starts_with("GET /hello") => handle_hello(),
+            line if line.starts_with("GET /sleep") => handle_sleep(),
             line if line.starts_with("GET /stats") => {
                 let stats = stats.lock().unwrap();
                 handle_stats(&stats)
             }
-            line if line.starts_with("POST /echo") => {
-                handle_echo(&request)
-            }
-            _ => {
-                handle_404()
-            }
+            line if line.starts_with("POST /echo") => handle_echo(&request),
+            _ => handle_404(),
         };
 
         // Send response

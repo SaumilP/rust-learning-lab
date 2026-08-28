@@ -1,0 +1,4 @@
+started
+moved to (4, 7)
+message: ready
+stopped with code 0

@@ -111,16 +111,16 @@ fn main() {
     let mut v = vec![1, 2, 3, 4, 5];
     println!("Original: {:?}", v);
 
-    v[2] = 30;  // Direct access
+    v[2] = 30; // Direct access
     println!("After v[2] = 30: {:?}", v);
 
-    v.insert(2, 25);  // Insert at position
+    v.insert(2, 25); // Insert at position
     println!("After insert(2, 25): {:?}", v);
 
-    v.remove(3);  // Remove at position
+    v.remove(3); // Remove at position
     println!("After remove(3): {:?}", v);
 
-    v.clear();  // Remove all
+    v.clear(); // Remove all
     println!("After clear: {:?}", v);
 
     println!("\n=== Slicing Vectors ===\n");
@@ -141,10 +141,7 @@ fn main() {
     numbers.push(4);
     println!("i32 vector: {:?}", numbers);
 
-    let mut texts: Vec<String> = vec![
-        "Hello".to_string(),
-        "World".to_string(),
-    ];
+    let mut texts: Vec<String> = vec!["Hello".to_string(), "World".to_string()];
     texts.push("Rust".to_string());
     println!("String vector: {:?}", texts);
 }

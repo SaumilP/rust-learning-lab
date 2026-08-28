@@ -43,7 +43,7 @@ fn main() {
                 eprintln!("Error: Division by zero is not allowed.");
                 std::process::exit(1);
             }
-            println!("Result: {}", a /b);
+            println!("Result: {}", a / b);
         }
     }
 }

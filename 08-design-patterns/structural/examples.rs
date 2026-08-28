@@ -1,8 +1,5 @@
 // Structural Patterns Examples
 
-use std::rc::Rc;
-use std::cell::RefCell;
-
 // ============= Adapter Pattern Example =============
 pub trait ModernApi {
     fn fetch_data(&self) -> Vec<String>;
@@ -95,7 +92,7 @@ impl EmailClient {
     }
 
     pub fn send_email(&self, to: &str, subject: &str, body: &str) -> Result<String, String> {
-        println!("Sending email to: {}", to);
+        println!("Sending '{subject}' to {to}: {body}");
         Ok("Email sent successfully".to_string())
     }
 }
@@ -154,11 +151,7 @@ pub fn example_structural_patterns() {
 
     println!("\n=== Facade Pattern ===");
     let notifier = NotificationService::new();
-    match notifier.send_notification(
-        "user@example.com",
-        "welcome_template",
-        "Alice",
-    ) {
+    match notifier.send_notification("user@example.com", "welcome_template", "Alice") {
         Ok(msg) => println!("{}", msg),
         Err(e) => println!("Error: {}", e),
     }

@@ -9,7 +9,7 @@
 fn main() {
     println!("=== String Slices (&str) ===\n");
 
-    let hello: &str = "Hello";  // String literal (static)
+    let hello: &str = "Hello"; // String literal (static)
     let world: &str = "world";
 
     println!("hello: '{}'", hello);
@@ -57,8 +57,8 @@ fn main() {
 
     let utf8_text = "café";
     println!("UTF-8 text: '{}'", utf8_text);
-    println!("Byte length: {}", utf8_text.len());  // 5 bytes!
-    println!("Character count: {}", utf8_text.chars().count());  // 4 chars
+    println!("Byte length: {}", utf8_text.len()); // 5 bytes!
+    println!("Character count: {}", utf8_text.chars().count()); // 4 chars
 
     println!("\n=== String Modification ===\n");
 
@@ -88,8 +88,8 @@ fn main() {
     println!("\n=== String Slicing ===\n");
 
     let s = String::from("Hello");
-    let slice1 = &s[0..2];  // "He"
-    let slice2 = &s[2..5];  // "llo"
+    let slice1 = &s[0..2]; // "He"
+    let slice2 = &s[2..5]; // "llo"
 
     println!("Full string: '{}'", s);
     println!("Slice [0..2]: '{}'", slice1);

@@ -6,6 +6,13 @@ Module 09 brings together concepts from previous modules into complete, runnable
 
 ## Projects
 
+The Cargo workspace also contains these runnable systems examples:
+
+- [Async chat server](chat_app/README.md)
+- [Threaded HTTP server](http_server/README.md)
+- [Persistent key-value store](key_value_store/README.md)
+- [Async HTTP load balancer](load_balancer/README.md)
+
 ### 1. Todo CLI Application
 **File**: `todo_cli/`
 
@@ -273,4 +280,3 @@ After completing mini-projects:
 3. Create web interfaces
 4. Implement peer-to-peer features
 5. Optimize for performance
-

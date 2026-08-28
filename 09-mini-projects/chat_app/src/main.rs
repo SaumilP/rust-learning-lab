@@ -37,13 +37,23 @@ impl ChatServer {
     async fn add_client(&self, id: ClientId, name: String) {
         let mut clients = self.clients.lock().await;
         clients.insert(id, name.clone());
-        println!("[Server] {} (ID: {}) joined. Total clients: {}", name, id, clients.len());
+        println!(
+            "[Server] {} (ID: {}) joined. Total clients: {}",
+            name,
+            id,
+            clients.len()
+        );
     }
 
     async fn remove_client(&self, id: ClientId) {
         let mut clients = self.clients.lock().await;
         if let Some(name) = clients.remove(&id) {
-            println!("[Server] {} (ID: {}) left. Total clients: {}", name, id, clients.len());
+            println!(
+                "[Server] {} (ID: {}) left. Total clients: {}",
+                name,
+                id,
+                clients.len()
+            );
         }
     }
 
@@ -99,9 +109,7 @@ async fn handle_client(stream: TcpStream, server: ChatServer) {
     let mut reader = BufReader::new(reader);
 
     // Welcome message
-    let _ = writer
-        .write_all(b"=== Welcome to Rust Chat ===\n")
-        .await;
+    let _ = writer.write_all(b"=== Welcome to Rust Chat ===\n").await;
     let _ = writer.write_all(b"Enter your name: ").await;
     let _ = writer.flush().await;
 
@@ -113,7 +121,9 @@ async fn handle_client(stream: TcpStream, server: ChatServer) {
     let username = username.trim().to_string();
 
     if username.is_empty() {
-        let _ = writer.write_all(b"Invalid username. Disconnecting.\n").await;
+        let _ = writer
+            .write_all(b"Invalid username. Disconnecting.\n")
+            .await;
         return;
     }
 
@@ -122,7 +132,13 @@ async fn handle_client(stream: TcpStream, server: ChatServer) {
     server.add_client(client_id, username.clone()).await;
 
     let _ = writer
-        .write_all(format!("\nWelcome, {}! Type /users to see who's online.\n\n", username).as_bytes())
+        .write_all(
+            format!(
+                "\nWelcome, {}! Type /users to see who's online.\n\n",
+                username
+            )
+            .as_bytes(),
+        )
         .await;
 
     // Broadcast join message
@@ -138,7 +154,6 @@ async fn handle_client(stream: TcpStream, server: ChatServer) {
     let mut rx = server.tx.subscribe();
 
     // Spawn task to receive and send broadcasts
-    let username_clone = username.clone();
     let mut writer_clone = writer;
     let receive_handle = tokio::spawn(async move {
         while let Ok((sender_id, sender_name, message)) = rx.recv().await {
@@ -180,7 +195,9 @@ async fn handle_client(stream: TcpStream, server: ChatServer) {
                                 users.len(),
                                 users.join("\n")
                             );
-                            // Can't write directly here, would need separate channel
+                            server_clone
+                                .broadcast(usize::MAX, "System".to_string(), user_list)
+                                .await;
                             println!("[{}] requested user list", username_clone2);
                         }
                         _ => {

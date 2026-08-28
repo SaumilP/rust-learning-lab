@@ -12,10 +12,10 @@ fn main() {
     // 2. VARIABLE SCOPE
     println!("2. VARIABLE SCOPE:\n");
     {
-        let s = "hello";  // s is valid from this point
+        let s = "hello"; // s is valid from this point
         println!("   Inside scope: {}", s);
-    }  // s goes out of scope and is dropped here
-    // println!("{}", s);  // ERROR! s is no longer valid
+    } // s goes out of scope and is dropped here
+      // println!("{}", s);  // ERROR! s is no longer valid
 
     println!("   ✓ Variables are valid until end of scope\n");
 
@@ -36,7 +36,7 @@ fn main() {
     println!("4. MOVE SEMANTICS:\n");
 
     let s1 = String::from("hello");
-    let s2 = s1;  // s1 is MOVED to s2 (not copied!)
+    let s2 = s1; // s1 is MOVED to s2 (not copied!)
 
     // println!("{}", s1);  // ERROR! s1 is no longer valid
     println!("   s2 = {} (s1 was moved to s2)", s2);
@@ -47,7 +47,7 @@ fn main() {
     println!("5. CLONE (Deep Copy):\n");
 
     let s1 = String::from("hello");
-    let s2 = s1.clone();  // Explicit deep copy
+    let s2 = s1.clone(); // Explicit deep copy
 
     println!("   s1 = {}, s2 = {}", s1, s2);
     println!("   ✓ Both s1 and s2 are valid");
@@ -57,7 +57,7 @@ fn main() {
     println!("6. COPY TRAIT (Stack-Only Data):\n");
 
     let x = 5;
-    let y = x;  // x is copied (not moved!)
+    let y = x; // x is copied (not moved!)
 
     println!("   x = {}, y = {}", x, y);
     println!("   ✓ Simple types implement Copy trait");
@@ -67,24 +67,24 @@ fn main() {
     println!("7. OWNERSHIP AND FUNCTIONS:\n");
 
     let s = String::from("hello");
-    takes_ownership(s);  // s is moved into function
-    // println!("{}", s);  // ERROR! s is no longer valid
+    takes_ownership(s); // s is moved into function
+                        // println!("{}", s);  // ERROR! s is no longer valid
 
     let x = 5;
-    makes_copy(x);  // x is copied (not moved)
-    println!("   x is still valid: {}", x);  // OK! x is still valid
+    makes_copy(x); // x is copied (not moved)
+    println!("   x is still valid: {}", x); // OK! x is still valid
 
     println!("   ✓ Passing to function transfers ownership\n");
 
     // 8. RETURN VALUES AND OWNERSHIP
     println!("8. RETURN VALUES TRANSFER OWNERSHIP:\n");
 
-    let s1 = gives_ownership();  // Function returns ownership
+    let s1 = gives_ownership(); // Function returns ownership
     println!("   s1 = {}", s1);
 
     let s2 = String::from("hello");
-    let s3 = takes_and_gives_back(s2);  // s2 moved, ownership returned
-    // println!("{}", s2);  // ERROR! s2 was moved
+    let s3 = takes_and_gives_back(s2); // s2 moved, ownership returned
+                                       // println!("{}", s2);  // ERROR! s2 was moved
     println!("   s3 = {}", s3);
 
     println!("   ✓ Return values transfer ownership\n");
@@ -112,7 +112,7 @@ fn main() {
         let _s = String::from("hello");
         // drop is called automatically when _s goes out of scope
         println!("   String created");
-    }  // _s.drop() called here automatically
+    } // _s.drop() called here automatically
     println!("   String dropped (memory freed)");
     println!("   ✓ Drop trait provides deterministic cleanup\n");
 
@@ -122,10 +122,10 @@ fn main() {
     let mut data = vec![1, 2, 3, 4, 5];
     println!("   Original data: {:?}", data);
 
-    process_data(data.clone());  // Clone to keep ownership
+    process_data(data.clone()); // Clone to keep ownership
     println!("   After process_data: {:?}", data);
 
-    data = transform_data(data);  // Transfer ownership
+    data = transform_data(data); // Transfer ownership
     println!("   After transform_data: {:?}", data);
 
     println!("   ✓ Choose between clone() and move based on needs\n");
@@ -134,12 +134,12 @@ fn main() {
 // Takes ownership of String
 fn takes_ownership(s: String) {
     println!("   takes_ownership: {}", s);
-}  // s is dropped here
+} // s is dropped here
 
 // Makes a copy (Copy trait)
 fn makes_copy(x: i32) {
     println!("   makes_copy: {}", x);
-}  // x goes out of scope, but nothing special happens (Copy trait)
+} // x goes out of scope, but nothing special happens (Copy trait)
 
 // Gives ownership of return value
 fn gives_ownership() -> String {
@@ -148,7 +148,7 @@ fn gives_ownership() -> String {
 
 // Takes and gives back ownership
 fn takes_and_gives_back(s: String) -> String {
-    s  // Returns ownership to caller
+    s // Returns ownership to caller
 }
 
 // Returns tuple (ownership + data)
@@ -166,7 +166,7 @@ fn process_data(data: Vec<i32>) {
 // Transforms data (takes ownership, returns new)
 fn transform_data(mut data: Vec<i32>) -> Vec<i32> {
     data.iter_mut().for_each(|x| *x *= 2);
-    data  // Return ownership
+    data // Return ownership
 }
 
 /*

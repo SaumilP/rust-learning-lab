@@ -1,8 +1,6 @@
 // Factory Pattern in Rust
 // Creates objects without specifying the exact class to create
 
-use std::fmt::Display;
-
 fn main() {
     println!("=== Factory Pattern in Rust ===\n");
 
@@ -47,10 +45,8 @@ fn main() {
         VehicleFactory::create("truck", "Ford", 6),
     ];
 
-    for vehicle in vehicles {
-        if let Some(v) = vehicle {
-            v.display();
-        }
+    for vehicle in vehicles.into_iter().flatten() {
+        vehicle.display();
     }
 
     println!("\n   ✓ Factory methods can accept configuration parameters\n");
@@ -78,7 +74,7 @@ fn main() {
     // PRACTICAL EXAMPLE: Document creation
     println!("5. PRACTICAL EXAMPLE: Document Factory:\n");
 
-    let documents = vec![
+    let documents = [
         DocumentFactory::create("pdf", "Report"),
         DocumentFactory::create("word", "Letter"),
         DocumentFactory::create("html", "WebPage"),

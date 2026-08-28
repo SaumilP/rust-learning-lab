@@ -1,0 +1,13 @@
+[package]
+name = "random-number-examples"
+version = "0.1.0"
+edition = "2021"
+
+[[example]]
+name = "dice_roller"
+path = "examples/dice_roller.rs"
+
+[dependencies]
+rand = "0.8"
+
+[workspace]

@@ -46,7 +46,7 @@ fn main() {
 
     println!("\n=== Using Constants in Calculations ===\n");
 
-    let circle_area = PI * 5.0 * 5.0;  // Area = πr²
+    let circle_area = PI * 5.0 * 5.0; // Area = πr²
     println!("Circle area (r=5): {}", circle_area);
 
     let weeks_in_year = 365 / DAYS_IN_WEEK as u32;
@@ -54,9 +54,10 @@ fn main() {
 
     println!("\n=== Constants with Units ===\n");
 
-    const EARTH_GRAVITY: f64 = 9.81;  // m/s²
-    const SPEED_OF_LIGHT: u64 = 299_792_458;  // m/s
-    const AVOGADRO_NUMBER: u64 = 602_214_076_000_000_000_000_000;
+    const EARTH_GRAVITY: f64 = 9.81; // m/s²
+    const SPEED_OF_LIGHT: u64 = 299_792_458; // m/s
+                                             // This value is larger than u64::MAX, so use Rust's wider u128 type.
+    const AVOGADRO_NUMBER: u128 = 602_214_076_000_000_000_000_000;
 
     println!("Earth gravity: {} m/s²", EARTH_GRAVITY);
     println!("Speed of light: {} m/s", SPEED_OF_LIGHT);
@@ -72,7 +73,7 @@ fn main() {
     const X: i32 = 10;
     println!("X (const): {}", X);
 
-    let x = 20;  // Shadow with different binding
+    let x = 20; // Shadow with different binding
     println!("x (let): {}", x);
 
     // const X = 30;  // Error: can't redeclare const
@@ -82,6 +83,9 @@ fn main() {
     let fibonacci: [u32; 5] = [1, 1, 2, 3, 5];
     println!("Fibonacci sequence: {:?}", fibonacci);
     println!("First 5 Fibonacci numbers, max count: {}", fibonacci.len());
+
+    println!("\n=== Reusing Module Constants in a Function ===\n");
+    example_with_constants();
 }
 
 // Module-level constants

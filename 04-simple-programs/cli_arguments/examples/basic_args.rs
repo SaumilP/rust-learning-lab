@@ -20,7 +20,7 @@ fn main() {
     println!("Program name: {}", args[0]);
 
     // Show total argument count
-    println!("Total arguments: {}", args.len() - 1);  // -1 to exclude program name
+    println!("Total arguments: {}", args.len() - 1); // -1 to exclude program name
 
     // Show all arguments
     println!("\nAll arguments:");

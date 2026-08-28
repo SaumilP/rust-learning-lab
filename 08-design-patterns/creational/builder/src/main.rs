@@ -1,27 +1,31 @@
 struct Greeter {
-  message: String,
+    message: String,
 }
 
 struct GreetBuilder {
-  greeting: String
+    greeting: String,
 }
 
 impl GreetBuilder {
-  fn new() -> GreetBuilder {
-    GreetBuilder { greeting : "".to_string() }
-  }
+    fn new() -> GreetBuilder {
+        GreetBuilder {
+            greeting: "".to_string(),
+        }
+    }
 
-  fn set_greeting(mut self, greeting: String) -> GreetBuilder {
-    self.greeting = greeting;
-    self
-  }
+    fn set_greeting(mut self, greeting: String) -> GreetBuilder {
+        self.greeting = greeting;
+        self
+    }
 
-  fn build(self) -> Greeter {
-    Greeter{ message: self.greeting }
-  }
+    fn build(self) -> Greeter {
+        Greeter {
+            message: self.greeting,
+        }
+    }
 }
 
-fn main(){
+fn main() {
     let g = GreetBuilder::new()
         .set_greeting("Greeting Fellow Rustacean!!!".to_string())
         .build();

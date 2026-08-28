@@ -1,45 +1,88 @@
 name: CI
 
 on:
-    push:
-        branches: [ "main" ]
-    pull_request:
-        branches: [ "main" ]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
-    CARGO_TERM_COLOR: always
+  CARGO_TERM_COLOR: always
 
 jobs:
-    build-and-test:
-        name: Build and Test
-        runs-on: ubuntu-latest
+  learning-modules:
+    name: Module ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - 01-core-fundamentals
+          - 02-standard-library
+          - 03-tooling-and-quality
+          - 04-simple-programs
+          - 05-cli-and-console-games
+          - 06-intermediate-rust
+          - 08-design-patterns
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-            - name: Install Rust toolchain
-              uses: dtolnay/rust-toolchain@stable
-              with:
-                  components: rustfmt, clippy
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
 
-            - name: Cache Cargo registry
-              uses: actions/cache@v4
-              with:
-                path: |
-                  ~/.cargo/registry
-                  ~/.cargo/git
-                  target
-                key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-            
-            - name: Check formatting
-              run: cargo fmt --all -- --check
+      - name: Validate module
+        working-directory: ${{ matrix.module }}
+        run: make check
 
-            - name: Run Clippy
-              run: cargo clippy --all-targets --all-features -- -D warnings
+      - name: Remove generated documentation and binaries
+        if: always()
+        working-directory: ${{ matrix.module }}
+        run: make clean
 
-            - name: Build
-              run: cargo build --workspace --all-targets
+  cargo-packages:
+    name: Cargo ${{ matrix.path }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path:
+          - 00-setup-and-basics/hello_world
+          - 00-setup-and-basics/variables_and_mutability
+          - 00-setup-and-basics/data_types
+          - 00-setup-and-basics/control_flow
+          - 01-core-fundamentals/ownership
+          - 01-core-fundamentals/borrowing
+          - 01-core-fundamentals/lifetimes
+          - 09-mini-projects
 
-            - name: Run tests
-              run: cargo test --workspace 
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Check formatting
+        working-directory: ${{ matrix.path }}
+        run: cargo fmt --all -- --check
+
+      - name: Run Clippy
+        working-directory: ${{ matrix.path }}
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Run tests
+        working-directory: ${{ matrix.path }}
+        run: cargo test --all-targets

@@ -1,0 +1,5 @@
+[package]
+name = "abstract-factory"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true

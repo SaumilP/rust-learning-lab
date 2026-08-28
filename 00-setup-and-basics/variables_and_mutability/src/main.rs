@@ -12,7 +12,7 @@ fn main() {
     println!("2. Mutable Variables:");
     let mut y = 5;
     println!("   y = {}", y);
-    y = 6;  // This works because y is declared with 'mut'
+    y = 6; // This works because y is declared with 'mut'
     println!("   y = {} (after mutation)", y);
     println!("   ✓ Use 'mut' keyword to make variables mutable\n");
 
@@ -29,11 +29,11 @@ fn main() {
     let z = 5;
     println!("   z = {}", z);
 
-    let z = z + 1;  // Shadow the previous z
+    let z = z + 1; // Shadow the previous z
     println!("   z = {} (shadowed)", z);
 
     {
-        let z = z * 2;  // Shadow in inner scope
+        let z = z * 2; // Shadow in inner scope
         println!("   z = {} (inner scope)", z);
     }
 
@@ -43,13 +43,14 @@ fn main() {
 
     // 5. TYPE CHANGE WITH SHADOWING
     println!("5. Type Change with Shadowing:");
-    let spaces = "   ";  // string
-    let spaces = spaces.len();  // number
+    let spaces = "   "; // string
+    let spaces = spaces.len(); // number
     println!("   spaces = {} (changed from &str to usize)", spaces);
     println!("   ✓ Shadowing allows type changes\n");
 
     // With mut, type must stay the same:
-    let mut count = "123";
+    let count = "123";
+    println!("   count = {count:?}; mutability cannot change its type\n");
     // count = count.len(); // ERROR! Expected &str, found usize
 
     // 6. SCOPE AND LIFETIME
@@ -63,8 +64,8 @@ fn main() {
 
     // 7. TYPE INFERENCE
     println!("7. Type Inference:");
-    let inferred = 42;  // Rust infers i32
-    let explicit: i32 = 42;  // Explicitly typed
+    let inferred = 42; // Rust infers i32
+    let explicit: i32 = 42; // Explicitly typed
     println!("   inferred = {}, explicit = {}", inferred, explicit);
     println!("   ✓ Rust infers types when possible\n");
 

@@ -41,16 +41,11 @@ fn main() {
     // Example 3: Appending to file
     println!("\n3. Appending to file...");
     let new_line = "\nAdded via append operation!";
-    match fs::OpenOptions::new()
-        .append(true)
-        .open("test_file.txt")
-    {
-        Ok(mut file) => {
-            match file.write_all(new_line.as_bytes()) {
-                Ok(_) => println!("   Successfully appended to file"),
-                Err(e) => eprintln!("   Error appending: {}", e),
-            }
-        }
+    match fs::OpenOptions::new().append(true).open("test_file.txt") {
+        Ok(mut file) => match file.write_all(new_line.as_bytes()) {
+            Ok(_) => println!("   Successfully appended to file"),
+            Err(e) => eprintln!("   Error appending: {}", e),
+        },
         Err(e) => eprintln!("   Error opening file: {}", e),
     }
 

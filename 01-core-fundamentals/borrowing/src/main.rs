@@ -13,7 +13,7 @@ fn main() {
     println!("2. IMMUTABLE REFERENCES (&T):\n");
 
     let s1 = String::from("hello");
-    let len = calculate_length(&s1);  // Borrow s1 (don't take ownership)
+    let len = calculate_length(&s1); // Borrow s1 (don't take ownership)
 
     println!("   String: '{}', Length: {}", s1, len);
     println!("   ✓ s1 is still valid after borrowing");
@@ -34,7 +34,7 @@ fn main() {
     println!("4. MUTABLE REFERENCES (&mut T):\n");
 
     let mut s = String::from("hello");
-    change(&mut s);  // Borrow mutably
+    change(&mut s); // Borrow mutably
 
     println!("   Changed string: {}", s);
     println!("   ✓ &mut allows modifying borrowed data\n");
@@ -54,7 +54,7 @@ fn main() {
 
     // But can have another after first goes out of scope:
     let r2 = &mut s;
-    r2.push_str("!");
+    r2.push('!');
     println!("   Second mut ref: {}", r2);
 
     println!("   ✓ Only ONE mutable reference at a time\n");
@@ -64,12 +64,12 @@ fn main() {
 
     let mut s = String::from("hello");
 
-    let r1 = &s;  // OK - immutable
-    let r2 = &s;  // OK - immutable
+    let r1 = &s; // OK - immutable
+    let r2 = &s; // OK - immutable
     println!("   r1: {}, r2: {}", r1, r2);
     // r1 and r2 are no longer used after this point
 
-    let r3 = &mut s;  // OK - previous immutable refs out of scope
+    let r3 = &mut s; // OK - previous immutable refs out of scope
     r3.push_str(" world");
     println!("   r3: {}", r3);
 
@@ -77,6 +77,7 @@ fn main() {
     let r1 = &s;
     // let r2 = &mut s;  // ERROR! Cannot borrow as mutable
     // println!("{} {}", r1, r2);
+    println!("   Existing immutable reference: {}", r1);
 
     println!("   ✓ Cannot have mutable ref while immutable refs exist\n");
 
@@ -95,7 +96,7 @@ fn main() {
     println!("8. DEREFERENCING:\n");
 
     let x = 5;
-    let y = &x;  // Reference to x
+    let y = &x; // Reference to x
 
     println!("   x = {}, y = {} (y is reference)", x, y);
 
@@ -114,7 +115,7 @@ fn main() {
 
     let s = String::from("hello world");
 
-    let word = first_word(&s);  // Borrow s
+    let word = first_word(&s); // Borrow s
     println!("   First word: {}", word);
     println!("   Original string still valid: {}", s);
 
@@ -125,14 +126,14 @@ fn main() {
 
     let s = String::from("hello world");
 
-    let hello = &s[0..5];   // String slice
-    let world = &s[6..11];  // Another slice
+    let hello = &s[0..5]; // String slice
+    let world = &s[6..11]; // Another slice
 
     println!("   Slices: '{}' and '{}'", hello, world);
 
     // Array slices
     let arr = [1, 2, 3, 4, 5];
-    let slice = &arr[1..4];  // [2, 3, 4]
+    let slice = &arr[1..4]; // [2, 3, 4]
     println!("   Array slice: {:?}", slice);
 
     println!("   ✓ Slices reference a portion of a collection\n");
@@ -168,9 +169,9 @@ fn main() {
 }
 
 // Borrows string (immutable reference)
-fn calculate_length(s: &String) -> usize {
+fn calculate_length(s: &str) -> usize {
     s.len()
-}  // s goes out of scope, but doesn't drop the String (doesn't own it)
+} // s goes out of scope, but doesn't drop the String (doesn't own it)
 
 // Borrows string mutably
 fn change(s: &mut String) {
@@ -198,16 +199,16 @@ fn first_word(s: &str) -> &str {
         }
     }
 
-    &s[..]  // Whole string if no space
+    s // Whole string if no space
 }
 
 // Sum vector (immutable borrow)
-fn sum_vector(v: &Vec<i32>) -> i32 {
+fn sum_vector(v: &[i32]) -> i32 {
     v.iter().sum()
 }
 
 // Double vector values (mutable borrow)
-fn double_vector(v: &mut Vec<i32>) {
+fn double_vector(v: &mut [i32]) {
     for x in v.iter_mut() {
         *x *= 2;
     }

@@ -44,25 +44,20 @@ fn main() {
     println!("\n=== Filter Adapter ===\n");
 
     let v = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    let evens: Vec<i32> = v.iter()
-        .filter(|x| x % 2 == 0)
-        .copied()
-        .collect();
+    let evens: Vec<i32> = v.iter().filter(|&&x| x % 2 == 0).copied().collect();
     println!("Original: {:?}", v);
     println!("Evens: {:?}", evens);
 
-    let greater_than_5: Vec<i32> = v.iter()
-        .filter(|&&x| x > 5)
-        .copied()
-        .collect();
+    let greater_than_5: Vec<i32> = v.iter().filter(|&&x| x > 5).copied().collect();
     println!("Greater than 5: {:?}", greater_than_5);
 
     println!("\n=== Chaining Adapters ===\n");
 
     let v = vec![1, 2, 3, 4, 5];
-    let result: Vec<i32> = v.iter()
-        .filter(|&&x| x > 2)         // Keep > 2
-        .map(|x| x * 2)              // Double each
+    let result: Vec<i32> = v
+        .iter()
+        .filter(|&&x| x > 2) // Keep > 2
+        .map(|x| x * 2) // Double each
         .collect();
     println!("Original: {:?}", v);
     println!("Filtered (>2) and doubled: {:?}", result);
@@ -71,16 +66,10 @@ fn main() {
 
     let v = vec![1, 2, 3, 4, 5];
 
-    let first_three: Vec<i32> = v.iter()
-        .take(3)
-        .copied()
-        .collect();
+    let first_three: Vec<i32> = v.iter().take(3).copied().collect();
     println!("First 3: {:?}", first_three);
 
-    let skip_two: Vec<i32> = v.iter()
-        .skip(2)
-        .copied()
-        .collect();
+    let skip_two: Vec<i32> = v.iter().skip(2).copied().collect();
     println!("Skip 2: {:?}", skip_two);
 
     println!("\n=== Enumerate ===\n");
@@ -125,14 +114,10 @@ fn main() {
 
     let numbers = vec!["1", "2", "3", "4", "5"];
 
-    let parsed: Vec<i32> = numbers.iter()
-        .filter_map(|s| s.parse().ok())
-        .collect();
+    let parsed: Vec<i32> = numbers.iter().filter_map(|s| s.parse().ok()).collect();
     println!("Parsed numbers: {:?}", parsed);
 
-    let strings: Vec<String> = v.iter()
-        .map(|x| format!("num_{}", x))
-        .collect();
+    let strings: Vec<String> = v.iter().map(|x| format!("num_{}", x)).collect();
     println!("Formatted: {:?}", strings);
 
     println!("\n=== Lazy Evaluation ===\n");
@@ -140,11 +125,10 @@ fn main() {
     let v = vec![1, 2, 3, 4, 5];
 
     // This doesn't execute yet
-    let iter = v.iter()
-        .map(|x| {
-            println!("  Mapping {}", x);
-            x * 2
-        });
+    let iter = v.iter().map(|x| {
+        println!("  Mapping {}", x);
+        x * 2
+    });
 
     println!("Iterator created (note: no output above)");
 

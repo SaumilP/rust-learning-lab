@@ -162,7 +162,11 @@ fn count_words(text: &str) -> HashMap<String, usize> {
     let mut frequencies = HashMap::new();
 
     for word in text.split_whitespace() {
-        let word = word.to_lowercase().trim_matches(|c: char| !c.is_alphabetic());
+        let word: String = word
+            .to_lowercase()
+            .chars()
+            .filter(|character| character.is_alphabetic())
+            .collect();
 
         if !word.is_empty() {
             *frequencies.entry(word).or_insert(0) += 1;

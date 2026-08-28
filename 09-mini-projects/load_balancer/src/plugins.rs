@@ -1,6 +1,6 @@
-use hyper::Request;
 use hyper::body::Incoming;
 use hyper::header::{HeaderName, HeaderValue};
+use hyper::Request;
 use std::str::FromStr;
 
 /// The core trait for all Load Balancer extensions/plugins
@@ -8,7 +8,7 @@ use std::str::FromStr;
 pub trait Plugin: Send + Sync {
     // Returns the human-readable name of the plugin for debugging/logging purpose
     fn name(&self) -> &str;
-    
+
     // Plugins can modify the request before it hits the backend
     fn on_request(&self, _req: &mut Request<Incoming>);
 }
@@ -28,7 +28,7 @@ impl Plugin for HeaderPlugin {
     fn on_request(&self, req: &mut Request<Incoming>) {
         if let (Ok(name), Ok(val)) = (
             HeaderName::from_str(&self.key),
-            HeaderValue::from_str(&self.value)
+            HeaderValue::from_str(&self.value),
         ) {
             req.headers_mut().insert(name, val);
         }
@@ -44,6 +44,11 @@ impl Plugin for LoggingPlugin {
     }
 
     fn on_request(&self, req: &mut Request<Incoming>) {
-        println!("[LOG] {} Incoming request: {} {}", self.name(), req.method(), req.uri());
+        println!(
+            "[LOG] {} Incoming request: {} {}",
+            self.name(),
+            req.method(),
+            req.uri()
+        );
     }
 }

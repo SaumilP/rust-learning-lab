@@ -1,12 +1,29 @@
 [workspace]
 resolver = "2"
 members = [
+    "behavioral/chain-of-responsibility",
     "behavioral/strategy",
     "behavioral/command",
+    "behavioral/iterator",
+    "behavioral/mediator",
+    "behavioral/memento",
     "behavioral/observer",
+    "behavioral/state",
+    "behavioral/template-method",
+    "behavioral/visitor",
+    "creational/abstract-factory",
     "creational/builder",
     "creational/factory",
+    "creational/factory-method",
+    "creational/prototype",
     "creational/singleton",
+    "structural/adapter",
+    "structural/bridge",
+    "structural/composite",
+    "structural/decorator",
+    "structural/facade",
+    "structural/flyweight",
+    "structural/proxy",
 ]
 
 # Shared workspace properties

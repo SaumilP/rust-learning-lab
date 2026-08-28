@@ -6,7 +6,6 @@
 /// - Frame-based game loop with timing
 ///
 /// Run with: cargo run --example simple_counter_game
-
 use std::io::{self, Write};
 use std::time::{Duration, Instant};
 

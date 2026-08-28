@@ -37,7 +37,7 @@ fn main() {
         counter += 1;
 
         if counter == 10 {
-            break counter * 2;  // Return value from loop
+            break counter * 2; // Return value from loop
         }
     };
 
@@ -50,7 +50,7 @@ fn main() {
     'outer: loop {
         count += 1;
         if count > 3 {
-            break 'outer;  // Break outer loop
+            break 'outer; // Break outer loop
         }
     }
     println!("   Loop with label ran {} times\n", count);
@@ -86,12 +86,14 @@ fn main() {
 
     // Common ranges
     println!("\n   Range examples:");
-    for i in 0..5 {  // 0, 1, 2, 3, 4 (exclusive end)
+    for i in 0..5 {
+        // 0, 1, 2, 3, 4 (exclusive end)
         print!("{} ", i);
     }
     println!("(0..5)");
 
-    for i in 0..=5 {  // 0, 1, 2, 3, 4, 5 (inclusive end)
+    for i in 0..=5 {
+        // 0, 1, 2, 3, 4, 5 (inclusive end)
         print!("{} ", i);
     }
     println!("(0..=5)");
@@ -113,7 +115,7 @@ fn main() {
         1 => println!("   One!"),
         2 | 3 | 5 | 7 => println!("   Prime number: {}", number),
         4..=10 => println!("   Between 4 and 10: {}", number),
-        _ => println!("   Something else: {}", number),  // catch-all
+        _ => println!("   Something else: {}", number), // catch-all
     }
 
     // Match is exhaustive (must cover all cases)
@@ -146,7 +148,8 @@ fn main() {
 
     let some_value: Option<i32> = Some(3);
 
-    // Instead of:
+    // This deliberately shows the verbose form before the equivalent `if let`.
+    #[allow(clippy::single_match)]
     match some_value {
         Some(3) => println!("   Match: three!"),
         _ => (),
@@ -184,7 +187,7 @@ fn main() {
     println!("   Skip even numbers:");
     for i in 0..10 {
         if i % 2 == 0 {
-            continue;  // Skip rest of iteration
+            continue; // Skip rest of iteration
         }
         print!("{} ", i);
     }
@@ -193,7 +196,7 @@ fn main() {
     println!("   Break at 5:");
     for i in 0..10 {
         if i == 5 {
-            break;  // Exit loop
+            break; // Exit loop
         }
         print!("{} ", i);
     }
@@ -217,14 +220,14 @@ fn main() {
 
     fn check_positive(n: i32) -> &'static str {
         if n > 0 {
-            return "positive";  // Early return
+            return "positive"; // Early return
         }
 
         if n < 0 {
             return "negative";
         }
 
-        "zero"  // Last expression (implicit return)
+        "zero" // Last expression (implicit return)
     }
 
     println!("   check_positive(5): {}", check_positive(5));

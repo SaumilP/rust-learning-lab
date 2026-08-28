@@ -25,7 +25,7 @@ fn main() {
     map.insert("key1", "value1");
     println!("After first insert: {:?}", map);
 
-    map.insert("key1", "updated");  // Overwrites
+    map.insert("key1", "updated"); // Overwrites
     println!("After update: {:?}", map);
 
     map.insert("key2", "value2");
@@ -79,10 +79,7 @@ fn main() {
 
     println!("\n=== Mutable Iteration ===\n");
 
-    let mut map: HashMap<&str, i32> = [("a", 1), ("b", 2), ("c", 3)]
-        .iter()
-        .cloned()
-        .collect();
+    let mut map: HashMap<&str, i32> = [("a", 1), ("b", 2), ("c", 3)].iter().cloned().collect();
 
     for (_, value) in &mut map {
         *value *= 2;
@@ -105,10 +102,7 @@ fn main() {
 
     println!("\n=== Removing Entries ===\n");
 
-    let mut map: HashMap<&str, i32> = [("a", 1), ("b", 2), ("c", 3)]
-        .iter()
-        .cloned()
-        .collect();
+    let mut map: HashMap<&str, i32> = [("a", 1), ("b", 2), ("c", 3)].iter().cloned().collect();
 
     println!("Original: {:?}", map);
 

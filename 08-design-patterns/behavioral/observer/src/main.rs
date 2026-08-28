@@ -69,17 +69,26 @@ fn main() {
 
     let mut event_bus = EventBus::new();
 
-    event_bus.subscribe(EventType::UserLogin, Box::new(|data| {
-        println!("   Logging: User logged in - {}", data);
-    }));
+    event_bus.subscribe(
+        EventType::UserLogin,
+        Box::new(|data| {
+            println!("   Logging: User logged in - {}", data);
+        }),
+    );
 
-    event_bus.subscribe(EventType::UserLogin, Box::new(|data| {
-        println!("   Analytics: Recording login - {}", data);
-    }));
+    event_bus.subscribe(
+        EventType::UserLogin,
+        Box::new(|data| {
+            println!("   Analytics: Recording login - {}", data);
+        }),
+    );
 
-    event_bus.subscribe(EventType::UserLogout, Box::new(|data| {
-        println!("   Cleanup: User logged out - {}", data);
-    }));
+    event_bus.subscribe(
+        EventType::UserLogout,
+        Box::new(|data| {
+            println!("   Cleanup: User logged out - {}", data);
+        }),
+    );
 
     event_bus.emit(EventType::UserLogin, "user123");
     event_bus.emit(EventType::UserLogout, "user123");
@@ -90,18 +99,20 @@ fn main() {
     println!("5. PROPERTY CHANGE NOTIFICATION:\n");
 
     let user = ObservableUser::new("Alice", 25);
+    {
+        let data = user.lock();
+        println!("   Initial user: {} (age {})", data.name, data.age);
+    }
     let user_clone = user.clone();
 
-    std::thread::spawn(move || {
-        loop {
-            let changed = user_clone.lock().check_changes();
-            if changed {
-                println!("   Change detected in thread!");
-            }
-            std::thread::sleep(std::time::Duration::from_millis(100));
-            if user_clone.lock().name == "Bob" {
-                break;
-            }
+    std::thread::spawn(move || loop {
+        let changed = user_clone.lock().check_changes();
+        if changed {
+            println!("   Change detected in thread!");
+        }
+        std::thread::sleep(std::time::Duration::from_millis(100));
+        if user_clone.lock().name == "Bob" {
+            break;
         }
     });
 
@@ -253,10 +264,7 @@ impl EventBus {
     }
 
     fn subscribe(&mut self, event_type: EventType, handler: EventHandler) {
-        self.handlers
-            .entry(event_type)
-            .or_insert_with(Vec::new)
-            .push(handler);
+        self.handlers.entry(event_type).or_default().push(handler);
     }
 
     fn emit(&self, event_type: EventType, data: &str) {
@@ -292,7 +300,7 @@ impl ObservableUser {
         }
     }
 
-    fn lock(&self) -> std::sync::MutexGuard<UserData> {
+    fn lock(&self) -> std::sync::MutexGuard<'_, UserData> {
         self.inner.lock().unwrap()
     }
 }

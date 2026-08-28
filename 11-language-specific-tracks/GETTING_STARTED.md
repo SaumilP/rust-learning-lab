@@ -15,6 +15,7 @@ Choose the track that matches your primary language:
 - **Java Developer?** → [JAVA_TRACK/](./JAVA_TRACK/)
 - **Python Developer?** → [PYTHON_TRACK/](./PYTHON_TRACK/)
 - **Go Developer?** → [GO_TRACK/](./GO_TRACK/)
+- **C++ Developer?** → [CPP_TRACK/](./CPP_TRACK/)
 
 ### Step 2: Read Your Track's README
 
@@ -437,4 +438,5 @@ Before starting your Rust journey:
 
 ---
 
-*Questions about this guide? Check [IMPLEMENTATION_STATUS.md](./IMPLEMENTATION_STATUS.md) or open an issue.*
+Questions about this guide? Check the repository [roadmap](../ROADMAP.md) or
+open an issue.

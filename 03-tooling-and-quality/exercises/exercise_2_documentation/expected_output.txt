@@ -1,0 +1,12 @@
+running 8 doc-tests
+
+test src/lib.rs - celsius_to_fahrenheit (line 85) ... ok
+test src/lib.rs - celsius_to_fahrenheit (line 91) ... ok
+test src/lib.rs - fizzbuzz (line 58) ... ok
+test src/lib.rs - fizzbuzz (line 65) ... ok
+test src/lib.rs - gcd (line 15) ... ok
+test src/lib.rs - gcd (line 21) ... ok
+test src/lib.rs - is_prime (line 38) ... ok
+test src/lib.rs - is_prime (line 44) ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out

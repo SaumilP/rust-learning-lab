@@ -1,0 +1,31 @@
+=== Integer Duplicates ===
+Numbers: [1, 2, 3, 2, 4, 5, 3, 1]
+Has duplicates: true
+First duplicate: Some(2)
+All duplicates with counts:
+  1 appears 2 times
+  2 appears 2 times
+  3 appears 2 times
+Unique values: [1, 2, 3, 4, 5]
+
+=== No Duplicates Case ===
+Numbers: [1, 2, 3, 4, 5]
+Has duplicates: false
+First duplicate: None
+
+=== String/Word Duplicates ===
+Words: ["apple", "banana", "apple", "cherry", "banana", "apple"]
+Has duplicates: true
+First duplicate: Some("apple")
+Duplicate counts:
+  "apple" appears 3 times
+  "banana" appears 2 times
+
+=== Character Duplicates ===
+Text: "programming"
+Has duplicate chars: true
+First duplicate char: Some('r')
+Character counts for duplicates:
+  'r' appears 2 times
+  'g' appears 2 times
+  'm' appears 2 times

@@ -18,7 +18,7 @@ Each migrated topic stores its metadata in `metadata.json` beside its learning m
 - `status` is one of `planned`, `draft`, `review`, `stable`, or `deprecated` and follows [CONTENT_STATUS.md](../CONTENT_STATUS.md).
 - `level` is one of `beginner`, `intermediate`, `advanced`, or `expert`.
 - `estimated_minutes` is a positive estimate for completing the topic.
-- `prerequisites` contains stable topic IDs. The list may be empty, but a topic cannot require itself.
+- `prerequisites` contains stable topic IDs. The list may be empty, but a topic cannot require itself. During staged migration, an unpublished topic may reference an intended ID whose metadata has not yet been added; the validator reports that reference as a warning. A published topic must reference metadata that exists within the validated repository scope.
 - `concepts` contains one or more lowercase kebab-case concept tags.
 - `tracks` contains one or more of `core`, `java`, `python`, `cpp`, or `go`.
 - `learning_objectives` contains one or more concrete outcomes stated from the learner's perspective.
@@ -31,7 +31,7 @@ The optional `$schema` property lets an editor associate a metadata file with th
 
 A topic cannot use `stable` until its content rubric is `passed` and its example and exercise evidence is either `passed` or `not_applicable`. A topic cannot set `website.published` to `true` unless it is Stable, and every published topic requires a numeric website order. These rules are enforced by the Rust validator as well as represented in the JSON Schema.
 
-Passing metadata validation does not promote a topic. Status changes still require the evidence described in `CONTENT_STATUS.md` and must be reviewed with the content change.
+Passing metadata validation does not promote a topic. Status changes still require the evidence described in `CONTENT_STATUS.md` and must be reviewed with the content change. The validator checks duplicate IDs across every parsed metadata file, even when one of those files has other semantic errors, so an invalid file cannot hide an identifier collision.
 
 ## Validator and export commands
 

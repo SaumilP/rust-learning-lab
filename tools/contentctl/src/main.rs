@@ -1,6 +1,6 @@
 use std::{env, path::PathBuf, process::ExitCode};
 
-use contentctl::{export_path, validate_path};
+use contentctl::{export_path, unresolved_prerequisites, validate_path};
 
 fn main() -> ExitCode {
     match run() {
@@ -24,6 +24,11 @@ fn run() -> Result<(), String> {
     match command.as_str() {
         "validate" => {
             let topics = validate_path(&path).map_err(|errors| errors.join("\n"))?;
+            for (topic, prerequisite) in unresolved_prerequisites(&topics) {
+                eprintln!(
+                    "contentctl: warning: topic `{topic}` references `{prerequisite}`, which has no metadata in this validation scope"
+                );
+            }
             println!("Validated {} topic metadata file(s).", topics.len());
             Ok(())
         }

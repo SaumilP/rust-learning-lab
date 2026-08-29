@@ -22,7 +22,7 @@ Use the [version 1 metadata contract](../content-metadata.md) and start from the
 
 - Give the topic a lowercase kebab-case `id` that describes the concept rather than its current directory. Treat that ID as permanent once prerequisite links or exports depend on it.
 - Choose the public `status` from [CONTENT_STATUS.md](../../CONTENT_STATUS.md) and record only evidence that exists in the repository today.
-- Use `prerequisites` for stable topic IDs, not paths or display titles. A prerequisite may be pending migration during the pilot, but it must still use its intended stable ID.
+- Use `prerequisites` for stable topic IDs, not paths or display titles. A prerequisite may be pending migration during the pilot, but it must still use its intended stable ID. `contentctl validate` reports an unresolved ID without failing an unpublished topic; publication requires metadata for every listed prerequisite in the validation scope.
 - Keep `concepts` specific enough to support navigation and search. Prefer `move-semantics` over broad tags such as `programming`.
 - List every applicable learner `track`, using `core` for the canonical curriculum and language names only when the same topic is intentionally part of those journeys.
 - Write concrete `learning_objectives` that describe what a learner can explain, predict, implement, or debug after completing the topic.

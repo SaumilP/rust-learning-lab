@@ -99,8 +99,11 @@ pub fn validate_path(path: &Path) -> Result<Vec<(PathBuf, TopicMetadata)>, Vec<S
     let mut errors = Vec::new();
 
     for file in files {
-        match validate_file(&file) {
-            Ok(metadata) => topics.push((file, metadata)),
+        match parse_file(&file) {
+            Ok((metadata, mut file_errors)) => {
+                topics.push((file, metadata));
+                errors.append(&mut file_errors);
+            }
             Err(mut file_errors) => errors.append(&mut file_errors),
         }
     }
@@ -113,6 +116,19 @@ pub fn validate_path(path: &Path) -> Result<Vec<(PathBuf, TopicMetadata)>, Vec<S
                 file.display(),
                 topic.id
             ));
+        }
+    }
+
+    for (file, topic) in &topics {
+        if topic.website.published {
+            for prerequisite in &topic.prerequisites {
+                if !ids.contains(prerequisite) {
+                    errors.push(format!(
+                        "{}: published topic prerequisite `{prerequisite}` has no metadata in this validation scope",
+                        file.display()
+                    ));
+                }
+            }
         }
     }
 
@@ -145,17 +161,38 @@ pub fn export_path(path: &Path) -> Result<String, Vec<String>> {
 }
 
 pub fn validate_file(path: &Path) -> Result<TopicMetadata, Vec<String>> {
-    let contents = fs::read_to_string(path)
-        .map_err(|error| vec![format!("{}: could not read file: {error}", path.display())])?;
-    let metadata: TopicMetadata = serde_json::from_str(&contents)
-        .map_err(|error| vec![format!("{}: invalid metadata: {error}", path.display())])?;
-    let errors = semantic_errors(path, &metadata);
+    let (metadata, errors) = parse_file(path)?;
 
     if errors.is_empty() {
         Ok(metadata)
     } else {
         Err(errors)
     }
+}
+
+pub fn unresolved_prerequisites(topics: &[(PathBuf, TopicMetadata)]) -> Vec<(String, String)> {
+    let ids: HashSet<_> = topics.iter().map(|(_, topic)| topic.id.as_str()).collect();
+    let mut unresolved = topics
+        .iter()
+        .flat_map(|(_, topic)| {
+            topic
+                .prerequisites
+                .iter()
+                .filter(|prerequisite| !ids.contains(prerequisite.as_str()))
+                .map(|prerequisite| (topic.id.clone(), prerequisite.clone()))
+        })
+        .collect::<Vec<_>>();
+    unresolved.sort();
+    unresolved
+}
+
+fn parse_file(path: &Path) -> Result<(TopicMetadata, Vec<String>), Vec<String>> {
+    let contents = fs::read_to_string(path)
+        .map_err(|error| vec![format!("{}: could not read file: {error}", path.display())])?;
+    let metadata: TopicMetadata = serde_json::from_str(&contents)
+        .map_err(|error| vec![format!("{}: invalid metadata: {error}", path.display())])?;
+    let errors = semantic_errors(path, &metadata);
+    Ok((metadata, errors))
 }
 
 fn metadata_files(path: &Path) -> Result<Vec<PathBuf>, String> {

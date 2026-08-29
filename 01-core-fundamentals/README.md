@@ -251,10 +251,10 @@ loop { break; }
 
 ## Module Status
 
--  Structure established
-- ó Concept documentation in progress
-- ó Code examples needed
-- ó Exercises pending
+- Complete â€” Structure established
+- In progress â€” Concept documentation in progress
+- In progress â€” Code examples needed
+- In progress â€” Exercises pending
 
 ## Next Steps
 

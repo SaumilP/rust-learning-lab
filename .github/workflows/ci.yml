@@ -140,7 +140,16 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
+          components: rustfmt, clippy
           targets: wasm32-unknown-unknown
+
+      - name: Check formatting
+        working-directory: ${{ matrix.path }}
+        run: cargo fmt --all -- --check
+
+      - name: Run Clippy
+        working-directory: ${{ matrix.path }}
+        run: cargo clippy --target wasm32-unknown-unknown --all-targets --all-features -- -D warnings
 
       - name: Check WebAssembly project
         working-directory: ${{ matrix.path }}
@@ -157,8 +166,31 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
+          components: rustfmt, clippy
           targets: thumbv7em-none-eabihf
+
+      - name: Check formatting
+        working-directory: 07-advanced-concepts/embedded_rust/02-blinky
+        run: cargo fmt --all -- --check
+
+      - name: Run Clippy
+        working-directory: 07-advanced-concepts/embedded_rust/02-blinky
+        run: cargo clippy --bin blinky -- -D warnings
 
       - name: Check embedded project
         working-directory: 07-advanced-concepts/embedded_rust/02-blinky
         run: cargo check
+
+  markdown-links:
+    name: Internal Markdown links
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check local links
+        uses: lycheeverse/lychee-action@v2.9.0
+        with:
+          args: --offline --root-dir . --no-progress './**/*.md'
+          failIfEmpty: true

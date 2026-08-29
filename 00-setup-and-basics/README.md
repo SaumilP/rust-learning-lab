@@ -64,4 +64,4 @@ Each subdirectory contains:
 - Read compiler errors carefully - they're helpful!
 - Use `cargo doc --open` to see documentation
 
-Ready? Let's dive in! >€
+Ready? Let's dive in!

@@ -70,6 +70,8 @@ Run Cargo commands from the directory containing the relevant `Cargo.toml`.
 The repository intentionally has no root Cargo workspace. Do not commit
 generated `build/`, `target/`, or rustdoc files.
 
+CI checks local links in every Markdown file with lychee in offline mode. If lychee is installed locally, run `lychee --offline --root-dir . --no-progress './**/*.md'` from the repository root before submitting documentation changes.
+
 Exercises containing `broken_code.rs` are allowed to fail before the learner
 repairs them and are excluded from normal build checks.
 

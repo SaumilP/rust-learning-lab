@@ -219,6 +219,12 @@ fn accepts_the_first_foundation_quiz_item() {
 }
 
 #[test]
+fn accepts_all_fifty_foundation_quiz_items() {
+    let items = validate_quiz_path(Path::new("../../challenges/quiz-items")).unwrap();
+    assert_eq!(items.len(), 50);
+}
+
+#[test]
 fn rejects_choice_questions_without_a_valid_answer_choice() {
     let directory = tempdir().unwrap();
     let path = directory.path().join("quiz.json");

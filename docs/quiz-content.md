@@ -14,4 +14,14 @@ The six supported question types are `multiple_choice`, `will_it_compile`, `pred
 
 Keep the prompt self-contained. Show only the code needed to reason about the question, avoid unstated assumptions, and use a reference that lets the learner continue studying the concept. Do not publish a question merely because its JSON validates: the explanation must accurately describe Rust’s behaviour.
 
-For code that is intended to compile or fail, verify the claim with the Rust toolchain whenever practical. The initial foundation set contains both compile-behaviour questions and conceptual questions; it does not make claims about a remote runner or a public quiz interface.
+For code that is intended to compile or fail, verify the claim with the Rust toolchain whenever practical. The 50-item foundation set contains both compile-behaviour questions and conceptual questions; it does not make claims about a remote runner or a public quiz interface.
+
+## Foundation set
+
+The first 50 items are deliberately balanced across the skills a new Rust learner needs to practice.
+
+- 10 syntax and core-language questions
+- 15 ownership and borrowing questions
+- 10 types and traits questions
+- 10 error-handling and collections questions
+- 5 Cargo and tooling questions

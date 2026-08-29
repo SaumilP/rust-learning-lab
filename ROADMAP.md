@@ -1,7 +1,6 @@
 # Rust Learning Lab Roadmap
 
-This roadmap describes what work remains. The [content status page](CONTENT_STATUS.md)
-records the current state of each major area and the evidence behind it.
+This roadmap describes what work remains. The [content status page](CONTENT_STATUS.md) records the current state of each major area and the evidence behind it.
 
 ## Current learning path
 

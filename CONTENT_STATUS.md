@@ -1,50 +1,34 @@
 # Content status
 
-This page gives learners and contributors a quick view of what is usable now
-and what still needs work. A status describes the evidence available for an
-area; it is not a score for the value or difficulty of the material.
+This page gives learners and contributors a quick view of what is usable now and what still needs work. A status describes the evidence available for an area; it is not a score for the value or difficulty of the material.
 
 ## Status definitions
 
 ### Planned
 
-The intended topic or project is visible, but its learning material or runnable
-implementation has not been written. Empty directories, zero-byte files, and
-README-only project outlines belong here.
+The intended topic or project is visible, but its learning material or runnable implementation has not been written. Empty directories, zero-byte files, and README-only project outlines belong here.
 
-A Planned item moves to Draft when it contains substantive material that can be
-reviewed, even if that material is incomplete.
+A Planned item moves to Draft when it contains substantive material that can be reviewed, even if that material is incomplete.
 
 ### Draft
 
-Substantive documentation or code exists, but there are known gaps, build
-failures, missing validation, or unresolved structural questions. Draft content
-can still be useful, but its limitations should be read before relying on it.
+Substantive documentation or code exists, but there are known gaps, build failures, missing validation, or unresolved structural questions. Draft content can still be useful, but its limitations should be read before relying on it.
 
-A Draft item moves to Review when its known blocking issues are addressed and
-all applicable repository checks pass.
+A Draft item moves to Review when its known blocking issues are addressed and all applicable repository checks pass.
 
 ### Review
 
-The material is usable and its applicable checks currently pass. Review does
-not mean that every optional exercise exists or that test coverage is complete.
-It means there is enough evidence to review the content against the formal
-learning rubric when that rubric is available.
+The material is usable and its applicable checks currently pass. Review does not mean that every optional exercise exists or that test coverage is complete. It means there is enough evidence to review the content against the formal learning rubric when that rubric is available.
 
-A Review item moves to Stable only after it passes both the applicable content
-rubric and automated validation. It returns to Draft if a correctness problem
-or validation failure is found.
+A Review item moves to Stable only after it passes both the applicable content rubric and automated validation. It returns to Draft if a correctness problem or validation failure is found.
 
 ### Stable
 
-The material has passed the content rubric and automated validation. Those two
-requirements are still being developed, so no topic is Stable today.
+The material has passed the content rubric and automated validation. Those two requirements are still being developed, so no topic is Stable today.
 
 ### Deprecated
 
-The material has been superseded and is no longer recommended as part of the
-learning path. A replacement and a clear migration note must exist before this
-status is used. No area is currently Deprecated.
+The material has been superseded and is no longer recommended as part of the learning path. A replacement and a clear migration note must exist before this status is used. No area is currently Deprecated.
 
 ## Current overview
 
@@ -68,9 +52,6 @@ status is used. No area is currently Deprecated.
 
 ## Changing a status
 
-A status change should be made in the same pull request as the evidence that
-supports it. Include the relevant build or validation command, describe any
-remaining gaps, and update this table if the status of a major area changes.
+A status change should be made in the same pull request as the evidence that supports it. Include the relevant build or validation command, describe any remaining gaps, and update this table if the status of a major area changes.
 
-Passing CI is necessary where checks apply, but it is not enough for Stable.
-Stable always requires both the content rubric and automated validation.
+Passing CI is necessary where checks apply, but it is not enough for Stable. Stable always requires both the content rubric and automated validation.

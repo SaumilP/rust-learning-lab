@@ -94,5 +94,4 @@ Use the issue template for incorrect explanations, build failures, learning-flow
 problems, or content proposals. Security concerns should not be posted in a
 public issue; follow [SECURITY.md](SECURITY.md) instead.
 
-When proposing a content change, check the [content status page](CONTENT_STATUS.md)
-for the area's known gaps and the evidence required to change its status.
+When proposing a content change, check the [content status page](CONTENT_STATUS.md) for the area's known gaps and the evidence required to change its status.

@@ -111,8 +111,7 @@ a repository defect.
 
 ## Project status and quality
 
-The [content status page](CONTENT_STATUS.md) explains which areas are ready to
-use, which have known gaps, and which are still outlines or placeholders.
+The [content status page](CONTENT_STATUS.md) explains which areas are ready to use, which have known gaps, and which are still outlines or placeholders.
 
 Continuous integration checks the tracked Cargo packages and the standalone
 examples used by the main learning modules. Local checks should be run before a

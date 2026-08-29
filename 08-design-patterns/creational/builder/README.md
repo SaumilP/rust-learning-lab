@@ -1,5 +1,7 @@
 # Builder Pattern
 
+> Design reference: [C4 component explanation and embedded PlantUML](DESIGN.md).
+
 ## Overview
 
 The Builder pattern separates the construction of complex objects from their representation. Instead of creating objects with many parameters all at once, builders allow step-by-step construction and optional parameters.
@@ -138,4 +140,3 @@ let response = http_client
 - ✓ Use method chaining for fluent interface
 - ✓ Consider validation in build() method
 - ✓ Can combine with type state pattern for compile-time safety
-

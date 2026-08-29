@@ -1,5 +1,7 @@
 # Command Pattern
 
+> Design reference: [C4 component explanation and embedded PlantUML](DESIGN.md).
+
 ## Overview
 
 The Command pattern encapsulates a request as an object, thereby letting you parameterize clients with different requests, queue requests, and support undoable operations. It decouples sender from receiver.
@@ -250,4 +252,3 @@ impl BatchProcessor {
 - ✓ Maintain clear separation between command and receiver
 - ✓ Consider command history for undo/redo
 - ✓ Can be combined with macro commands for complex operations
-

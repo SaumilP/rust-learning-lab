@@ -1,5 +1,7 @@
 # Singleton Pattern
 
+> Design reference: [C4 component explanation and embedded PlantUML](DESIGN.md).
+
 ## Overview
 
 The Singleton pattern ensures a class has only one instance and provides a global point of access to it. In Rust, this is typically implemented using lazy statics or `Once` for thread-safe, one-time initialization.
@@ -382,4 +384,3 @@ pub fn increment_counter(name: &str) {
 - ✓ Document singleton usage clearly
 - ✓ Consider if the problem really needs a singleton (often doesn't)
 - ✓ Thread-safe initialization is built-in with proper tools
-

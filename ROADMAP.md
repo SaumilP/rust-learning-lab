@@ -1,184 +1,96 @@
-# 🗺️ Rust Learning Lab - Roadmap
+# Rust Learning Lab Roadmap
 
-This roadmap outlines a **recommended learning path** through the repostiory. <br />
-You can follow it sequentially or jump to topics you need the most.
+This roadmap separates material that is ready to study from work that still
+needs attention. It is a repository status document, not a promise that every
+directory is complete.
 
-The goal is not just to *learn Rust syntax*, but to:
+## Current learning path
 
-- Build correct mental model
-- Write idiomatic Rust
-- Gain confidence for real-world Rust projects
+The main sequence is:
 
----
+1. `00-setup-and-basics` through `03-tooling-and-quality` for language and tool foundations.
+2. `04-simple-programs` and `05-cli-and-console-games` for applied practice.
+3. `06-intermediate-rust` for modules, concurrency, async, macros, and deeper type-system topics.
+4. `07-advanced-concepts` and `08-design-patterns` for advanced and architectural material.
+5. `09-mini-projects` and `10-real-world-rust` for larger programs and production concerns.
+6. `11-language-specific-tracks` when translating experience from another language.
 
-## 🟢 Beginner Level
+See [LEARNING_PATH.md](LEARNING_PATH.md) for the recommended study routine.
 
-> Focus: Rust basics, ownership, and confidence with the compiler
+## Completed foundations
 
-### Setup & Basics
+- Repository structures and topic documentation for modules 01–03
+- Runnable examples and exercises for core fundamentals, the standard library,
+  and tooling
+- Make-based compilation and rustdoc generation for standalone examples in
+  modules 01, 02, 03, and 06
+- Cargo applications in the simple-program, console-game, design-pattern, and
+  mini-project sections
+- Language transition guides for Java, Python, Go, and C++ developers
+- A public repository baseline: project overview, contribution guidance,
+  conduct and security policies, license, and CI coverage
 
-- [ ] Install Rust & toolchain
-- [ ] `cargo` basics
-- [ ] Hello World
-- [ ] Variables & mutability
-- [ ] Data types
-- [ ] Control flow
+## Outstanding content work
 
-📁 `00-setup-and-basics/`
+### Consolidate overlapping topic folders
 
----
+Some early scaffolding remains beside the completed material. Review and either
+merge, redirect, or complete these folders so learners do not have to guess
+which version is authoritative:
 
-### Core fundamentals
+- `01-core-fundamentals/pattern_matching`
+- `01-core-fundamentals/structs_and_enums`
+- `02-standard-library/generics`
+- `02-standard-library/iterators`
+- `02-standard-library/smart_pointers`
+- `02-standard-library/strings`
+- `02-standard-library/traits`
+- `03-tooling-and-quality/cargo`
+- `03-tooling-and-quality/clippy-and-fmt`
+- `03-tooling-and-quality/logging`
 
-- [ ] Ownership rules
-- [ ] Move vs Copy semantics
-- [ ] Borrowing & references
-- [ ] Lifetimes (introduction)
-- [ ] Structs & enums
-- [ ] Pattern matching
-- [ ] Basic error handling (`Result`, `Option`)
+### Expand application modules
 
-📁 `01-core-fundamentals/`
+- Add complete implementations for planned game folders such as Minesweeper,
+  Snake, and the ASCII roguelike, or mark them explicitly as design exercises.
+- Complete the empty or partial program scaffolds in modules 04 and 09.
+- Add tests around input parsing, state transitions, and error paths in the
+  interactive applications.
 
----
+### Improve exercises
 
-### Standard Library Essentials
+- Add more setup-and-basics exercises in module 00.
+- Review exercise difficulty and prerequisites across all modules.
+- Add optional solution notes that explain trade-offs without making the
+  solution the first thing learners see.
+- Remove duplicate challenge naming schemes after preserving any unique tasks.
 
-- [ ] `Vec`, `HashMap`
-- [ ] `String` vs `&str`
-- [ ] Iterators
-- [ ] Traits (basics)
-- [ ] Generics
-- [ ] Smart Pointers (`Box`, `Rc`, `RefCell`)
+### Strengthen advanced material
 
-📁 `02-standard-library/`
+- Turn the advanced concept notes into small, reproducible projects where that
+  improves understanding.
+- Add measurement-driven examples for benchmarking and profiling.
+- Add explicit safety contracts to every unsafe Rust and FFI example.
+- Clarify the relationship between `06-advanced-functions` and
+  `06-intermediate-rust`.
 
----
+### Curate resources and maintenance guidance
 
-## Intermediate Level
+- Populate the resource pages with a small, maintained list of books, videos,
+  tools, crates, and articles.
+- Add a documented release and maintenance process.
+- Add automated checks for internal Markdown links and duplicate scaffolding.
 
-> Focus: writing maintainable, testable, idiomatic Rust
+## Completion criteria for a topic
 
-### Tooling & Code Quality
+A topic is considered ready when it has:
 
-- [ ] Cargo workspaces
-- [ ] Formatting with `rustfmt`
-- [ ] Linting with `clippy`
-- [ ] Logging
-- [ ] Writing unit tests
-- [ ] Integration tests
-- [ ] Documentation comments
+- A short explanation of what the concept solves and when to use it
+- At least one focused example that builds on stable Rust
+- A runnable command in its documentation
+- Common mistakes or trade-offs where they matter
+- An exercise or suggested experiment when practical
+- Clean formatting and a warning-free validation command
 
-📁 `03-tooling-and-quality/`
-
----
-
-### Simple Programs
-
-- [ ] CLI calculator
-- [ ] Word Counter
-- [ ] File search tool
-- [ ] Todo CLI app
-
-📁 `04-simple-programs/`
-
----
-
-### CLI & Console Games
-
-- [ ] Tic-Tac-Toe
-- [ ] Hangman
-- [ ] Snake
-- [ ] Minesweeper
-- [ ] ASCII Roguelike
-
-Focus areas:
-
-- State management
-- Enums & pattern matching
-- Modular code design
-- Input handling
-
-📁 `05-cli-and-console-games/`
-
----
-
-### Intermediate Rust Concepts
-
-- [ ] Modules & crate structure
-- [ ] Error handling best practices
-- [ ] Custom error types
-- [ ] Concurrency (threads, mutexes)
-- [ ] Channels
-- [ ] Async/await
-- [ ] Introduction to macros
-
-📁 `06-intermediate-rust/`
-
----
-
-### Design Patterns
-
-- [ ] Creational patterns
-- [ ] Structural patterns
-- [ ] Behavioral patterns
-- [ ] Rust-idioatic patterns:
-  - Newtype
-  - Typestate
-  - RAII
-  - Interior mutability
-
-📁 `07-design-patterns/`
-
----
-
-## 🔵 Advanced / Real-world (Optional)
-
-> Focus: performance, safety boundaries, and production readiness
-
-### Mini Projects
-
-- [ ] HTTP Server
-- [ ] Chat Application
-- [ ] Log parser
-- [ ] Key-value store
-- [ ] Markdown Parser
-
-📁 `08-mini-projects/`
-
----
-
-### Real-World Rust
-
-- [ ] Performance optimization
-- [ ] Benchmarking
-- [ ] Profiling
-- [ ] Unsafe Rust
-- [ ] FFI (C interoperability)
-
-📁 `09-real-world-rust/`
-
----
-
-## 🧠 Challenges
-
-- [ ] Beginner challenges
-- [ ] Intermediate challenges
-- [ ] Interview-style problems
-
-📁 `challenges/`
-
----
-
-## ✅ Completion Goal
-
-By completing this roadmap, you should be able to:
-- Confidently read & write Rust code
-- Design small-to-medium Rust projects
-- Debug ownwership & lifetime projects
-- Understand async & concurrency tradeoffs
-- Write idiomatic, maintainable Rust
-
----
-
-Happy hacking 🦀
+Progress is best tracked through focused issues and pull requests rather than by
+marking broad subject names complete without checking their examples.

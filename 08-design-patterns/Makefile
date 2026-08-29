@@ -31,7 +31,6 @@ PATTERN_DIRS := \
 	behavioral/strategy \
 	behavioral/template-method \
 	behavioral/visitor
-DESIGN_FILES := $(addsuffix /design.puml,$(PATTERN_DIRS))
 DESIGN_DOCS := $(addsuffix /DESIGN.md,$(PATTERN_DIRS))
 STANDALONE_SOURCES := creational/examples.rs structural/examples.rs behavioral/examples.rs
 STANDALONE_BINS := $(patsubst %.rs,build/%,$(STANDALONE_SOURCES))
@@ -99,14 +98,12 @@ build/%: %.rs
 
 design-check:
 	@set -eu; \
-	for file in $(DESIGN_FILES); do \
+	for file in $(DESIGN_DOCS); do \
+		grep -q '^```plantuml' "$$file"; \
 		grep -q '^@startuml' "$$file"; \
 		grep -q '^@enduml' "$$file"; \
-	done; \
-	for file in $(DESIGN_DOCS); do \
-		test -s "$$file"; \
 	done
-	@echo "Checked $(words $(DESIGN_FILES)) C4-PlantUML designs"
+	@echo "Checked $(words $(DESIGN_DOCS)) embedded C4-PlantUML designs"
 
 check: fmt-check lint test standalone design-check
 	@echo "All design-pattern checks passed"

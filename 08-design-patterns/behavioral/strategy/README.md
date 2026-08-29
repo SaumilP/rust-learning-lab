@@ -1,5 +1,7 @@
 # Strategy Pattern
 
+> Design reference: [C4 component explanation and embedded PlantUML](DESIGN.md).
+
 ## Overview
 
 The Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it. This is perfect for selecting different algorithms at runtime.
@@ -195,4 +197,3 @@ impl ValidationStrategy for EmailValidator {
 - ✓ Use trait objects for dynamic dispatch
 - ✓ Consider factory functions for strategy creation
 - ✓ Combine with dependency injection for flexibility
-

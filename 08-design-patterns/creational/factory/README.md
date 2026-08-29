@@ -1,5 +1,7 @@
 # Factory Pattern
 
+> Design reference: [C4 component explanation and embedded PlantUML](DESIGN.md).
+
 ## Overview
 
 The Factory pattern provides an interface for creating objects without specifying their exact classes. Instead of using `new` directly, you call a factory method that handles object creation. This decouples client code from concrete implementations.
@@ -379,4 +381,3 @@ impl PluginFactory {
 - ✓ Consider caching for expensive object creation
 - ✓ Match enums for type-safe factory dispatch
 - ✓ Hide implementation details behind factory functions
-

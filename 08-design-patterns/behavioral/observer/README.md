@@ -1,5 +1,7 @@
 # Observer Pattern
 
+> Design reference: [C4 component explanation and embedded PlantUML](DESIGN.md).
+
 ## Overview
 
 The Observer pattern defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified automatically. This is the basis for event-driven systems and reactive programming.
@@ -380,4 +382,3 @@ impl Stock {
 - ✓ Consider event-based systems for complex interactions
 - ✓ Be aware of memory management with reference cycles
 - ✓ Can be combined with channels for async notifications
-

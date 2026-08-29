@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"unsafe-and-ffi","order":8,"title":"Unsafe and FFI","focus":["safety contracts","raw pointers","foreign-function boundaries"],"levels":["senior_rust_developer","systems_performance_specialist"],"references":[{"title":"Advanced concepts","path":"../../../07-advanced-concepts/README.md"}]}

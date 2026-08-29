@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"testing-and-tooling","order":9,"title":"Testing and tooling","focus":["test design","Cargo workflows","linting and debugging"],"levels":["foundation","working_rust_developer","senior_rust_developer"],"references":[{"title":"Testing","path":"../../../03-tooling-and-quality/testing/README.md"}]}

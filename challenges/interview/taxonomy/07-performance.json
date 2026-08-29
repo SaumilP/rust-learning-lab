@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"performance","order":7,"title":"Performance","focus":["allocation and data layout","measurement","algorithmic trade-offs"],"levels":["senior_rust_developer","systems_performance_specialist"],"references":[{"title":"Performance optimization","path":"../../../07-advanced-concepts/performance_optimization/README.md"}]}

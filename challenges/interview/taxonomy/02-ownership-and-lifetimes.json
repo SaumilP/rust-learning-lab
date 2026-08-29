@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"ownership-and-lifetimes","order":2,"title":"Ownership and lifetimes","focus":["moves and borrows","lifetimes","API ownership choices"],"levels":["foundation","working_rust_developer","senior_rust_developer"],"references":[{"title":"Ownership and borrowing","path":"../../../06-intermediate-rust/ownership_and_borrowing/README.md"}]}

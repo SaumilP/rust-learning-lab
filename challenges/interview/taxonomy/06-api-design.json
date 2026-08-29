@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"api-design","order":6,"title":"API design","focus":["error boundaries","ownership in signatures","abstraction choices"],"levels":["working_rust_developer","senior_rust_developer"],"references":[{"title":"Error handling","path":"../../../01-core-fundamentals/error_handling/README.md"}]}

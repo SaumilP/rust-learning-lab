@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"code-review","order":11,"title":"Code review","focus":["correctness","maintainability","idiomatic Rust"],"levels":["working_rust_developer","senior_rust_developer","systems_performance_specialist"],"references":[{"title":"Code review challenges","path":"../../code-review/README.md"}]}

@@ -8,6 +8,7 @@ use serde::{Deserialize, Serialize};
 
 const SCHEMA_VERSION: u32 = 1;
 const QUIZ_SCHEMA_VERSION: u32 = 1;
+const INTERVIEW_SCHEMA_VERSION: u32 = 1;
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -140,6 +141,29 @@ pub enum QuizAnswerKind {
 pub struct QuizReference {
     pub title: String,
     pub path: String,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct InterviewCategory {
+    #[serde(rename = "$schema", default, skip_serializing)]
+    pub schema: Option<String>,
+    pub schema_version: u32,
+    pub id: String,
+    pub order: u32,
+    pub title: String,
+    pub focus: Vec<String>,
+    pub levels: Vec<InterviewLevel>,
+    pub references: Vec<QuizReference>,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, Eq, Hash)]
+#[serde(rename_all = "snake_case")]
+pub enum InterviewLevel {
+    Foundation,
+    WorkingRustDeveloper,
+    SeniorRustDeveloper,
+    SystemsPerformanceSpecialist,
 }
 
 #[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, Eq)]
@@ -290,6 +314,58 @@ pub fn validate_quiz_file(path: &Path) -> Result<QuizItem, Vec<String>> {
     }
 }
 
+pub fn validate_interview_path(
+    path: &Path,
+) -> Result<Vec<(PathBuf, InterviewCategory)>, Vec<String>> {
+    let files = interview_files(path).map_err(|error| vec![error])?;
+    if files.is_empty() {
+        return Err(vec![format!(
+            "{} contains no interview category JSON files",
+            path.display()
+        )]);
+    }
+    let mut categories = Vec::new();
+    let mut errors = Vec::new();
+    for file in files {
+        match parse_interview_file(&file) {
+            Ok((category, mut category_errors)) => {
+                categories.push((file, category));
+                errors.append(&mut category_errors);
+            }
+            Err(mut category_errors) => errors.append(&mut category_errors),
+        }
+    }
+    let mut ids = HashSet::new();
+    let mut orders = HashSet::new();
+    for (file, category) in &categories {
+        if !ids.insert(&category.id) {
+            errors.push(format!(
+                "{}: duplicate interview category id `{}`",
+                file.display(),
+                category.id
+            ));
+        }
+        if !orders.insert(category.order) {
+            errors.push(format!(
+                "{}: duplicate interview category order `{}`",
+                file.display(),
+                category.order
+            ));
+        }
+    }
+    if orders.len() == categories.len()
+        && !(1..=categories.len() as u32).all(|order| orders.contains(&order))
+    {
+        errors.push("interview category order must be contiguous starting at 1".to_owned());
+    }
+    if errors.is_empty() {
+        categories.sort_by_key(|(_, category)| category.order);
+        Ok(categories)
+    } else {
+        Err(errors)
+    }
+}
+
 pub fn unresolved_prerequisites(topics: &[(PathBuf, TopicMetadata)]) -> Vec<(String, String)> {
     let ids: HashSet<_> = topics.iter().map(|(_, topic)| topic.id.as_str()).collect();
     let mut unresolved = topics
@@ -324,6 +400,19 @@ fn parse_quiz_file(path: &Path) -> Result<(QuizItem, Vec<String>), Vec<String>> 
     Ok((item, errors))
 }
 
+fn parse_interview_file(path: &Path) -> Result<(InterviewCategory, Vec<String>), Vec<String>> {
+    let contents = fs::read_to_string(path)
+        .map_err(|error| vec![format!("{}: could not read file: {error}", path.display())])?;
+    let category: InterviewCategory = serde_json::from_str(&contents).map_err(|error| {
+        vec![format!(
+            "{}: invalid interview category: {error}",
+            path.display()
+        )]
+    })?;
+    let errors = interview_semantic_errors(path, &category);
+    Ok((category, errors))
+}
+
 fn metadata_files(path: &Path) -> Result<Vec<PathBuf>, String> {
     if path.is_file() {
         return Ok(vec![path.to_path_buf()]);
@@ -346,6 +435,19 @@ fn quiz_files(path: &Path) -> Result<Vec<PathBuf>, String> {
         return Err(format!("{} is not a file or directory", path.display()));
     }
 
+    let mut files = Vec::new();
+    collect_quiz_files(path, &mut files)?;
+    files.sort();
+    Ok(files)
+}
+
+fn interview_files(path: &Path) -> Result<Vec<PathBuf>, String> {
+    if path.is_file() {
+        return Ok(vec![path.to_path_buf()]);
+    }
+    if !path.is_dir() {
+        return Err(format!("{} is not a file or directory", path.display()));
+    }
     let mut files = Vec::new();
     collect_quiz_files(path, &mut files)?;
     files.sort();
@@ -616,6 +718,72 @@ fn quiz_semantic_errors(path: &Path, item: &QuizItem) -> Vec<String> {
             "{}: compiles answer must be `true` or `false`",
             prefix()
         ));
+    }
+    errors
+}
+
+fn interview_semantic_errors(path: &Path, category: &InterviewCategory) -> Vec<String> {
+    let mut errors = Vec::new();
+    if category.schema_version != INTERVIEW_SCHEMA_VERSION {
+        errors.push(format!(
+            "{}: schema_version must be {INTERVIEW_SCHEMA_VERSION}",
+            path.display()
+        ));
+    }
+    if !is_slug(&category.id) {
+        errors.push(format!(
+            "{}: id must be a lowercase kebab-case slug",
+            path.display()
+        ));
+    }
+    if category.order == 0 {
+        errors.push(format!(
+            "{}: order must be greater than zero",
+            path.display()
+        ));
+    }
+    if category.title.trim().is_empty() {
+        errors.push(format!("{}: title must not be empty", path.display()));
+    }
+    validate_non_empty(path, "focus", &category.focus, &mut errors);
+    if category.focus.iter().any(|focus| focus.trim().is_empty()) {
+        errors.push(format!(
+            "{}: focus must not contain empty text",
+            path.display()
+        ));
+    }
+    if category.levels.is_empty() {
+        errors.push(format!(
+            "{}: levels must contain at least one entry",
+            path.display()
+        ));
+    }
+    if category
+        .levels
+        .iter()
+        .copied()
+        .collect::<HashSet<_>>()
+        .len()
+        != category.levels.len()
+    {
+        errors.push(format!(
+            "{}: levels must not contain duplicates",
+            path.display()
+        ));
+    }
+    if category.references.is_empty() {
+        errors.push(format!(
+            "{}: references must contain at least one entry",
+            path.display()
+        ));
+    }
+    for reference in &category.references {
+        if reference.title.trim().is_empty() || reference.path.trim().is_empty() {
+            errors.push(format!(
+                "{}: references must have non-empty title and path",
+                path.display()
+            ));
+        }
     }
     errors
 }

@@ -130,6 +130,8 @@ The [Will It Compile?](./will-it-compile/) format is a focused subset of those i
 
 [Code review challenges](./code-review/) use the same validated structure for reasoning about correctness, ownership, error handling, performance, and API design.
 
+The [interview taxonomy](./interview/) organizes future prompts by competency and audience level before a question bank is added.
+
 For deeper practice with intentional failures, use the [compiler error lab](../labs/compiler-errors/). Each lab pairs broken Rust with a fixed version and checks the expected error code locally.
 
 ## Getting Started

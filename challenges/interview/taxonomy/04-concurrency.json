@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"concurrency","order":4,"title":"Concurrency","focus":["threads","message passing","shared-state safety"],"levels":["working_rust_developer","senior_rust_developer"],"references":[{"title":"Concurrency introduction","path":"../../../10-real-world-rust/concurrency_intro/README.md"}]}

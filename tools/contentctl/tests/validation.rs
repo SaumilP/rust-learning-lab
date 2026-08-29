@@ -1,8 +1,8 @@
 use std::{fs, path::Path};
 
 use contentctl::{
-    export_path, unresolved_prerequisites, validate_file, validate_path, validate_quiz_file,
-    validate_quiz_path,
+    export_path, unresolved_prerequisites, validate_file, validate_interview_path, validate_path,
+    validate_quiz_file, validate_quiz_path,
 };
 use serde_json::{json, Value};
 use tempfile::tempdir;
@@ -241,6 +241,15 @@ fn accepts_all_code_review_challenges() {
     assert!(items
         .iter()
         .all(|(_, item)| item.question_type == contentctl::QuizType::CodeReview));
+}
+
+#[test]
+fn accepts_the_eleven_interview_categories_in_order() {
+    let categories =
+        validate_interview_path(Path::new("../../challenges/interview/taxonomy")).unwrap();
+    assert_eq!(categories.len(), 11);
+    assert_eq!(categories.first().unwrap().1.id, "language-fundamentals");
+    assert_eq!(categories.last().unwrap().1.id, "code-review");
 }
 
 #[test]

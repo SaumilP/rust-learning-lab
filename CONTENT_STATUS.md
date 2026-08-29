@@ -42,7 +42,7 @@ The material has been superseded and is no longer recommended as part of the lea
 | `05-cli-and-console-games` | Review | CI covers the Cargo workspace, the separate randomness package, and standalone examples. Game test depth varies, while Minesweeper, Snake, and the ASCII roguelike remain planned. |
 | `06-intermediate-rust` | Review | This is the canonical Module 06 candidate and is covered by `make check`. It still awaits the formal content rubric. |
 | `06-advanced-functions` | Draft | This supplementary set overlaps Module 06, is not in CI, and needs a normalization decision before publication as part of the main path. |
-| `07-advanced-concepts` | Draft | The module is not in CI. Axum, SQLx, embedded configuration, and procedural-macro examples have confirmed failures; benchmark, SIMD, and WebAssembly checks still need network-enabled validation. |
+| `07-advanced-concepts` | Draft | CI now covers the repaired SQLx, Axum, procedural-macro, benchmarking, SIMD, WebAssembly, and STM32 blinky examples. Database and hardware requirements are documented, but other advanced project groups and the broader learning material still need review. |
 | `08-design-patterns` | Review | CI runs formatting, lint, workspace tests, standalone compilation, and design-document checks for all 23 patterns. Behavioral test coverage remains thin. |
 | `09-mini-projects` | Mixed | Chat, HTTP server, key-value store, and load balancer are Review and covered as one CI workspace. Calculator, todo, note taker, and weather CLI are Planned documentation-only projects. |
 | `10-real-world-rust` | Planned | Topic notes and a Makefile exist, but the five planned topic implementations do not. |

@@ -24,6 +24,14 @@ DELETE /api/users/:id      # Delete user
 
 ## Running
 
+An ordinary build check does not require PostgreSQL because the handlers use typed runtime SQLx queries:
+
+```bash
+cargo check
+```
+
+Running the server does require PostgreSQL:
+
 ```bash
 # Start PostgreSQL
 docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=password postgres:15

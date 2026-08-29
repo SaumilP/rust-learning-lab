@@ -1,4 +1,4 @@
-use my_derive::{HelloWorld, FieldNames, EnumIter, CustomDefault};
+use my_derive::{CustomDefault, EnumIter, FieldNames, HelloWorld};
 
 // Define the trait that our derive macro will implement
 trait HelloWorld {
@@ -67,6 +67,7 @@ fn main() {
         age: 30,
     };
     person.hello_world();
+    println!("Person data: {} ({})", person.name, person.age);
 
     let robot = Robot;
     robot.hello_world();
@@ -77,7 +78,17 @@ fn main() {
     println!("=== 2. FieldNames Derive ===");
     let field_names = User::field_names();
     println!("User fields: {:?}", field_names);
-    println!("Field count: {}", field_names.len());
+    println!("Field count: {}", User::field_count());
+    let sample_user = User {
+        id: 1,
+        username: "alice".to_string(),
+        email: "alice@example.com".to_string(),
+        is_active: true,
+    };
+    println!(
+        "Sample user: {} {} {} {}",
+        sample_user.id, sample_user.username, sample_user.email, sample_user.is_active
+    );
 
     println!();
 

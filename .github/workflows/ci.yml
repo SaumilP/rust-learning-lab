@@ -86,3 +86,79 @@ jobs:
       - name: Run tests
         working-directory: ${{ matrix.path }}
         run: cargo test --all-targets
+
+  advanced-host-projects:
+    name: Advanced ${{ matrix.path }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path:
+          - 07-advanced-concepts/database_integration/01-sqlx-basics
+          - 07-advanced-concepts/modern_web_apis/02-axum-api
+          - 07-advanced-concepts/procedural_macros/01-derive-macro/example
+          - 07-advanced-concepts/procedural_macros/02-attribute-macro/example
+          - 07-advanced-concepts/procedural_macros/03-builder-pattern/example
+          - 07-advanced-concepts/performance_optimization/01-benchmarking
+          - 07-advanced-concepts/performance_optimization/03-simd-optimization
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Check formatting
+        working-directory: ${{ matrix.path }}
+        run: cargo fmt --all -- --check
+
+      - name: Run Clippy
+        working-directory: ${{ matrix.path }}
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Run tests
+        working-directory: ${{ matrix.path }}
+        run: cargo test --all-targets
+
+  advanced-wasm-projects:
+    name: WebAssembly ${{ matrix.path }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path:
+          - 07-advanced-concepts/webassembly/01-hello-wasm
+          - 07-advanced-concepts/webassembly/04-game-of-life
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Check WebAssembly project
+        working-directory: ${{ matrix.path }}
+        run: cargo check --target wasm32-unknown-unknown
+
+  advanced-embedded-project:
+    name: Embedded STM32F401 blinky
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: thumbv7em-none-eabihf
+
+      - name: Check embedded project
+        working-directory: 07-advanced-concepts/embedded_rust/02-blinky
+        run: cargo check

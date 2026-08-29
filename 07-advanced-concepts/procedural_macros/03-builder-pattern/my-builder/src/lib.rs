@@ -1,6 +1,6 @@
 use proc_macro::TokenStream;
-use quote::{quote, format_ident};
-use syn::{parse_macro_input, DeriveInput, Data, Fields, Type};
+use quote::{format_ident, quote};
+use syn::{parse_macro_input, Data, DeriveInput, Fields, Type};
 
 /// Derive macro that generates a builder pattern implementation
 ///
@@ -29,9 +29,9 @@ pub fn derive_builder(input: TokenStream) -> TokenStream {
     let name = &ast.ident;
     let builder_name = format_ident!("{}Builder", name);
 
-    let fields = match ast.data {
-        Data::Struct(data_struct) => match data_struct.fields {
-            Fields::Named(fields_named) => fields_named.named,
+    let fields = match &ast.data {
+        Data::Struct(data_struct) => match &data_struct.fields {
+            Fields::Named(fields_named) => &fields_named.named,
             _ => {
                 return syn::Error::new_spanned(ast, "Builder only supports named fields")
                     .to_compile_error()

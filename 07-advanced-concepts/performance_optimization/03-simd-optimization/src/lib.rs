@@ -5,10 +5,7 @@
 // Scalar dot product
 pub fn dot_product_scalar(a: &[f32], b: &[f32]) -> f32 {
     assert_eq!(a.len(), b.len());
-    a.iter()
-        .zip(b.iter())
-        .map(|(x, y)| x * y)
-        .sum()
+    a.iter().zip(b.iter()).map(|(x, y)| x * y).sum()
 }
 
 // Optimized dot product with manual loop unrolling
@@ -29,7 +26,7 @@ pub fn dot_product_simd4(a: &[f32], b: &[f32]) -> f32 {
         sum3 += a[idx + 3] * b[idx + 3];
     }
 
-    let mut result = sum0 + sum1 + sum2 + sum3;
+    let result = sum0 + sum1 + sum2 + sum3;
 
     let remainder: f32 = a[chunks * 4..]
         .iter()
@@ -66,7 +63,7 @@ pub fn dot_product_simd8(a: &[f32], b: &[f32]) -> f32 {
         sum7 += a[idx + 7] * b[idx + 7];
     }
 
-    let mut result = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + sum6 + sum7;
+    let result = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + sum6 + sum7;
 
     let remainder: f32 = a[chunks * 8..]
         .iter()
@@ -80,10 +77,7 @@ pub fn dot_product_simd8(a: &[f32], b: &[f32]) -> f32 {
 // Vector addition - scalar
 pub fn vec_add_scalar(a: &[f32], b: &[f32]) -> Vec<f32> {
     assert_eq!(a.len(), b.len());
-    a.iter()
-        .zip(b.iter())
-        .map(|(x, y)| x + y)
-        .collect()
+    a.iter().zip(b.iter()).map(|(x, y)| x + y).collect()
 }
 
 // Vector addition - optimized with loop unrolling
@@ -143,8 +137,8 @@ pub fn sum_of_squares_simd(data: &[f32]) -> f32 {
 
     let mut result = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + sum6 + sum7;
 
-    for i in chunks * 8..data.len() {
-        result += data[i] * data[i];
+    for &value in data.iter().skip(chunks * 8) {
+        result += value * value;
     }
 
     result

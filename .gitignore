@@ -17,6 +17,7 @@ build/
 !docs/examples/topic-metadata.json
 !**/metadata.json
 !challenges/quiz-items/*.json
+!challenges/code-review/items/*.json
 !tools/contentctl/Cargo.lock
 
 # Internal project tracking files

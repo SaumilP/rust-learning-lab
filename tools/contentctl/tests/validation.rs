@@ -235,6 +235,15 @@ fn foundation_set_includes_compile_prediction_challenges() {
 }
 
 #[test]
+fn accepts_all_code_review_challenges() {
+    let items = validate_quiz_path(Path::new("../../challenges/code-review/items")).unwrap();
+    assert_eq!(items.len(), 6);
+    assert!(items
+        .iter()
+        .all(|(_, item)| item.question_type == contentctl::QuizType::CodeReview));
+}
+
+#[test]
 fn rejects_choice_questions_without_a_valid_answer_choice() {
     let directory = tempdir().unwrap();
     let path = directory.path().join("quiz.json");

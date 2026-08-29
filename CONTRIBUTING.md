@@ -72,6 +72,8 @@ generated `build/`, `target/`, or rustdoc files.
 
 CI checks local links in every Markdown file with lychee in offline mode. If lychee is installed locally, run `lychee --offline --root-dir . --no-progress './**/*.md'` from the repository root before submitting documentation changes.
 
+Topics that contain `metadata.json` must follow the [content metadata contract](docs/content-metadata.md). Run `cargo run --manifest-path tools/contentctl/Cargo.toml -- validate <path>` against a metadata file or directory before submitting it.
+
 Exercises containing `broken_code.rs` are allowed to fail before the learner
 repairs them and are excluded from normal build checks.
 

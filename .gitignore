@@ -12,6 +12,12 @@ build/
 *.mmd
 *.dot
 
+# Canonical content metadata and its validator lockfile
+!schemas/*.schema.json
+!docs/examples/topic-metadata.json
+!**/metadata.json
+!tools/contentctl/Cargo.lock
+
 # Internal project tracking files
 *IMPLEMENTATION_STATUS.md
 PHASE_*_COMPLETION_SUMMARY.md

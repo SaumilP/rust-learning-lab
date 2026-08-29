@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rust Learning Lab topic metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "title", "status", "level", "estimated_minutes", "prerequisites", "concepts", "tracks", "learning_objectives", "website", "validation"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schema_version": { "const": 1 },
+    "id": { "$ref": "#/$defs/slug" },
+    "title": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["planned", "draft", "review", "stable", "deprecated"] },
+    "level": { "enum": ["beginner", "intermediate", "advanced", "expert"] },
+    "estimated_minutes": { "type": "integer", "minimum": 1 },
+    "prerequisites": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/slug" } },
+    "concepts": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/slug" } },
+    "tracks": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["core", "java", "python", "cpp", "go"] } },
+    "learning_objectives": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "website": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["published", "order"],
+      "properties": {
+        "published": { "type": "boolean" },
+        "order": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content_rubric", "examples", "exercises"],
+      "properties": {
+        "content_rubric": { "$ref": "#/$defs/evidence" },
+        "examples": { "$ref": "#/$defs/evidence" },
+        "exercises": { "$ref": "#/$defs/evidence" }
+      }
+    }
+  },
+  "$defs": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "evidence": { "enum": ["not_applicable", "pending", "passed"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "website": { "properties": { "published": { "const": true } } } } },
+      "then": {
+        "properties": {
+          "status": { "const": "stable" },
+          "website": { "properties": { "order": { "type": "integer" } } }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "stable" } } },
+      "then": {
+        "properties": {
+          "validation": {
+            "properties": {
+              "content_rubric": { "const": "passed" },
+              "examples": { "enum": ["not_applicable", "passed"] },
+              "exercises": { "enum": ["not_applicable", "passed"] }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

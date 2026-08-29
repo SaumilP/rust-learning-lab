@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/topic-metadata-v1.schema.json",
+  "schema_version": 1,
+  "id": "ownership-borrowing",
+  "title": "Ownership and Borrowing",
+  "status": "review",
+  "level": "beginner",
+  "estimated_minutes": 90,
+  "prerequisites": ["variables", "functions"],
+  "concepts": ["ownership", "move-semantics", "borrowing", "mutable-borrowing"],
+  "tracks": ["core", "java", "python", "cpp", "go"],
+  "learning_objectives": [
+    "Explain why Rust uses ownership.",
+    "Predict when a value is moved.",
+    "Distinguish immutable and mutable borrowing.",
+    "Fix common borrow checker errors."
+  ],
+  "website": {
+    "published": false,
+    "order": null
+  },
+  "validation": {
+    "content_rubric": "pending",
+    "examples": "passed",
+    "exercises": "passed"
+  }
+}

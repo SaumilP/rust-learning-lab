@@ -222,3 +222,6 @@ jobs:
 
       - name: Validate quiz items
         run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate-quiz challenges/quiz-items
+
+      - name: Validate compiler error labs
+        run: make -C labs/compiler-errors check

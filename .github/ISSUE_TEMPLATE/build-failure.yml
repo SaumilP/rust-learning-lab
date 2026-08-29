@@ -1,0 +1,60 @@
+name: Build or validation failure
+description: Report a command that fails unexpectedly for runnable repository material.
+title: "[Build]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Share only information needed to reproduce the failure. Remove tokens, paths containing private information, and unrelated environment details."
+  - type: input
+    id: location
+    attributes:
+      label: Affected location
+      description: Provide the module, package, example, or exercise path.
+      placeholder: "06-intermediate-rust/traits_and_polymorphism"
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command run
+      description: Paste the exact command and the directory where you ran it.
+      placeholder: "From 06-intermediate-rust: make check"
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Relevant output
+      description: Paste the smallest useful error output. Remove secrets and personal paths.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Explain what you expected to compile, test, run, or validate.
+    validations:
+      required: true
+  - type: dropdown
+    id: exercise
+    attributes:
+      label: Is this an intentionally broken exercise?
+      options:
+        - "No"
+        - "Yes"
+        - "I am not sure"
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and pull requests.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true
+        - label: I removed secrets and private machine details.
+          required: true

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/SaumilP/rust-learning-lab/security/policy
+    about: Please report security issues privately instead of opening a public issue.
+  - name: Contribution guidance
+    url: https://github.com/SaumilP/rust-learning-lab/blob/main/CONTRIBUTING.md
+    about: Read the content and validation guidance before proposing a larger change.

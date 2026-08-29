@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/topic-metadata-v1.schema.json",
+  "schema_version": 1,
+  "id": "02-result",
+  "title": "Result and Recoverable Errors",
+  "status": "review",
+  "level": "intermediate",
+  "estimated_minutes": 120,
+  "prerequisites": ["01-control-flow", "01-pattern-matching"],
+  "concepts": ["result", "option", "error-propagation", "question-mark-operator", "custom-errors"],
+  "tracks": ["core", "java", "python", "cpp", "go"],
+  "learning_objectives": [
+    "Choose between Option and Result for an operation's outcome.",
+    "Handle Result values with pattern matching and combinators.",
+    "Propagate compatible errors with the question-mark operator.",
+    "Distinguish recoverable errors from conditions that justify a panic."
+  ],
+  "website": {
+    "published": false,
+    "order": null
+  },
+  "validation": {
+    "content_rubric": "pending",
+    "examples": "passed",
+    "exercises": "pending"
+  }
+}

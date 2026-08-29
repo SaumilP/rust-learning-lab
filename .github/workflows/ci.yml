@@ -217,5 +217,5 @@ jobs:
       - name: Run tests
         run: cargo test --manifest-path tools/contentctl/Cargo.toml --all-targets
 
-      - name: Validate documented metadata example
-        run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate docs/examples/topic-metadata.json
+      - name: Validate all topic metadata
+        run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate .

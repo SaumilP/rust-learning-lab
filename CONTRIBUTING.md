@@ -74,6 +74,8 @@ CI checks local links in every Markdown file with lychee in offline mode. If lyc
 
 Topics that contain `metadata.json` must follow the [content metadata contract](docs/content-metadata.md). Run `cargo run --manifest-path tools/contentctl/Cargo.toml -- validate <path>` against a metadata file or directory before submitting it.
 
+Use the [topic authoring guide](docs/authoring/topic-guide.md) when adding or substantially revising learning material. It covers topic boundaries, status evidence, validation, and the repository-to-website publishing boundary.
+
 Exercises containing `broken_code.rs` are allowed to fail before the learner
 repairs them and are excluded from normal build checks.
 

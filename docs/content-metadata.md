@@ -2,6 +2,8 @@
 
 Topic metadata gives repository tools and the future website a shared description of each learning topic without copying lesson bodies. Version 1 uses JSON so editors, Rust tooling, CI, and Astro can consume the same source without a format conversion layer.
 
+The [topic authoring guide](authoring/topic-guide.md) explains when to create a topic, how to choose its boundary, and how metadata evidence relates to the learning material.
+
 The formal contract is [topic-metadata-v1.schema.json](../schemas/topic-metadata-v1.schema.json). A complete Review-status example is available in [topic-metadata.json](examples/topic-metadata.json). RLL-013 will add metadata to five representative topics before the contract is applied more broadly.
 
 ## File placement

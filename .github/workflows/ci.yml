@@ -195,8 +195,8 @@ jobs:
           args: --offline --root-dir . --no-progress './**/*.md'
           failIfEmpty: true
 
-  content-metadata:
-    name: Content metadata contract
+  content-contracts:
+    name: Content contracts
     runs-on: ubuntu-latest
 
     steps:
@@ -219,3 +219,6 @@ jobs:
 
       - name: Validate all topic metadata
         run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate .
+
+      - name: Validate quiz items
+        run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate-quiz challenges/quiz-items

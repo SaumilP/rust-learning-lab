@@ -122,6 +122,10 @@ Comprehensive interview scenarios split into 5 categories:
    - Conduct Code Review
    - Document Complex Solution
 
+## Quiz items
+
+The foundation quiz set lives in [quiz-items/](./quiz-items/) and uses structured, validated JSON rather than a site-specific format. It covers reasoning about variables, ownership, borrowing, `Option`, and `Result`; see [the quiz authoring contract](../docs/quiz-content.md) for the format and validation command.
+
 ## Getting Started
 
 ### Prerequisites

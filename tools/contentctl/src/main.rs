@@ -1,6 +1,6 @@
 use std::{env, path::PathBuf, process::ExitCode};
 
-use contentctl::{export_path, unresolved_prerequisites, validate_path};
+use contentctl::{export_path, unresolved_prerequisites, validate_path, validate_quiz_path};
 
 fn main() -> ExitCode {
     match run() {
@@ -37,10 +37,15 @@ fn run() -> Result<(), String> {
             println!("{json}");
             Ok(())
         }
+        "validate-quiz" => {
+            let items = validate_quiz_path(&path).map_err(|errors| errors.join("\n"))?;
+            println!("Validated {} quiz item(s).", items.len());
+            Ok(())
+        }
         _ => Err(usage()),
     }
 }
 
 fn usage() -> String {
-    "usage: contentctl <validate|export> <metadata-file-or-directory>".to_owned()
+    "usage: contentctl <validate|export|validate-quiz> <file-or-directory>".to_owned()
 }

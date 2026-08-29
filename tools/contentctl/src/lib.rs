@@ -7,6 +7,7 @@ use std::{
 use serde::{Deserialize, Serialize};
 
 const SCHEMA_VERSION: u32 = 1;
+const QUIZ_SCHEMA_VERSION: u32 = 1;
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -69,6 +70,76 @@ pub struct Validation {
     pub content_rubric: Evidence,
     pub examples: Evidence,
     pub exercises: Evidence,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct QuizItem {
+    #[serde(rename = "$schema", default, skip_serializing)]
+    pub schema: Option<String>,
+    pub schema_version: u32,
+    pub id: String,
+    #[serde(rename = "type")]
+    pub question_type: QuizType,
+    pub topic: String,
+    pub difficulty: QuizDifficulty,
+    pub concepts: Vec<String>,
+    pub question: String,
+    pub code: Option<String>,
+    pub choices: Vec<QuizChoice>,
+    pub answer: QuizAnswer,
+    pub explanation: String,
+    pub references: Vec<QuizReference>,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum QuizType {
+    MultipleChoice,
+    WillItCompile,
+    PredictOutput,
+    CodeReview,
+    FixError,
+    DesignChoice,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum QuizDifficulty {
+    Beginner,
+    Intermediate,
+    Advanced,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct QuizChoice {
+    pub id: String,
+    pub text: String,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct QuizAnswer {
+    pub kind: QuizAnswerKind,
+    pub value: String,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum QuizAnswerKind {
+    Choice,
+    Compiles,
+    Output,
+    Review,
+    Fix,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct QuizReference {
+    pub title: String,
+    pub path: String,
 }
 
 #[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, Eq)]
@@ -170,6 +241,55 @@ pub fn validate_file(path: &Path) -> Result<TopicMetadata, Vec<String>> {
     }
 }
 
+pub fn validate_quiz_path(path: &Path) -> Result<Vec<(PathBuf, QuizItem)>, Vec<String>> {
+    let files = quiz_files(path).map_err(|error| vec![error])?;
+    if files.is_empty() {
+        return Err(vec![format!(
+            "{} contains no quiz item JSON files",
+            path.display()
+        )]);
+    }
+
+    let mut items = Vec::new();
+    let mut errors = Vec::new();
+    for file in files {
+        match parse_quiz_file(&file) {
+            Ok((item, mut item_errors)) => {
+                items.push((file, item));
+                errors.append(&mut item_errors);
+            }
+            Err(mut item_errors) => errors.append(&mut item_errors),
+        }
+    }
+
+    let mut ids = HashSet::new();
+    for (file, item) in &items {
+        if !ids.insert(&item.id) {
+            errors.push(format!(
+                "{}: duplicate quiz item id `{}`",
+                file.display(),
+                item.id
+            ));
+        }
+    }
+
+    if errors.is_empty() {
+        items.sort_by(|left, right| left.1.id.cmp(&right.1.id));
+        Ok(items)
+    } else {
+        Err(errors)
+    }
+}
+
+pub fn validate_quiz_file(path: &Path) -> Result<QuizItem, Vec<String>> {
+    let (item, errors) = parse_quiz_file(path)?;
+    if errors.is_empty() {
+        Ok(item)
+    } else {
+        Err(errors)
+    }
+}
+
 pub fn unresolved_prerequisites(topics: &[(PathBuf, TopicMetadata)]) -> Vec<(String, String)> {
     let ids: HashSet<_> = topics.iter().map(|(_, topic)| topic.id.as_str()).collect();
     let mut unresolved = topics
@@ -195,6 +315,15 @@ fn parse_file(path: &Path) -> Result<(TopicMetadata, Vec<String>), Vec<String>> 
     Ok((metadata, errors))
 }
 
+fn parse_quiz_file(path: &Path) -> Result<(QuizItem, Vec<String>), Vec<String>> {
+    let contents = fs::read_to_string(path)
+        .map_err(|error| vec![format!("{}: could not read file: {error}", path.display())])?;
+    let item: QuizItem = serde_json::from_str(&contents)
+        .map_err(|error| vec![format!("{}: invalid quiz item: {error}", path.display())])?;
+    let errors = quiz_semantic_errors(path, &item);
+    Ok((item, errors))
+}
+
 fn metadata_files(path: &Path) -> Result<Vec<PathBuf>, String> {
     if path.is_file() {
         return Ok(vec![path.to_path_buf()]);
@@ -205,6 +334,20 @@ fn metadata_files(path: &Path) -> Result<Vec<PathBuf>, String> {
 
     let mut files = Vec::new();
     collect_metadata_files(path, &mut files)?;
+    files.sort();
+    Ok(files)
+}
+
+fn quiz_files(path: &Path) -> Result<Vec<PathBuf>, String> {
+    if path.is_file() {
+        return Ok(vec![path.to_path_buf()]);
+    }
+    if !path.is_dir() {
+        return Err(format!("{} is not a file or directory", path.display()));
+    }
+
+    let mut files = Vec::new();
+    collect_quiz_files(path, &mut files)?;
     files.sort();
     Ok(files)
 }
@@ -229,6 +372,30 @@ fn collect_metadata_files(directory: &Path, files: &mut Vec<PathBuf>) -> Result<
         }
     }
 
+    Ok(())
+}
+
+fn collect_quiz_files(directory: &Path, files: &mut Vec<PathBuf>) -> Result<(), String> {
+    let entries = fs::read_dir(directory)
+        .map_err(|error| format!("{}: could not read directory: {error}", directory.display()))?;
+    for entry in entries {
+        let entry = entry.map_err(|error| format!("{}: {error}", directory.display()))?;
+        let path = entry.path();
+        if path.is_dir() {
+            if path
+                .file_name()
+                .is_some_and(|name| name == "target" || name == ".git")
+            {
+                continue;
+            }
+            collect_quiz_files(&path, files)?;
+        } else if path
+            .extension()
+            .is_some_and(|extension| extension == "json")
+        {
+            files.push(path);
+        }
+    }
     Ok(())
 }
 
@@ -319,6 +486,137 @@ fn semantic_errors(path: &Path, metadata: &TopicMetadata) -> Vec<String> {
         errors.push(format!("{}: Stable requires a passed content rubric and passed or not-applicable automated evidence", prefix()));
     }
 
+    errors
+}
+
+fn quiz_semantic_errors(path: &Path, item: &QuizItem) -> Vec<String> {
+    let mut errors = Vec::new();
+    let prefix = || path.display().to_string();
+    if item.schema_version != QUIZ_SCHEMA_VERSION {
+        errors.push(format!(
+            "{}: schema_version must be {QUIZ_SCHEMA_VERSION}",
+            prefix()
+        ));
+    }
+    if !is_slug(&item.id) {
+        errors.push(format!(
+            "{}: id must be a lowercase kebab-case slug",
+            prefix()
+        ));
+    }
+    if !is_slug(&item.topic) {
+        errors.push(format!(
+            "{}: topic must be a lowercase kebab-case slug",
+            prefix()
+        ));
+    }
+    validate_non_empty(path, "concepts", &item.concepts, &mut errors);
+    validate_unique_slugs(path, "concepts", &item.concepts, &mut errors);
+    if item.question.trim().is_empty() {
+        errors.push(format!("{}: question must not be empty", prefix()));
+    }
+    if item.explanation.trim().is_empty() {
+        errors.push(format!("{}: explanation must not be empty", prefix()));
+    }
+    if item.references.is_empty() {
+        errors.push(format!(
+            "{}: references must contain at least one entry",
+            prefix()
+        ));
+    }
+    for reference in &item.references {
+        if reference.title.trim().is_empty() || reference.path.trim().is_empty() {
+            errors.push(format!(
+                "{}: references must have non-empty title and path",
+                prefix()
+            ));
+        }
+    }
+    if item
+        .code
+        .as_ref()
+        .is_some_and(|code| code.trim().is_empty())
+    {
+        errors.push(format!(
+            "{}: code must not be empty when supplied",
+            prefix()
+        ));
+    }
+
+    let code_required = matches!(
+        item.question_type,
+        QuizType::WillItCompile
+            | QuizType::PredictOutput
+            | QuizType::CodeReview
+            | QuizType::FixError
+    );
+    if code_required && item.code.is_none() {
+        errors.push(format!("{}: this question type requires code", prefix()));
+    }
+    let choice_required = matches!(
+        item.question_type,
+        QuizType::MultipleChoice | QuizType::DesignChoice
+    );
+    if choice_required && item.choices.len() < 2 {
+        errors.push(format!(
+            "{}: this question type requires at least two choices",
+            prefix()
+        ));
+    }
+    if !choice_required && !item.choices.is_empty() {
+        errors.push(format!(
+            "{}: only choice questions may define choices",
+            prefix()
+        ));
+    }
+    let mut choice_ids = HashSet::new();
+    for choice in &item.choices {
+        if !is_slug(&choice.id) || choice.text.trim().is_empty() {
+            errors.push(format!(
+                "{}: choices require a slug id and non-empty text",
+                prefix()
+            ));
+        }
+        if !choice_ids.insert(&choice.id) {
+            errors.push(format!(
+                "{}: choice id `{}` is duplicated",
+                prefix(),
+                choice.id
+            ));
+        }
+    }
+
+    let expected_answer = match item.question_type {
+        QuizType::MultipleChoice | QuizType::DesignChoice => QuizAnswerKind::Choice,
+        QuizType::WillItCompile => QuizAnswerKind::Compiles,
+        QuizType::PredictOutput => QuizAnswerKind::Output,
+        QuizType::CodeReview => QuizAnswerKind::Review,
+        QuizType::FixError => QuizAnswerKind::Fix,
+    };
+    if item.answer.kind != expected_answer {
+        errors.push(format!(
+            "{}: answer kind does not match question type",
+            prefix()
+        ));
+    }
+    if item.answer.value.trim().is_empty() {
+        errors.push(format!("{}: answer value must not be empty", prefix()));
+    }
+    if item.answer.kind == QuizAnswerKind::Choice && !choice_ids.contains(&item.answer.value) {
+        errors.push(format!(
+            "{}: answer choice `{}` is not defined",
+            prefix(),
+            item.answer.value
+        ));
+    }
+    if item.answer.kind == QuizAnswerKind::Compiles
+        && !matches!(item.answer.value.as_str(), "true" | "false")
+    {
+        errors.push(format!(
+            "{}: compiles answer must be `true` or `false`",
+            prefix()
+        ));
+    }
     errors
 }
 

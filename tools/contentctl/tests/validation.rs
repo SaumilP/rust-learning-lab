@@ -225,6 +225,16 @@ fn accepts_all_fifty_foundation_quiz_items() {
 }
 
 #[test]
+fn foundation_set_includes_compile_prediction_challenges() {
+    let items = validate_quiz_path(Path::new("../../challenges/quiz-items")).unwrap();
+    let compile_predictions = items
+        .iter()
+        .filter(|(_, item)| item.question_type == contentctl::QuizType::WillItCompile)
+        .count();
+    assert!(compile_predictions >= 10);
+}
+
+#[test]
 fn rejects_choice_questions_without_a_valid_answer_choice() {
     let directory = tempdir().unwrap();
     let path = directory.path().join("quiz.json");

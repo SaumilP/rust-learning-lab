@@ -126,6 +126,8 @@ Comprehensive interview scenarios split into 5 categories:
 
 The foundation quiz set lives in [quiz-items/](./quiz-items/) and uses structured, validated JSON rather than a site-specific format. It covers reasoning about variables, ownership, borrowing, `Option`, and `Result`; see [the quiz authoring contract](../docs/quiz-content.md) for the format and validation command.
 
+The [Will It Compile?](./will-it-compile/) format is a focused subset of those items. It asks for a prediction about compiler behaviour before showing the answer and explanation.
+
 ## Getting Started
 
 ### Prerequisites

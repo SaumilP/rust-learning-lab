@@ -10,6 +10,10 @@ Every item has a stable `id`, a canonical-topic `topic`, a difficulty, concept t
 
 The six supported question types are `multiple_choice`, `will_it_compile`, `predict_output`, `code_review`, `fix_error`, and `design_choice`. A question should reveal a useful misconception or decision point, then explain the reasoning in language a learner can act on.
 
+## Will It Compile?
+
+Use `will_it_compile` when the central learning goal is a compiler decision, not program output or a design preference. Supply a minimal code sample, set `answer.kind` to `compiles`, and set `answer.value` to the string `true` or `false`. Verify the result with the current Rust toolchain where practical, then explain the language rule behind it rather than merely repeating the diagnostic.
+
 ## Authoring guidance
 
 Keep the prompt self-contained. Show only the code needed to reason about the question, avoid unstated assumptions, and use a reference that lets the learner continue studying the concept. Do not publish a question merely because its JSON validates: the explanation must accurately describe Rust’s behaviour.

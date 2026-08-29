@@ -7,7 +7,9 @@ RUSTFMT ?= rustfmt
 BUILD_DIR ?= build
 RUST_EDITION ?= 2021
 
-EXAMPLE_SOURCES := $(shell find . -type f -path '*/examples/*.rs' | sort)
+# Supplementary review examples are Draft material and are intentionally outside
+# the canonical module checks until their own validation is added.
+EXAMPLE_SOURCES := $(shell find . -type f -path '*/examples/*.rs' ! -path './supplementary/*' | sort)
 EXAMPLE_BINS := $(patsubst ./%.rs,$(BUILD_DIR)/%,$(EXAMPLE_SOURCES))
 
 .DEFAULT_GOAL := help

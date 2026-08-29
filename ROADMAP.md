@@ -69,8 +69,6 @@ which version is authoritative:
   improves understanding.
 - Add measurement-driven examples for benchmarking and profiling.
 - Add explicit safety contracts to every unsafe Rust and FFI example.
-- Clarify the relationship between `06-advanced-functions` and
-  `06-intermediate-rust`.
 
 ### Curate resources and maintenance guidance
 

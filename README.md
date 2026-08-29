@@ -62,8 +62,7 @@ choose a suitable starting point.
 | [`03-tooling-and-quality`](03-tooling-and-quality/) | Cargo, testing, documentation, debugging, and code quality | Development workflow |
 | [`04-simple-programs`](04-simple-programs/) | Small command-line programs and file processing | Applied practice |
 | [`05-cli-and-console-games`](05-cli-and-console-games/) | Console I/O, game loops, state, and randomness | Applied practice |
-| [`06-intermediate-rust`](06-intermediate-rust/) | Modules, concurrency, async, macros, and deeper type-system work | Intermediate study |
-| [`06-advanced-functions`](06-advanced-functions/) | Supplementary examples for generics, traits, enums, and ownership | Optional review |
+| [`06-intermediate-rust`](06-intermediate-rust/) | Deeper type-system work and optional review examples | Intermediate study |
 | [`07-advanced-concepts`](07-advanced-concepts/) | Networking, web APIs, WebAssembly, procedural macros, and performance | Advanced reference |
 | [`08-design-patterns`](08-design-patterns/) | Creational, structural, behavioural, and Rust-specific patterns | Pattern study |
 | [`09-mini-projects`](09-mini-projects/) | Multi-file programs that combine several concepts | Project practice |

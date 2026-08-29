@@ -40,8 +40,7 @@ The material has been superseded and is no longer recommended as part of the lea
 | `03-tooling-and-quality` | Review | The module's examples are covered by `make check`. Several older scaffold directories still need a canonical mapping. |
 | `04-simple-programs` | Review | CI runs the workspace and standalone-example checks. Todo and rfind need stronger behavioral tests, and some physical project directories remain empty. |
 | `05-cli-and-console-games` | Review | CI covers the Cargo workspace, the separate randomness package, and standalone examples. Game test depth varies, while Minesweeper, Snake, and the ASCII roguelike remain planned. |
-| `06-intermediate-rust` | Review | This is the canonical Module 06 candidate and is covered by `make check`. It still awaits the formal content rubric. |
-| `06-advanced-functions` | Draft | This supplementary set overlaps Module 06, is not in CI, and needs a normalization decision before publication as part of the main path. |
+| `06-intermediate-rust` | Review | This is the canonical Module 06 and is covered by `make check`. Its supplementary review material remains Draft and outside that check until it has validation coverage. The module still awaits the formal content rubric. |
 | `07-advanced-concepts` | Draft | CI now covers the repaired SQLx, Axum, procedural-macro, benchmarking, SIMD, WebAssembly, and STM32 blinky examples. Database and hardware requirements are documented, but other advanced project groups and the broader learning material still need review. |
 | `08-design-patterns` | Review | CI runs formatting, lint, workspace tests, standalone compilation, and design-document checks for all 23 patterns. Behavioral test coverage remains thin. |
 | `09-mini-projects` | Mixed | Chat, HTTP server, key-value store, and load balancer are Review and covered as one CI workspace. Calculator, todo, note taker, and weather CLI are Planned documentation-only projects. |

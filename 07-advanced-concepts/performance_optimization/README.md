@@ -618,6 +618,8 @@ unsafe fn sum_avx2(data: &[f32]) -> f32 {
 }
 ```
 
+Safety contract: a caller may invoke an AVX2 implementation only after runtime feature detection confirms AVX2 on the executing CPU. The function may read only within `data` and must preserve the scalar implementation's result semantics, including its floating-point trade-offs. Keep a portable fallback and expose a safe dispatch function rather than making ordinary callers uphold this contract.
+
 ### ARM NEON
 
 ```rust
@@ -630,6 +632,10 @@ unsafe fn sum_neon(data: &[f32]) -> f32 {
     0.0
 }
 ```
+
+Safety contract: a caller may invoke a NEON implementation only on an AArch64 target where the required feature is available. The implementation must not form invalid vector loads from `data`, and it must retain a portable fallback for other targets. These are sketches; they are not complete runnable SIMD implementations.
+
+See [Unsafe Safety Contracts](../../docs/production/unsafe-safety-contracts.md) for the review standard used by this repository.
 
 ## Tools and Crates
 

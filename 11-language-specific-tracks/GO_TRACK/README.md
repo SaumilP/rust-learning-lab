@@ -62,11 +62,8 @@ This track shows you how to think in Rust when you're coming from Go.
    - Service Discovery (async + networking)
 
 4. **Reference the guides**:
-   - **DESIGN_PATTERNS_GUIDE.md** - Interface patterns, concurrency patterns
-   - **ANTI_PATTERNS.md** - Common Go developer mistakes
-   - **CHEAT_SHEET.md** - Quick Go → Rust lookup
-   - **GOTCHAS.md** - Surprises for Go developers
-   - **TIPS_AND_TRICKS.md** - Productivity shortcuts
+   - **CANONICAL_RUST_LINKS.md** - Canonical runnable Rust lessons for each comparison
+   - **MVP_CHECKS.md** - Short migration challenges that test the mental-model shift
 
 ## Learning timeline
 

@@ -78,6 +78,8 @@ curl -X DELETE http://localhost:3000/api/users/1
 - **Errors** - Custom error types
 - **Middleware** - Cross-cutting concerns
 
+For a production-oriented extension of these boundaries, including the limits of the current tracing and health-check examples, read [Project Architecture and Observability](../../../docs/production/project-architecture-and-observability.md).
+
 ## Key Learnings
 
 - Axum's type-safe extractors

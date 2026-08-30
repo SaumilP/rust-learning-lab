@@ -52,6 +52,8 @@ This section contains expert-level Rust topics that go beyond traditional applic
 
 **Key Topics**: REST patterns, middleware, production web stack
 
+See [Project Architecture and Observability](../docs/production/project-architecture-and-observability.md) for a production-oriented way to extend the Axum example without overstating what it already provides.
+
 ---
 
 ### advanced_async/

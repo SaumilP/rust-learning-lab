@@ -19,3 +19,5 @@ Read the topic overview, run the smallest example, predict one change, and let t
 ## What comes later
 
 Modules 07 through 10 are valuable reference and project material, but they are not a required first pass through Rust. Return to them after the seven stages above, choosing material that supports the program you want to build. Use the language-transition tracks alongside this path, not instead of it.
+
+Use the [core concept prerequisites](prerequisites.md) when you need to understand why a later topic depends on an earlier one.

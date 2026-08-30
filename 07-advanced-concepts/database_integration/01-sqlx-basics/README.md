@@ -1,87 +1,37 @@
-# SQLx Basics - Compile-Time Verified Queries
+# SQLx basics
 
-Demonstrates SQLx's compile-time query verification, ensuring SQL correctness before runtime.
+This example uses PostgreSQL, SQLx connection pooling, typed row mapping, and parameter binding. It deliberately uses `query` and `query_as` rather than SQLx's compile-time query macros, so formatting, linting, tests, and compilation do not require a running database.
 
-## Features
+## Build checks
 
-- Compile-time SQL verification
-- Type-safe query results
-- Async/await support
-- Connection pooling
-- Migrations
-
-## Setup
+The default checks need Rust and the downloaded Cargo dependencies, but no database service:
 
 ```bash
-# Start PostgreSQL
-docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=password postgres:15
-
-# Create .env file
-echo "DATABASE_URL=postgres://postgres:password@localhost/testdb" > .env
-
-# Create database
-sqlx database create
-
-# Run migrations
-sqlx migrate run
+cargo fmt --all -- --check
+cargo clippy --all-targets --all-features -- -D warnings
+cargo test --all-targets
 ```
 
-## Building
+## Run the example
+
+Start PostgreSQL and create a database before running the program:
 
 ```bash
-# Requires DATABASE_URL environment variable
-cargo build
-
-# For offline mode (no database required)
-cargo sqlx prepare
-cargo build --offline
+docker run --name rust-lab-postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=testdb -p 5432:5432 -d postgres:15
+export DATABASE_URL=postgres://postgres:password@localhost/testdb
+cargo run
 ```
 
-## Key Concepts
+The program creates its `users` table on startup. Reusing the same database will preserve rows from earlier runs, so use a disposable database when you want repeatable output.
 
-### Compile-Time Query Verification
+## Why the queries are checked at runtime
 
-SQLx verifies queries at compile time by connecting to your database:
+SQLx's `query!` and `query_as!` macros validate SQL against a live schema during compilation, or against metadata produced by `cargo sqlx prepare`. That is useful in an application with migrations and a committed offline cache. This standalone lesson has neither, so requiring those macros made an ordinary `cargo check` depend on an unconfigured PostgreSQL service.
 
-```rust
-// This fails to compile if:
-// - Table doesn't exist
-// - Column names are wrong
-// - Types don't match
-let user = sqlx::query_as!(
-    User,
-    "SELECT id, name, email FROM users WHERE id = $1",
-    user_id
-)
-.fetch_one(&pool)
-.await?;
-```
+The example keeps typed result mapping through `#[derive(sqlx::FromRow)]` and `query_as::<_, User>()`. SQL syntax and schema compatibility are checked when the query runs.
 
-### Type Safety
+## Exercises
 
-Rust types are automatically derived from database schema:
-
-```rust
-#[derive(sqlx::FromRow)]
-struct User {
-    id: i32,          // INTEGER
-    name: String,     // VARCHAR
-    email: String,    // VARCHAR
-    created_at: DateTime<Utc>,  // TIMESTAMP
-}
-```
-
-## Advantages over ORM
-
-✅ Write raw SQL (full database features)
-✅ Compile-time verification
-✅ No runtime query parsing
-✅ Better performance
-✅ Simpler debugging
-
-## Next Steps
-
-- Add more complex queries
-- Implement transactions
-- Try different databases (MySQL, SQLite)
-- Add full-text search
+- Return the inserted user's creation timestamp.
+- Wrap a group of updates in a transaction.
+- Add a migration directory and compare runtime queries with SQLx's offline compile-time verification.

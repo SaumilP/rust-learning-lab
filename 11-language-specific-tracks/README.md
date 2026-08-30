@@ -4,6 +4,8 @@
 
 Module 11 helps developers transitioning from other languages learn Rust idiomatically. Each track maps concepts from familiar languages to Rust equivalents.
 
+Start with the [cross-language transition index](CROSS_LANGUAGE_COMPARISON.md) to select a track and find the canonical Rust lessons behind each comparison.
+
 ## Available Tracks
 
 ### 1. Java Developer → Rust
@@ -235,4 +237,3 @@ Each track includes:
 - Comparison articles and blog posts
 - Example repositories
 - Community forums
-

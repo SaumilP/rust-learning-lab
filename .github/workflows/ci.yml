@@ -86,3 +86,151 @@ jobs:
       - name: Run tests
         working-directory: ${{ matrix.path }}
         run: cargo test --all-targets
+
+  advanced-host-projects:
+    name: Advanced ${{ matrix.path }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path:
+          - 07-advanced-concepts/database_integration/01-sqlx-basics
+          - 07-advanced-concepts/modern_web_apis/02-axum-api
+          - 07-advanced-concepts/procedural_macros/01-derive-macro/example
+          - 07-advanced-concepts/procedural_macros/02-attribute-macro/example
+          - 07-advanced-concepts/procedural_macros/03-builder-pattern/example
+          - 07-advanced-concepts/performance_optimization/01-benchmarking
+          - 07-advanced-concepts/performance_optimization/03-simd-optimization
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Check formatting
+        working-directory: ${{ matrix.path }}
+        run: cargo fmt --all -- --check
+
+      - name: Run Clippy
+        working-directory: ${{ matrix.path }}
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Run tests
+        working-directory: ${{ matrix.path }}
+        run: cargo test --all-targets
+
+  advanced-wasm-projects:
+    name: WebAssembly ${{ matrix.path }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        path:
+          - 07-advanced-concepts/webassembly/01-hello-wasm
+          - 07-advanced-concepts/webassembly/04-game-of-life
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+          targets: wasm32-unknown-unknown
+
+      - name: Check formatting
+        working-directory: ${{ matrix.path }}
+        run: cargo fmt --all -- --check
+
+      - name: Run Clippy
+        working-directory: ${{ matrix.path }}
+        run: cargo clippy --target wasm32-unknown-unknown --all-targets --all-features -- -D warnings
+
+      - name: Check WebAssembly project
+        working-directory: ${{ matrix.path }}
+        run: cargo check --target wasm32-unknown-unknown
+
+  advanced-embedded-project:
+    name: Embedded STM32F401 blinky
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+          targets: thumbv7em-none-eabihf
+
+      - name: Check formatting
+        working-directory: 07-advanced-concepts/embedded_rust/02-blinky
+        run: cargo fmt --all -- --check
+
+      - name: Run Clippy
+        working-directory: 07-advanced-concepts/embedded_rust/02-blinky
+        run: cargo clippy --bin blinky -- -D warnings
+
+      - name: Check embedded project
+        working-directory: 07-advanced-concepts/embedded_rust/02-blinky
+        run: cargo check
+
+  markdown-links:
+    name: Internal Markdown links
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check local links
+        uses: lycheeverse/lychee-action@v2.9.0
+        with:
+          args: --offline --root-dir . --no-progress './**/*.md'
+          failIfEmpty: true
+
+  content-contracts:
+    name: Content contracts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Check formatting
+        run: cargo fmt --manifest-path tools/contentctl/Cargo.toml --all -- --check
+
+      - name: Run Clippy
+        run: cargo clippy --manifest-path tools/contentctl/Cargo.toml --all-targets --all-features -- -D warnings
+
+      - name: Run tests
+        run: cargo test --manifest-path tools/contentctl/Cargo.toml --all-targets
+
+      - name: Validate all topic metadata
+        run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate .
+
+      - name: Validate quiz items
+        run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate-quiz challenges/quiz-items
+
+      - name: Validate code review challenges
+        run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate-quiz challenges/code-review/items
+
+      - name: Validate interview taxonomy
+        run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate-interview challenges/interview/taxonomy
+
+      - name: Validate interview questions
+        run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate-interview-questions challenges/interview/questions challenges/interview/taxonomy
+
+      - name: Validate compiler error labs
+        run: make -C labs/compiler-errors check

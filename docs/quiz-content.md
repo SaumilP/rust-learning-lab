@@ -1,0 +1,33 @@
+# Quiz content
+
+Quiz items are small reasoning exercises, not trivia cards. They live in `challenges/quiz-items/` as one JSON object per file and follow [quiz-item-v1.schema.json](../schemas/quiz-item-v1.schema.json).
+
+Use `cargo run --manifest-path tools/contentctl/Cargo.toml -- validate-quiz challenges/quiz-items` to validate every item. The validator checks the JSON shape, stable IDs, duplicate IDs, required explanations and references, and the answer format required by each question type.
+
+## Item contract
+
+Every item has a stable `id`, a canonical-topic `topic`, a difficulty, concept tags, the learner-facing question, a correct answer, an explanation, and at least one repository reference. `code` is required for `will_it_compile`, `predict_output`, `code_review`, and `fix_error` questions. Multiple-choice and design-choice questions need at least two choices, and their answer must name one of those choices.
+
+The six supported question types are `multiple_choice`, `will_it_compile`, `predict_output`, `code_review`, `fix_error`, and `design_choice`. A question should reveal a useful misconception or decision point, then explain the reasoning in language a learner can act on.
+
+## Will It Compile?
+
+Use `will_it_compile` when the central learning goal is a compiler decision, not program output or a design preference. Supply a minimal code sample, set `answer.kind` to `compiles`, and set `answer.value` to the string `true` or `false`. Verify the result with the current Rust toolchain where practical, then explain the language rule behind it rather than merely repeating the diagnostic.
+
+Use the shared [challenge scoring rules](challenge-scoring.md) when reviewing reasoning-based answers. The score recognises both a correct conclusion and the rule that supports it.
+
+## Authoring guidance
+
+Keep the prompt self-contained. Show only the code needed to reason about the question, avoid unstated assumptions, and use a reference that lets the learner continue studying the concept. Do not publish a question merely because its JSON validates: the explanation must accurately describe Rust’s behaviour.
+
+For code that is intended to compile or fail, verify the claim with the Rust toolchain whenever practical. The 50-item foundation set contains both compile-behaviour questions and conceptual questions; it does not make claims about a remote runner or a public quiz interface.
+
+## Foundation set
+
+The first 50 items are deliberately balanced across the skills a new Rust learner needs to practice.
+
+- 10 syntax and core-language questions
+- 15 ownership and borrowing questions
+- 10 types and traits questions
+- 10 error-handling and collections questions
+- 5 Cargo and tooling questions

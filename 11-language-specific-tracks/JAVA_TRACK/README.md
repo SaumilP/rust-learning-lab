@@ -74,6 +74,10 @@ I've organized this track to build on what you already know:
    - **GOTCHAS.md** - Things that will trip you up
    - **TIPS_AND_TRICKS.md** - Productivity shortcuts I learned the hard way
 
+5. **Use CANONICAL_RUST_LINKS.md** - Follow the canonical Rust lessons for runnable examples and exercises instead of treating this comparison track as a second curriculum.
+
+6. **Work through MVP_CHECKS.md** - Use the short migration checks to confirm the Java-to-Rust mental-model shifts before moving on.
+
 ## A realistic timeline
 
 Based on my experience and talking to other Java developers who've made the switch:

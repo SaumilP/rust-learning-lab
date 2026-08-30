@@ -1,8 +1,6 @@
 # Rust Learning Lab Roadmap
 
-This roadmap separates material that is ready to study from work that still
-needs attention. It is a repository status document, not a promise that every
-directory is complete.
+This roadmap describes what work remains. The [content status page](CONTENT_STATUS.md) records the current state of each major area and the evidence behind it.
 
 ## Current learning path
 
@@ -71,8 +69,6 @@ which version is authoritative:
   improves understanding.
 - Add measurement-driven examples for benchmarking and profiling.
 - Add explicit safety contracts to every unsafe Rust and FFI example.
-- Clarify the relationship between `06-advanced-functions` and
-  `06-intermediate-rust`.
 
 ### Curate resources and maintenance guidance
 
@@ -83,7 +79,7 @@ which version is authoritative:
 
 ## Completion criteria for a topic
 
-A topic is considered ready when it has:
+A topic is considered ready for Review when it has:
 
 - A short explanation of what the concept solves and when to use it
 - At least one focused example that builds on stable Rust

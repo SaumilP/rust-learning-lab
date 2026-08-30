@@ -2,6 +2,8 @@
 
 Comprehensive benchmarking examples using criterion for statistical analysis.
 
+Read the [reproducible benchmarking protocol](BENCHMARKING_PROTOCOL.md) before interpreting a result. It explains the commands, fairness rules, and limits of these microbenchmarks.
+
 ## Running Benchmarks
 
 ```bash

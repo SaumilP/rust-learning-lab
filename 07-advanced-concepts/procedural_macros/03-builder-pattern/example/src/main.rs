@@ -58,7 +58,7 @@ fn main() {
         .email("alice@example.com".to_string())
         .build()
         .unwrap();
-    println!("User: {:?}\n", user);
+    println!("User: {} {} {}\n", user.id, user.name, user.email);
 
     // Example 2: With optional fields
     println!("=== 2. Builder with Optional Fields ===");
@@ -69,14 +69,20 @@ fn main() {
         .price(999.99)
         .build()
         .unwrap();
-    println!("Product 1: {:?}", product1);
+    println!(
+        "Product 1: {} {} {:?} {:?}",
+        product1.id, product1.name, product1.description, product1.price
+    );
 
     let product2 = Product::builder()
         .id(102)
         .name("Mouse".to_string())
         .build()
         .unwrap();
-    println!("Product 2 (minimal): {:?}\n", product2);
+    println!(
+        "Product 2: {} {} {:?} {:?}\n",
+        product2.id, product2.name, product2.description, product2.price
+    );
 
     // Example 3: Configuration
     println!("=== 3. Server Configuration ===");
@@ -87,7 +93,10 @@ fn main() {
         .enable_logging(true)
         .build()
         .unwrap();
-    println!("Server config: {:?}\n", config);
+    println!(
+        "Server config: {}:{} workers={:?} timeout={:?} logging={:?}\n",
+        config.host, config.port, config.workers, config.timeout_secs, config.enable_logging
+    );
 
     // Example 4: Database connection
     println!("=== 4. Database Connection ===");
@@ -101,7 +110,16 @@ fn main() {
         .ssl(true)
         .build()
         .unwrap();
-    println!("Database: {:?}\n", db_conn);
+    println!(
+        "Database: {}:{} / {} user={} password={:?} max_connections={:?} ssl={:?}\n",
+        db_conn.host,
+        db_conn.port,
+        db_conn.database,
+        db_conn.username,
+        db_conn.password,
+        db_conn.max_connections,
+        db_conn.ssl
+    );
 
     // Example 5: Error handling - missing required field
     println!("=== 5. Error Handling ===");

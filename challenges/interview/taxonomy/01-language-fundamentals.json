@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"language-fundamentals","order":1,"title":"Language fundamentals","focus":["bindings and mutability","control flow","functions and data types"],"levels":["foundation","working_rust_developer"],"references":[{"title":"Core fundamentals","path":"../../../01-core-fundamentals/README.md"}]}

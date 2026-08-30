@@ -4,43 +4,41 @@
 
 # Rust Learning Lab
 
-Rust Learning Lab is a collection of short explanations, runnable examples,
-exercises, and small projects for learning Rust by writing code. It starts with
-the language basics, spends time on ownership and borrowing, and then moves into
-tooling, application design, concurrency, patterns, and project work.
+Rust Learning Lab is a practical path through Rust: read a focused explanation, run a small program, change it, and use the compiler's feedback to deepen the idea. It supports both first-time Rust learners and experienced developers moving from Java, Python, Go, or C++.
 
-The repository is intended for people learning Rust for the first time and for
-developers coming from Java, Python, Go, C++, or a similar language. Examples
-favour clarity over compactness so that the reason behind each Rust feature is
-visible in the code.
+The repository is actively growing. Most foundations, applications, intermediate material, and design-pattern examples are ready for review; some advanced projects and production topics are still Draft or Planned. [Content status](CONTENT_STATUS.md) explains the evidence behind each area, and the [roadmap](ROADMAP.md) records the remaining work.
 
-## What is included
+## Choose your starting point
 
-- Focused examples that can be compiled and changed independently
-- Exercises built around common mistakes and compiler feedback
-- Concept notes, key takeaways, and suggested experiments
-- Cargo projects for command-line applications and larger examples
-- Make targets for compiling standalone examples and generating rustdoc output
-- Transition guides for developers arriving from other languages
+### New to Rust
 
-The material is under active development. The foundations and intermediate
-modules are usable now; some advanced project folders are still planned or are
-being expanded. The [roadmap](ROADMAP.md) records that distinction.
+Start with [`00-setup-and-basics`](00-setup-and-basics/), then work through [`01-core-fundamentals`](01-core-fundamentals/), [`02-standard-library`](02-standard-library/), and [`03-tooling-and-quality`](03-tooling-and-quality/). This route establishes the language, ownership model, standard library, testing, and everyday development tools.
 
-## Prerequisites
+### Ready to build programs
 
-Install the stable Rust toolchain with `rustup`. You will need `rustc`, `cargo`,
-`rustfmt`, `clippy`, Git, and Make. The included [toolchain file](rust-toolchain.toml)
-selects the required Rust channel and components.
+Move through [`04-simple-programs`](04-simple-programs/) and [`05-cli-and-console-games`](05-cli-and-console-games/) to combine I/O, algorithms, state, and user interaction. Continue to [`06-intermediate-rust`](06-intermediate-rust/) for ownership and borrowing, traits, generics, enums, and lifetimes.
 
-Verify the installation:
+### Moving from another language
 
-```bash
-rustc --version
-cargo --version
-```
+Use [`11-language-specific-tracks`](11-language-specific-tracks/) alongside the core path. The Java, Python, Go, and C++ guides connect familiar language features to Rust's ownership, error-handling, and type-system model without duplicating the core lessons.
 
-## Getting started
+## Learning journeys
+
+| Journey | Modules | What you will practice |
+|---|---|---|
+| Foundations | [00](00-setup-and-basics/)–[03](03-tooling-and-quality/) | Syntax, ownership, standard types, testing, documentation, and tooling |
+| Applied Rust | [04](04-simple-programs/)–[05](05-cli-and-console-games/) | Command-line programs, file handling, algorithms, state, and games |
+| Type-system depth | [06](06-intermediate-rust/) | Traits, generics, enums, pattern matching, lifetimes, and optional supplementary review |
+| Advanced reference | [07](07-advanced-concepts/)–[08](08-design-patterns/) | Networking, APIs, WebAssembly, macros, performance, and design patterns |
+| Projects and production | [09](09-mini-projects/)–[10](10-real-world-rust/) | Multi-file programs, organization, deployment, profiling, and systems topics |
+
+The [learning path](LEARNING_PATH.md) gives the same sequence in a compact format. Module 06 also includes [supplementary review material](06-intermediate-rust/supplementary/README.md); it is useful after the primary sequence and remains Draft until it receives its own validation coverage.
+
+For the detailed beginner route, including stage checkpoints, use [From Zero: the canonical Rust path](docs/curriculum/from-zero.md).
+
+## Get running
+
+Install the stable Rust toolchain with `rustup`, including `rustfmt` and `clippy`, plus Git and Make. The included [toolchain file](rust-toolchain.toml) selects the repository's Rust channel and components.
 
 ```bash
 git clone https://github.com/SaumilP/rust-learning-lab.git
@@ -49,32 +47,7 @@ cd 00-setup-and-basics/hello_world
 cargo run
 ```
 
-If you already know the basics, use the [learning path](LEARNING_PATH.md) to
-choose a suitable starting point.
-
-## Repository map
-
-| Module | Subject | Current role |
-|---|---|---|
-| [`00-setup-and-basics`](00-setup-and-basics/) | Installation, variables, data types, and control flow | Starting point |
-| [`01-core-fundamentals`](01-core-fundamentals/) | Ownership, borrowing, lifetimes, functions, and errors | Core foundation |
-| [`02-standard-library`](02-standard-library/) | Collections, strings, iterators, traits, and smart pointers | Core library skills |
-| [`03-tooling-and-quality`](03-tooling-and-quality/) | Cargo, testing, documentation, debugging, and code quality | Development workflow |
-| [`04-simple-programs`](04-simple-programs/) | Small command-line programs and file processing | Applied practice |
-| [`05-cli-and-console-games`](05-cli-and-console-games/) | Console I/O, game loops, state, and randomness | Applied practice |
-| [`06-intermediate-rust`](06-intermediate-rust/) | Modules, concurrency, async, macros, and deeper type-system work | Intermediate study |
-| [`06-advanced-functions`](06-advanced-functions/) | Supplementary examples for generics, traits, enums, and ownership | Optional review |
-| [`07-advanced-concepts`](07-advanced-concepts/) | Networking, web APIs, WebAssembly, procedural macros, and performance | Advanced reference |
-| [`08-design-patterns`](08-design-patterns/) | Creational, structural, behavioural, and Rust-specific patterns | Pattern study |
-| [`09-mini-projects`](09-mini-projects/) | Multi-file programs that combine several concepts | Project practice |
-| [`10-real-world-rust`](10-real-world-rust/) | Profiling, unsafe Rust, FFI, deployment, and organization | Production topics |
-| [`11-language-specific-tracks`](11-language-specific-tracks/) | Rust guidance for Java, Python, Go, and C++ developers | Transition guides |
-| [`challenges`](challenges/) | Progressive practice and interview-style problems | Additional exercises |
-
-## Working with examples
-
-Many concept modules contain standalone `.rs` files instead of Cargo packages.
-Run their Makefile from the module directory:
+Many concept modules use standalone Rust files. Run their Makefile from the module directory:
 
 ```bash
 cd 01-core-fundamentals
@@ -84,12 +57,9 @@ make check
 make clean
 ```
 
-`make check` verifies formatting, compiles the examples with warnings denied,
-runs embedded tests, and generates rustdoc pages under `build/docs/`. Generated
-files are temporary; `make clean` removes the complete `build/` directory.
+`make check` formats, compiles, tests, and documents the module's checked examples. Generated `build/` and `target/` directories are disposable. Some exercises intentionally begin with broken code; read the problem statement before treating those compiler errors as repository defects.
 
-For a Cargo workspace or package, use Cargo from the directory containing its
-`Cargo.toml`:
+For a Cargo package or workspace, run Cargo from the directory containing its `Cargo.toml`:
 
 ```bash
 cd 04-simple-programs
@@ -97,36 +67,17 @@ cargo run -p calculator
 cargo test --workspace
 ```
 
-Some exercises are deliberately incomplete and should not compile until you
-repair them. Read the exercise instructions before treating a compiler error as
-a repository defect.
+## Study routine
 
-## A practical study routine
+1. Read the topic `README.md` and `key_takeaways.md`.
+2. Run the example before changing it.
+3. Predict a small change, then test that prediction.
+4. Repair the related exercise using compiler feedback.
+5. Apply the idea in a program or project before moving on.
 
-1. Read the topic's `README.md` and `key_takeaways.md`.
-2. Run the example without changing it.
-3. Predict the result of a small change, then test that prediction.
-4. Complete the related exercise using the compiler messages as feedback.
-5. Apply the topic in a program from modules 04, 05, or 09.
+## Contribute
 
-## Project status and quality
-
-Continuous integration checks the tracked Cargo packages and the standalone
-examples used by the main learning modules. Local checks should be run before a
-pull request; the exact commands are documented in
-[CONTRIBUTING.md](CONTRIBUTING.md).
-
-Planned additions and known content gaps are listed in [ROADMAP.md](ROADMAP.md).
-For a compact sequence through the current material, see
-[LEARNING_PATH.md](LEARNING_PATH.md).
-
-## Contributing
-
-Corrections, clearer explanations, new exercises, tests, and small focused
-examples are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before
-opening a pull request. Community expectations are described in the
-[Code of Conduct](CODE_OF_CONDUCT.md), and security reports should follow
-[SECURITY.md](SECURITY.md).
+Corrections, clearer explanations, focused examples, exercises, and tests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for the learning-content standards and validation commands, [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for community expectations, and [SECURITY.md](SECURITY.md) for security reporting.
 
 ## License
 

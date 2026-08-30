@@ -1,0 +1,39 @@
+name: Content correction
+description: Report an incorrect, unclear, or misleading explanation, example, or exercise.
+title: "[Content]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thank you for helping improve the learning material. Do not include security vulnerabilities or personal information in a public issue."
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Provide the module, file path, heading, example, or exercise affected.
+      placeholder: "01-core-fundamentals/ownership/README.md — Moving values"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is inaccurate or unclear?
+      description: Explain the learner-facing problem and include a short quoted excerpt or code sample when useful.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should the material say or demonstrate instead?
+      description: Share a correction, counterexample, or teaching approach if you have one.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and pull requests.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true
+        - label: I checked whether the example is intentionally broken.
+          required: true

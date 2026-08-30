@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/topic-metadata-v1.schema.json",
+  "schema_version": 1,
+  "id": "06-traits",
+  "title": "Traits and Polymorphism",
+  "status": "review",
+  "level": "intermediate",
+  "estimated_minutes": 90,
+  "prerequisites": ["01-ownership", "06-generics"],
+  "concepts": ["traits", "trait-bounds", "static-dispatch", "dynamic-dispatch", "trait-objects"],
+  "tracks": ["core", "java", "python", "cpp", "go"],
+  "learning_objectives": [
+    "Define shared behavior with a trait and implement it for local types.",
+    "Use impl Trait and generic trait bounds for static dispatch.",
+    "Use trait objects when runtime polymorphism is appropriate.",
+    "Explain the tradeoff between static and dynamic dispatch."
+  ],
+  "website": {
+    "published": false,
+    "order": null
+  },
+  "validation": {
+    "content_rubric": "pending",
+    "examples": "passed",
+    "exercises": "pending"
+  }
+}

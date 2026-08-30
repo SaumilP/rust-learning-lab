@@ -11,13 +11,7 @@ pub struct Universe {
 impl Universe {
     pub fn new(width: u32, height: u32) -> Universe {
         let cells = (0..width * height)
-            .map(|i| {
-                if i % 2 == 0 || i % 7 == 0 {
-                    1
-                } else {
-                    0
-                }
-            })
+            .map(|i| if i % 2 == 0 || i % 7 == 0 { 1 } else { 0 })
             .collect();
 
         Universe {

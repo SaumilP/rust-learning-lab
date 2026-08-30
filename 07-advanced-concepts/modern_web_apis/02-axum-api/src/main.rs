@@ -1,13 +1,14 @@
 use axum::{
     extract::{Path, State},
     http::StatusCode,
-    routing::{get, post},
+    routing::get,
     Json, Router,
 };
 use serde::{Deserialize, Serialize};
 use sqlx::postgres::PgPoolOptions;
 use sqlx::PgPool;
 use std::net::SocketAddr;
+use tokio::net::TcpListener;
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::trace::TraceLayer;
 
@@ -72,10 +73,10 @@ async fn main() {
     let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
     println!("🚀 Server running on http://{}", addr);
 
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
+    let listener = TcpListener::bind(addr)
         .await
-        .unwrap();
+        .expect("Failed to bind address");
+    axum::serve(listener, app).await.expect("Server failed");
 }
 
 async fn health_check() -> Json<serde_json::Value> {
@@ -86,7 +87,7 @@ async fn health_check() -> Json<serde_json::Value> {
 }
 
 async fn list_users(State(state): State<AppState>) -> Result<Json<Vec<User>>, StatusCode> {
-    let users = sqlx::query_as!(User, "SELECT id, name, email FROM users ORDER BY id")
+    let users = sqlx::query_as::<_, User>("SELECT id, name, email FROM users ORDER BY id")
         .fetch_all(&state.db)
         .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
@@ -98,7 +99,8 @@ async fn get_user(
     State(state): State<AppState>,
     Path(id): Path<i32>,
 ) -> Result<Json<User>, StatusCode> {
-    let user = sqlx::query_as!(User, "SELECT id, name, email FROM users WHERE id = $1", id)
+    let user = sqlx::query_as::<_, User>("SELECT id, name, email FROM users WHERE id = $1")
+        .bind(id)
         .fetch_one(&state.db)
         .await
         .map_err(|_| StatusCode::NOT_FOUND)?;
@@ -110,12 +112,11 @@ async fn create_user(
     State(state): State<AppState>,
     Json(payload): Json<CreateUser>,
 ) -> Result<(StatusCode, Json<User>), StatusCode> {
-    let user = sqlx::query_as!(
-        User,
+    let user = sqlx::query_as::<_, User>(
         "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id, name, email",
-        payload.name,
-        payload.email
     )
+    .bind(payload.name)
+    .bind(payload.email)
     .fetch_one(&state.db)
     .await
     .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
@@ -128,13 +129,12 @@ async fn update_user(
     Path(id): Path<i32>,
     Json(payload): Json<CreateUser>,
 ) -> Result<Json<User>, StatusCode> {
-    let user = sqlx::query_as!(
-        User,
+    let user = sqlx::query_as::<_, User>(
         "UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING id, name, email",
-        payload.name,
-        payload.email,
-        id
     )
+    .bind(payload.name)
+    .bind(payload.email)
+    .bind(id)
     .fetch_one(&state.db)
     .await
     .map_err(|_| StatusCode::NOT_FOUND)?;
@@ -146,7 +146,8 @@ async fn delete_user(
     State(state): State<AppState>,
     Path(id): Path<i32>,
 ) -> Result<StatusCode, StatusCode> {
-    let result = sqlx::query!("DELETE FROM users WHERE id = $1", id)
+    let result = sqlx::query("DELETE FROM users WHERE id = $1")
+        .bind(id)
         .execute(&state.db)
         .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;

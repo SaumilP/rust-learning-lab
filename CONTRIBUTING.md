@@ -70,6 +70,12 @@ Run Cargo commands from the directory containing the relevant `Cargo.toml`.
 The repository intentionally has no root Cargo workspace. Do not commit
 generated `build/`, `target/`, or rustdoc files.
 
+CI checks local links in every Markdown file with lychee in offline mode. If lychee is installed locally, run `lychee --offline --root-dir . --no-progress './**/*.md'` from the repository root before submitting documentation changes.
+
+Topics that contain `metadata.json` must follow the [content metadata contract](docs/content-metadata.md). Run `cargo run --manifest-path tools/contentctl/Cargo.toml -- validate <path>` against a metadata file or directory before submitting it.
+
+Use the [topic authoring guide](docs/authoring/topic-guide.md) when adding or substantially revising learning material. It covers topic boundaries, status evidence, validation, and the repository-to-website publishing boundary.
+
 Exercises containing `broken_code.rs` are allowed to fail before the learner
 repairs them and are excluded from normal build checks.
 
@@ -93,3 +99,5 @@ Reviewers will primarily consider:
 Use the issue template for incorrect explanations, build failures, learning-flow
 problems, or content proposals. Security concerns should not be posted in a
 public issue; follow [SECURITY.md](SECURITY.md) instead.
+
+When proposing a content change, check the [content status page](CONTENT_STATUS.md) for the area's known gaps and the evidence required to change its status.

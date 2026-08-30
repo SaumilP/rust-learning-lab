@@ -1,0 +1,46 @@
+name: Learning-path or content proposal
+description: Suggest a focused lesson, exercise, project, or improvement to the learning sequence.
+title: "[Proposal]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: "Proposals are most useful when they identify a learner problem and fit the existing curriculum rather than duplicating a current topic."
+  - type: textarea
+    id: learner-problem
+    attributes:
+      label: Learner problem
+      description: What would a learner struggle to understand, practice, or build without this change?
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Proposed place in the learning path
+      description: Name the module or nearby topic where this work belongs.
+      placeholder: "After 02-standard-library/error_handling_basics"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed material
+      description: Describe the lesson, example, exercise, project, or structural change. Link to related material if it exists.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or references
+      description: Share a concrete use case, learner feedback, documentation reference, or small example that supports the proposal.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues, pull requests, and nearby learning material.
+          required: true
+        - label: This proposal does not report a security vulnerability.
+          required: true
+        - label: I understand that new content needs clear objectives and validation evidence.
+          required: true

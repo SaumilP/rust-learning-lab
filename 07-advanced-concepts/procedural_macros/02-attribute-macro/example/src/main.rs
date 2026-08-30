@@ -1,4 +1,4 @@
-use my_attribute::{log_entry_exit, time_execution, retry, deprecated_fn};
+use my_attribute::{deprecated_fn, log_entry_exit, retry, time_execution};
 use std::thread;
 use std::time::Duration;
 

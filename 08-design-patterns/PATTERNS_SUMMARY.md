@@ -49,3 +49,5 @@ For any proposed pattern, ask:
 
 The [module README](README.md) links to the runnable code and C4-PlantUML design
 for every pattern.
+
+For a per-pattern list of counter-signals, read [WHEN_NOT_TO_USE.md](WHEN_NOT_TO_USE.md). The [RUST_NATIVE_PATTERNS.md](RUST_NATIVE_PATTERNS.md) guide covers designs that are often clearer than a direct Gang of Four translation.

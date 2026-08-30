@@ -44,30 +44,24 @@ fn main() {
 }
 ```
 
-### Using `std::sync::Once` for Manual Control
+### Using `std::sync::OnceLock` for Initialization Parameters
 
 ```rust
-use std::sync::Once;
+use std::sync::OnceLock;
 
 pub struct Config {
     db_url: String,
     api_key: String,
 }
 
-static mut CONFIG: Option<Config> = None;
-static INIT: Once = Once::new();
+static CONFIG: OnceLock<Config> = OnceLock::new();
 
 impl Config {
-    pub fn get() -> &'static Config {
-        unsafe {
-            INIT.call_once(|| {
-                CONFIG = Some(Config {
-                    db_url: "postgres://localhost".to_string(),
-                    api_key: "secret-key".to_string(),
-                });
-            });
-            CONFIG.as_ref().unwrap()
-        }
+    pub fn get_or_init() -> &'static Config {
+        CONFIG.get_or_init(|| Config {
+            db_url: "postgres://localhost".to_string(),
+            api_key: "secret-key".to_string(),
+        })
     }
 
     pub fn db_url(&self) -> &str {
@@ -81,7 +75,7 @@ impl Config {
 
 // Usage
 fn main() {
-    let config = Config::get();
+    let config = Config::get_or_init();
     println!("Database: {}", config.db_url());
 }
 ```
@@ -131,8 +125,7 @@ fn main() {
 ### Thread-Safe Singleton with Initialization Function
 
 ```rust
-use std::sync::{Arc, Mutex, Once};
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::{Arc, Mutex, OnceLock};
 
 pub struct ApplicationState {
     initialized: bool,
@@ -141,29 +134,18 @@ pub struct ApplicationState {
 
 pub struct AppStateManager;
 
-static mut APP_STATE: Option<Arc<Mutex<ApplicationState>>> = None;
-static INIT: Once = Once::new();
-static INIT_FLAG: AtomicBool = AtomicBool::new(false);
+static APP_STATE: OnceLock<Arc<Mutex<ApplicationState>>> = OnceLock::new();
 
 impl AppStateManager {
     pub fn initialize(initial_data: Vec<String>) -> Result<(), String> {
-        if INIT_FLAG.compare_exchange(false, true, Ordering::SeqCst, Ordering::SeqCst).is_err() {
-            return Err("Already initialized".to_string());
-        }
-
-        unsafe {
-            INIT.call_once(|| {
-                APP_STATE = Some(Arc::new(Mutex::new(ApplicationState {
-                    initialized: true,
-                    data: initial_data,
-                })));
-            });
-        }
-        Ok(())
+        APP_STATE.set(Arc::new(Mutex::new(ApplicationState {
+            initialized: true,
+            data: initial_data,
+        }))).map_err(|_| "Already initialized".to_string())
     }
 
     pub fn get() -> Option<Arc<Mutex<ApplicationState>>> {
-        unsafe { APP_STATE.clone() }
+        APP_STATE.get().cloned()
     }
 }
 
@@ -229,27 +211,22 @@ pub fn increment() {
 
 ### Pattern 4: Singleton with Initialization Parameters
 ```rust
-use std::sync::Once;
+use std::sync::OnceLock;
 
 pub struct Config {
     environment: String,
 }
 
-static mut CONFIG: Option<Config> = None;
-static INIT: Once = Once::new();
+static CONFIG: OnceLock<Config> = OnceLock::new();
 
-pub fn init_config(env: &str) {
-    unsafe {
-        INIT.call_once(|| {
-            CONFIG = Some(Config {
-                environment: env.to_string(),
-            });
-        });
-    }
+pub fn init_config(env: &str) -> Result<(), Config> {
+    CONFIG.set(Config {
+        environment: env.to_string(),
+    })
 }
 
 pub fn get_config() -> &'static Config {
-    unsafe { CONFIG.as_ref().expect("Config not initialized") }
+    CONFIG.get().expect("config not initialized")
 }
 ```
 

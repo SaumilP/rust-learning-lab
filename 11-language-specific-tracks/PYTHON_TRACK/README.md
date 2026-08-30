@@ -69,6 +69,8 @@ This track is designed for Python developers who want to learn Rust without losi
    - **CHEAT_SHEET.md** - Quick Python → Rust reference
    - **GOTCHAS.md** - Things that will surprise you
    - **TIPS_AND_TRICKS.md** - Productivity tips
+   - **CANONICAL_RUST_LINKS.md** - Canonical runnable Rust lessons for each comparison
+   - **MVP_CHECKS.md** - Short migration challenges that test the mental-model shift
 
 ## Realistic expectations
 

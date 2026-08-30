@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"type-system","order":3,"title":"Type system","focus":["enums and pattern matching","generics","traits and trait bounds"],"levels":["foundation","working_rust_developer","senior_rust_developer"],"references":[{"title":"Traits and polymorphism","path":"../../../06-intermediate-rust/traits_and_polymorphism/README.md"}]}

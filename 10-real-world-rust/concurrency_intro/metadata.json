@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/topic-metadata-v1.schema.json",
+  "schema_version": 1,
+  "id": "10-concurrency",
+  "title": "Concurrency Introduction",
+  "status": "planned",
+  "level": "advanced",
+  "estimated_minutes": 120,
+  "prerequisites": ["01-ownership", "06-traits"],
+  "concepts": ["threads", "message-passing", "shared-state", "arc", "mutex", "data-races"],
+  "tracks": ["core", "java", "python", "cpp", "go"],
+  "learning_objectives": [
+    "Explain how ownership prevents data races across threads.",
+    "Choose between message passing and shared state for a concurrency problem.",
+    "Use Arc and synchronization primitives to share mutable state safely.",
+    "Distinguish workloads suited to threads, async tasks, or data parallelism."
+  ],
+  "website": {
+    "published": false,
+    "order": null
+  },
+  "validation": {
+    "content_rubric": "pending",
+    "examples": "pending",
+    "exercises": "pending"
+  }
+}

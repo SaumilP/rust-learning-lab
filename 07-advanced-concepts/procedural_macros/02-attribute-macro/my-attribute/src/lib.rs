@@ -1,6 +1,6 @@
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse_macro_input, ItemFn, AttributeArgs, NestedMeta, Meta, Lit};
+use syn::{parse_macro_input, punctuated::Punctuated, Expr, ItemFn, Lit, Meta, Token};
 
 /// Attribute macro that logs function entry and exit
 ///
@@ -81,7 +81,7 @@ pub fn time_execution(_attr: TokenStream, item: TokenStream) -> TokenStream {
 /// ```
 #[proc_macro_attribute]
 pub fn retry(args: TokenStream, item: TokenStream) -> TokenStream {
-    let args = parse_macro_input!(args as AttributeArgs);
+    let args = parse_macro_input!(args with Punctuated::<Meta, Token![,]>::parse_terminated);
     let input = parse_macro_input!(item as ItemFn);
 
     let mut times = 3;
@@ -89,13 +89,15 @@ pub fn retry(args: TokenStream, item: TokenStream) -> TokenStream {
 
     // Parse arguments
     for arg in args {
-        if let NestedMeta::Meta(Meta::NameValue(nv)) = arg {
+        if let Meta::NameValue(nv) = arg {
             if nv.path.is_ident("times") {
-                if let Lit::Int(lit) = nv.lit {
+                if let Expr::Lit(expr) = nv.value {
+                    let Lit::Int(lit) = expr.lit else { continue };
                     times = lit.base10_parse::<u32>().unwrap();
                 }
             } else if nv.path.is_ident("delay_ms") {
-                if let Lit::Int(lit) = nv.lit {
+                if let Expr::Lit(expr) = nv.value {
+                    let Lit::Int(lit) = expr.lit else { continue };
                     delay_ms = lit.base10_parse::<u64>().unwrap();
                 }
             }
@@ -152,7 +154,7 @@ pub fn retry(args: TokenStream, item: TokenStream) -> TokenStream {
 /// ```
 #[proc_macro_attribute]
 pub fn deprecated_fn(args: TokenStream, item: TokenStream) -> TokenStream {
-    let args = parse_macro_input!(args as AttributeArgs);
+    let args = parse_macro_input!(args with Punctuated::<Meta, Token![,]>::parse_terminated);
     let input = parse_macro_input!(item as ItemFn);
 
     let mut since = String::from("unknown");
@@ -160,20 +162,21 @@ pub fn deprecated_fn(args: TokenStream, item: TokenStream) -> TokenStream {
 
     // Parse arguments
     for arg in args {
-        if let NestedMeta::Meta(Meta::NameValue(nv)) = arg {
+        if let Meta::NameValue(nv) = arg {
             if nv.path.is_ident("since") {
-                if let Lit::Str(lit) = nv.lit {
+                if let Expr::Lit(expr) = nv.value {
+                    let Lit::Str(lit) = expr.lit else { continue };
                     since = lit.value();
                 }
             } else if nv.path.is_ident("note") {
-                if let Lit::Str(lit) = nv.lit {
+                if let Expr::Lit(expr) = nv.value {
+                    let Lit::Str(lit) = expr.lit else { continue };
                     note = lit.value();
                 }
             }
         }
     }
 
-    let fn_name = &input.sig.ident;
     let fn_block = &input.block;
     let fn_sig = &input.sig;
     let fn_vis = &input.vis;

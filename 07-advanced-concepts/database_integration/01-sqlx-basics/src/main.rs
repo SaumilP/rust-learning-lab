@@ -13,8 +13,7 @@ struct User {
 async fn main() -> Result<(), sqlx::Error> {
     dotenv::dotenv().ok();
 
-    let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
 
     // Create connection pool
     let pool = PgPoolOptions::new()
@@ -67,7 +66,7 @@ async fn create_table(pool: &PgPool) -> Result<(), sqlx::Error> {
             email VARCHAR(255) UNIQUE NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-        "#
+        "#,
     )
     .execute(pool)
     .await?;
@@ -77,12 +76,11 @@ async fn create_table(pool: &PgPool) -> Result<(), sqlx::Error> {
 }
 
 async fn insert_user(pool: &PgPool, name: &str, email: &str) -> Result<User, sqlx::Error> {
-    let user = sqlx::query_as!(
-        User,
+    let user = sqlx::query_as::<_, User>(
         "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id, name, email",
-        name,
-        email
     )
+    .bind(name)
+    .bind(email)
     .fetch_one(pool)
     .await?;
 
@@ -91,12 +89,9 @@ async fn insert_user(pool: &PgPool, name: &str, email: &str) -> Result<User, sql
 }
 
 async fn list_users(pool: &PgPool) -> Result<(), sqlx::Error> {
-    let users = sqlx::query_as!(
-        User,
-        "SELECT id, name, email FROM users ORDER BY id"
-    )
-    .fetch_all(pool)
-    .await?;
+    let users = sqlx::query_as::<_, User>("SELECT id, name, email FROM users ORDER BY id")
+        .fetch_all(pool)
+        .await?;
 
     for user in users {
         println!("   [{}] {} <{}>", user.id, user.name, user.email);
@@ -106,25 +101,20 @@ async fn list_users(pool: &PgPool) -> Result<(), sqlx::Error> {
 }
 
 async fn find_by_email(pool: &PgPool, email: &str) -> Result<Option<User>, sqlx::Error> {
-    let user = sqlx::query_as!(
-        User,
-        "SELECT id, name, email FROM users WHERE email = $1",
-        email
-    )
-    .fetch_optional(pool)
-    .await?;
+    let user = sqlx::query_as::<_, User>("SELECT id, name, email FROM users WHERE email = $1")
+        .bind(email)
+        .fetch_optional(pool)
+        .await?;
 
     Ok(user)
 }
 
 async fn update_user_name(pool: &PgPool, id: i32, new_name: &str) -> Result<(), sqlx::Error> {
-    sqlx::query!(
-        "UPDATE users SET name = $1 WHERE id = $2",
-        new_name,
-        id
-    )
-    .execute(pool)
-    .await?;
+    sqlx::query("UPDATE users SET name = $1 WHERE id = $2")
+        .bind(new_name)
+        .bind(id)
+        .execute(pool)
+        .await?;
 
     println!("✅ Updated user {}", id);
     Ok(())
@@ -140,7 +130,8 @@ async fn count_users(pool: &PgPool) -> Result<i64, sqlx::Error> {
 }
 
 async fn delete_user(pool: &PgPool, id: i32) -> Result<(), sqlx::Error> {
-    sqlx::query!("DELETE FROM users WHERE id = $1", id)
+    sqlx::query("DELETE FROM users WHERE id = $1")
+        .bind(id)
         .execute(pool)
         .await?;
 

@@ -1,0 +1,1 @@
+{"schema_version":1,"id":"system-design","order":10,"title":"System design","focus":["service boundaries","reliability","operational trade-offs"],"levels":["senior_rust_developer","systems_performance_specialist"],"references":[{"title":"Mini projects","path":"../../../09-mini-projects/README.md"}]}

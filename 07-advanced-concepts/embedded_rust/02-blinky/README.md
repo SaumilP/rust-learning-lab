@@ -1,58 +1,40 @@
-# Blinky - LED Blinking Example
+# Blinky on an STM32F401
 
-The "Hello World" of embedded systems. Blink an LED on a microcontroller.
+This `no_std` example blinks the PA5 LED on an STM32F401-based Nucleo board. Its dependencies and target configuration are board-specific; it is not a portable example for RP2040, AVR, or ESP32 boards.
 
-## Supported Boards
+## Requirements
 
-- **STM32 Nucleo-64** (F401RE, F411RE, etc.)
-- **Raspberry Pi Pico** (RP2040)
-- **Arduino Uno** (AVR - experimental)
-- **ESP32-C3** (RISC-V)
+- The `thumbv7em-none-eabihf` Rust target
+- An STM32F401-based board when flashing the program
+- A compatible flashing tool such as `cargo-flash` or `probe-rs`
 
-## What This Does
+Install the compilation target once:
 
-Toggles an on-board LED every 1 second, demonstrating:
-- no_std environment
-- GPIO output control
-- Delay timers
-- Infinite loop patterns
-
-## Building & Flashing
-
-### For STM32:
 ```bash
+rustup target add thumbv7em-none-eabihf
+```
+
+The local `.cargo/config.toml` selects that target and passes the Cortex-M linker script automatically.
+
+## Check and build
+
+```bash
+cargo check
 cargo build --release
-cargo flash --chip STM32F401RETx
 ```
 
-### For RP2040 (Pico):
+To flash a connected Nucleo-F401RE with `cargo-flash`:
+
 ```bash
-cargo build --release
-elf2uf2-rs target/thumbv6m-none-eabi/release/blinky
-# Copy UF2 file to Pico
+cargo flash --release --chip STM32F401RETx
 ```
 
-### For ESP32-C3:
-```bash
-cargo espflash flash --release --monitor
-```
+## What the example demonstrates
 
-## Key Concepts
+- A `#![no_std]` and `#![no_main]` binary
+- A Cortex-M runtime entry point
+- Peripheral ownership through the STM32 peripheral access crate
+- GPIO output configuration
+- A hardware-timer delay in a non-terminating loop
 
-- **#![no_std]** - No standard library
-- **#![no_main]** - Custom entry point
-- **Panic handler** - What happens on panic
-- **GPIO abstraction** - Portable LED control
-- **Delay** - Blocking delays without OS
-
-## Memory Usage
-
-- Flash: ~4-8 KB
-- RAM: <1 KB
-
-## Next Steps
-
-- Change blink frequency
-- Add multiple LEDs
-- Use PWM for breathing effect
-- Respond to button presses
+The target configuration is part of the example. Running `cargo check` for the host target is not a meaningful validation of this binary because the host supplies `std`, an operating-system entry point, and a different instruction set.

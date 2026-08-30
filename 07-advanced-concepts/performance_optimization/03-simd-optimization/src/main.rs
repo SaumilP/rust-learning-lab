@@ -29,8 +29,14 @@ fn main() {
     let result_scalar_add = simd_lib::vec_add_scalar(&a, &b);
     let result_simd_add = simd_lib::vec_add_simd(&a, &b);
 
-    println!("Scalar addition: first 5 elements = {:?}", &result_scalar_add[0..5]);
-    println!("Optimized addition: first 5 elements = {:?}", &result_simd_add[0..5]);
+    println!(
+        "Scalar addition: first 5 elements = {:?}",
+        &result_scalar_add[0..5]
+    );
+    println!(
+        "Optimized addition: first 5 elements = {:?}",
+        &result_simd_add[0..5]
+    );
     assert_eq!(result_scalar_add, result_simd_add);
 
     // Example 3: Sum of Squares

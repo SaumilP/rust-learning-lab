@@ -1,6 +1,6 @@
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse_macro_input, DeriveInput, Data, Fields};
+use syn::{parse_macro_input, Data, DeriveInput, Fields};
 
 /// Derive macro to implement a HelloWorld trait
 ///
@@ -41,8 +41,8 @@ pub fn field_names_derive(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as DeriveInput);
     let name = &ast.ident;
 
-    let fields = match ast.data {
-        Data::Struct(data_struct) => match data_struct.fields {
+    let fields = match &ast.data {
+        Data::Struct(data_struct) => match &data_struct.fields {
             Fields::Named(fields_named) => {
                 let field_names: Vec<_> = fields_named
                     .named
@@ -57,7 +57,7 @@ pub fn field_names_derive(input: TokenStream) -> TokenStream {
                         }
 
                         pub fn field_count() -> usize {
-                            #(stringify!(#field_names),)* .len()
+                            Self::field_names().len()
                         }
                     }
                 }
@@ -89,22 +89,19 @@ pub fn enum_iter_derive(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as DeriveInput);
     let name = &ast.ident;
 
-    let variants = match ast.data {
+    let variants = match &ast.data {
         Data::Enum(data_enum) => {
             let variant_idents: Vec<_> = data_enum
                 .variants
                 .iter()
-                .filter(|v| v.fields == Fields::Unit)
+                .filter(|v| matches!(v.fields, Fields::Unit))
                 .map(|v| &v.ident)
                 .collect();
 
             if variant_idents.is_empty() {
-                return syn::Error::new_spanned(
-                    ast,
-                    "EnumIter requires at least one unit variant",
-                )
-                .to_compile_error()
-                .into();
+                return syn::Error::new_spanned(ast, "EnumIter requires at least one unit variant")
+                    .to_compile_error()
+                    .into();
             }
 
             let count = variant_idents.len();
@@ -142,8 +139,8 @@ pub fn custom_default_derive(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as DeriveInput);
     let name = &ast.ident;
 
-    let fields = match ast.data {
-        Data::Struct(data_struct) => match data_struct.fields {
+    let fields = match &ast.data {
+        Data::Struct(data_struct) => match &data_struct.fields {
             Fields::Named(fields_named) => {
                 let field_inits = fields_named.named.iter().map(|f| {
                     let field_name = f.ident.as_ref().unwrap();

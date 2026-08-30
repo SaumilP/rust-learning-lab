@@ -1,4 +1,4 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion, BenchmarkId};
+use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
 
 // Fibonacci implementations
 fn fibonacci_recursive(n: u64) -> u64 {
@@ -13,9 +13,9 @@ fn fibonacci_iterative(n: u64) -> u64 {
     let mut a = 0;
     let mut b = 1;
     for _ in 0..n {
-        let temp = a;
+        let next = a + b;
         a = b;
-        b = temp + b;
+        b = next;
     }
     a
 }
@@ -28,7 +28,8 @@ fn fibonacci_bench(c: &mut Criterion) {
             b.iter(|| fibonacci_iterative(black_box(n)))
         });
 
-        if *n <= 20 {  // Recursive is too slow for larger n
+        if *n <= 20 {
+            // Recursive is too slow for larger n
             group.bench_with_input(BenchmarkId::new("recursive", n), n, |b, &n| {
                 b.iter(|| fibonacci_recursive(black_box(n)))
             });
@@ -72,13 +73,17 @@ fn sorting_bench(c: &mut Criterion) {
             })
         });
 
-        group.bench_with_input(BenchmarkId::new("std_sort_unstable", size), &data, |b, data| {
-            b.iter(|| {
-                let mut arr = data.clone();
-                arr.sort_unstable();
-                arr
-            })
-        });
+        group.bench_with_input(
+            BenchmarkId::new("std_sort_unstable", size),
+            &data,
+            |b, data| {
+                b.iter(|| {
+                    let mut arr = data.clone();
+                    arr.sort_unstable();
+                    arr
+                })
+            },
+        );
     }
 
     group.finish();
@@ -118,9 +123,7 @@ fn string_concat_bench(c: &mut Criterion) {
         b.iter(|| concat_with_capacity(black_box(&strings)))
     });
 
-    group.bench_function("join", |b| {
-        b.iter(|| concat_with_join(black_box(&strings)))
-    });
+    group.bench_function("join", |b| b.iter(|| concat_with_join(black_box(&strings))));
 
     group.finish();
 }
@@ -138,6 +141,7 @@ fn sum_iterator(data: &[i32]) -> i32 {
     data.iter().sum()
 }
 
+#[allow(clippy::unnecessary_fold)] // This benchmark intentionally compares fold with Iterator::sum.
 fn sum_fold(data: &[i32]) -> i32 {
     data.iter().fold(0, |acc, &x| acc + x)
 }
@@ -146,17 +150,11 @@ fn sum_bench(c: &mut Criterion) {
     let mut group = c.benchmark_group("sum");
     let data: Vec<i32> = (0..10000).collect();
 
-    group.bench_function("loop", |b| {
-        b.iter(|| sum_loop(black_box(&data)))
-    });
+    group.bench_function("loop", |b| b.iter(|| sum_loop(black_box(&data))));
 
-    group.bench_function("iterator", |b| {
-        b.iter(|| sum_iterator(black_box(&data)))
-    });
+    group.bench_function("iterator", |b| b.iter(|| sum_iterator(black_box(&data))));
 
-    group.bench_function("fold", |b| {
-        b.iter(|| sum_fold(black_box(&data)))
-    });
+    group.bench_function("fold", |b| b.iter(|| sum_fold(black_box(&data))));
 
     group.finish();
 }

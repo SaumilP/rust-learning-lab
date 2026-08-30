@@ -155,6 +155,8 @@ The compiler *prevents* data races. Not at runtime—at compile time.
    - **CHEAT_SHEET.md** - Quick C/C++ → Rust lookup
    - **GOTCHAS.md** - Surprises for C/C++ developers
    - **TIPS_AND_TRICKS.md** - Productivity shortcuts
+   - **CANONICAL_RUST_LINKS.md** - Canonical runnable Rust lessons for each comparison
+   - **MVP_CHECKS.md** - Short migration challenges that test the mental-model shift
 
 ## Learning timeline
 

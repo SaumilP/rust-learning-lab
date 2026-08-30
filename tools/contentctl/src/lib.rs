@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 const SCHEMA_VERSION: u32 = 1;
 const QUIZ_SCHEMA_VERSION: u32 = 1;
 const INTERVIEW_SCHEMA_VERSION: u32 = 1;
+const INTERVIEW_QUESTION_SCHEMA_VERSION: u32 = 1;
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -164,6 +165,26 @@ pub enum InterviewLevel {
     WorkingRustDeveloper,
     SeniorRustDeveloper,
     SystemsPerformanceSpecialist,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct InterviewQuestionSet {
+    #[serde(rename = "$schema", default, skip_serializing)]
+    pub schema: Option<String>,
+    pub schema_version: u32,
+    pub category: String,
+    pub questions: Vec<InterviewQuestion>,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct InterviewQuestion {
+    pub id: String,
+    pub level: InterviewLevel,
+    pub focus: Vec<String>,
+    pub prompt: String,
+    pub evaluation_criteria: Vec<String>,
 }
 
 #[derive(Debug, Clone, Copy, Deserialize, Serialize, PartialEq, Eq)]
@@ -366,6 +387,62 @@ pub fn validate_interview_path(
     }
 }
 
+pub fn validate_interview_questions_path(
+    path: &Path,
+    taxonomy_path: &Path,
+) -> Result<Vec<(PathBuf, InterviewQuestion)>, Vec<String>> {
+    let categories = validate_interview_path(taxonomy_path)?;
+    let category_ids: HashSet<_> = categories
+        .iter()
+        .map(|(_, category)| category.id.as_str())
+        .collect();
+    let files = interview_files(path).map_err(|error| vec![error])?;
+    if files.is_empty() {
+        return Err(vec![format!(
+            "{} contains no interview question-set JSON files",
+            path.display()
+        )]);
+    }
+    let mut questions = Vec::new();
+    let mut errors = Vec::new();
+    for file in files {
+        match parse_interview_question_file(&file) {
+            Ok((set, mut set_errors)) => {
+                if !category_ids.contains(set.category.as_str()) {
+                    set_errors.push(format!(
+                        "{}: category `{}` is not defined by the interview taxonomy",
+                        file.display(),
+                        set.category
+                    ));
+                }
+                questions.extend(
+                    set.questions
+                        .into_iter()
+                        .map(|question| (file.clone(), question)),
+                );
+                errors.append(&mut set_errors);
+            }
+            Err(mut file_errors) => errors.append(&mut file_errors),
+        }
+    }
+    let mut ids = HashSet::new();
+    for (file, question) in &questions {
+        if !ids.insert(&question.id) {
+            errors.push(format!(
+                "{}: duplicate interview question id `{}`",
+                file.display(),
+                question.id
+            ));
+        }
+    }
+    if errors.is_empty() {
+        questions.sort_by(|left, right| left.1.id.cmp(&right.1.id));
+        Ok(questions)
+    } else {
+        Err(errors)
+    }
+}
+
 pub fn unresolved_prerequisites(topics: &[(PathBuf, TopicMetadata)]) -> Vec<(String, String)> {
     let ids: HashSet<_> = topics.iter().map(|(_, topic)| topic.id.as_str()).collect();
     let mut unresolved = topics
@@ -411,6 +488,21 @@ fn parse_interview_file(path: &Path) -> Result<(InterviewCategory, Vec<String>),
     })?;
     let errors = interview_semantic_errors(path, &category);
     Ok((category, errors))
+}
+
+fn parse_interview_question_file(
+    path: &Path,
+) -> Result<(InterviewQuestionSet, Vec<String>), Vec<String>> {
+    let contents = fs::read_to_string(path)
+        .map_err(|error| vec![format!("{}: could not read file: {error}", path.display())])?;
+    let set: InterviewQuestionSet = serde_json::from_str(&contents).map_err(|error| {
+        vec![format!(
+            "{}: invalid interview question set: {error}",
+            path.display()
+        )]
+    })?;
+    let errors = interview_question_set_errors(path, &set);
+    Ok((set, errors))
 }
 
 fn metadata_files(path: &Path) -> Result<Vec<PathBuf>, String> {
@@ -781,6 +873,66 @@ fn interview_semantic_errors(path: &Path, category: &InterviewCategory) -> Vec<S
         if reference.title.trim().is_empty() || reference.path.trim().is_empty() {
             errors.push(format!(
                 "{}: references must have non-empty title and path",
+                path.display()
+            ));
+        }
+    }
+    errors
+}
+
+fn interview_question_set_errors(path: &Path, set: &InterviewQuestionSet) -> Vec<String> {
+    let mut errors = Vec::new();
+    if set.schema_version != INTERVIEW_QUESTION_SCHEMA_VERSION {
+        errors.push(format!(
+            "{}: schema_version must be {INTERVIEW_QUESTION_SCHEMA_VERSION}",
+            path.display()
+        ));
+    }
+    if !is_slug(&set.category) {
+        errors.push(format!(
+            "{}: category must be a lowercase kebab-case slug",
+            path.display()
+        ));
+    }
+    if set.questions.is_empty() {
+        errors.push(format!(
+            "{}: questions must contain at least one entry",
+            path.display()
+        ));
+    }
+    for question in &set.questions {
+        if !is_slug(&question.id) {
+            errors.push(format!(
+                "{}: question id must be a lowercase kebab-case slug",
+                path.display()
+            ));
+        }
+        validate_non_empty(path, "question focus", &question.focus, &mut errors);
+        if question.focus.iter().any(|focus| focus.trim().is_empty()) {
+            errors.push(format!(
+                "{}: question focus must not contain empty text",
+                path.display()
+            ));
+        }
+        if question.prompt.trim().is_empty() {
+            errors.push(format!(
+                "{}: question prompt must not be empty",
+                path.display()
+            ));
+        }
+        if question.evaluation_criteria.len() < 2 {
+            errors.push(format!(
+                "{}: question evaluation_criteria must contain at least two entries",
+                path.display()
+            ));
+        }
+        if question
+            .evaluation_criteria
+            .iter()
+            .any(|criterion| criterion.trim().is_empty())
+        {
+            errors.push(format!(
+                "{}: question evaluation_criteria must not contain empty text",
                 path.display()
             ));
         }

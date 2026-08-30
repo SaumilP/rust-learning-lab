@@ -229,5 +229,8 @@ jobs:
       - name: Validate interview taxonomy
         run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate-interview challenges/interview/taxonomy
 
+      - name: Validate interview questions
+        run: cargo run --manifest-path tools/contentctl/Cargo.toml -- validate-interview-questions challenges/interview/questions challenges/interview/taxonomy
+
       - name: Validate compiler error labs
         run: make -C labs/compiler-errors check

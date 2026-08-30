@@ -1,8 +1,8 @@
 use std::{fs, path::Path};
 
 use contentctl::{
-    export_path, unresolved_prerequisites, validate_file, validate_interview_path, validate_path,
-    validate_quiz_file, validate_quiz_path,
+    export_path, unresolved_prerequisites, validate_file, validate_interview_path,
+    validate_interview_questions_path, validate_path, validate_quiz_file, validate_quiz_path,
 };
 use serde_json::{json, Value};
 use tempfile::tempdir;
@@ -250,6 +250,16 @@ fn accepts_the_eleven_interview_categories_in_order() {
     assert_eq!(categories.len(), 11);
     assert_eq!(categories.first().unwrap().1.id, "language-fundamentals");
     assert_eq!(categories.last().unwrap().1.id, "code-review");
+}
+
+#[test]
+fn accepts_one_hundred_interview_questions() {
+    let questions = validate_interview_questions_path(
+        Path::new("../../challenges/interview/questions"),
+        Path::new("../../challenges/interview/taxonomy"),
+    )
+    .unwrap();
+    assert_eq!(questions.len(), 100);
 }
 
 #[test]

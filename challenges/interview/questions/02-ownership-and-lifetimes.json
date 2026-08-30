@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "category": "ownership-and-lifetimes",
+  "questions": [
+    {
+      "id": "interview-ownership-01",
+      "level": "foundation",
+      "focus": ["moves"],
+      "prompt": "What happens when one `String` binding is assigned to another?",
+      "evaluation_criteria": ["Explains ownership move", "Contrasts Copy types"]
+    },
+    {
+      "id": "interview-ownership-02",
+      "level": "foundation",
+      "focus": ["borrowing"],
+      "prompt": "Why can many immutable references coexist?",
+      "evaluation_criteria": [
+        "Identifies read-only access",
+        "Connects to race prevention"
+      ]
+    },
+    {
+      "id": "interview-ownership-03",
+      "level": "foundation",
+      "focus": ["borrowing"],
+      "prompt": "Why is overlapping mutable access restricted?",
+      "evaluation_criteria": [
+        "Names exclusive mutation",
+        "Explains aliasing risk"
+      ]
+    },
+    {
+      "id": "interview-ownership-04",
+      "level": "working_rust_developer",
+      "focus": ["api-design"],
+      "prompt": "Choose between `String`, `&str`, and `&mut String` for a display-only API.",
+      "evaluation_criteria": [
+        "Chooses least permission",
+        "Explains caller flexibility"
+      ]
+    },
+    {
+      "id": "interview-ownership-05",
+      "level": "working_rust_developer",
+      "focus": ["lifetimes"],
+      "prompt": "What question do lifetime annotations answer?",
+      "evaluation_criteria": [
+        "Relates references",
+        "Says annotations do not extend data life"
+      ]
+    },
+    {
+      "id": "interview-ownership-06",
+      "level": "working_rust_developer",
+      "focus": ["slices"],
+      "prompt": "Why return `&str` for a substring when possible?",
+      "evaluation_criteria": [
+        "Avoids allocation",
+        "Acknowledges source lifetime"
+      ]
+    },
+    {
+      "id": "interview-ownership-07",
+      "level": "senior_rust_developer",
+      "focus": ["api-design"],
+      "prompt": "How would you review an API that clones every input?",
+      "evaluation_criteria": [
+        "Checks ownership need",
+        "Balances simplicity and cost"
+      ]
+    },
+    {
+      "id": "interview-ownership-08",
+      "level": "working_rust_developer",
+      "focus": ["non-lexical-lifetimes"],
+      "prompt": "What lets a mutation follow a completed immutable borrow?",
+      "evaluation_criteria": [
+        "Names last use",
+        "Avoids claiming scopes alone decide"
+      ]
+    },
+    {
+      "id": "interview-ownership-09",
+      "level": "senior_rust_developer",
+      "focus": ["self-references"],
+      "prompt": "Why are self-referential structures difficult in safe Rust?",
+      "evaluation_criteria": [
+        "Mentions moves invalidate pointers",
+        "Discusses safer designs"
+      ]
+    }
+  ]
+}

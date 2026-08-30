@@ -19,6 +19,7 @@ build/
 !challenges/quiz-items/*.json
 !challenges/code-review/items/*.json
 !challenges/interview/taxonomy/*.json
+!challenges/interview/questions/*.json
 !tools/contentctl/Cargo.lock
 
 # Internal project tracking files

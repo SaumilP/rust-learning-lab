@@ -25,7 +25,7 @@ Follow the sections in order:
 3. Learn about variables in `variables_and_mutability/`
 4. Explore types in `data_types/`
 5. Master control flow in `control_flow/`
-6. Practice with `exercises/`
+6. Practice with [exercises/](exercises/)
 
 ## Quick Start
 

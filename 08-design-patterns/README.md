@@ -99,4 +99,4 @@ Java-oriented comparison, see Saumil Patel's
 Compare the problem and participants first; do not translate Java classes into
 Rust types one for one.
 
-See [PATTERNS_SUMMARY.md](PATTERNS_SUMMARY.md) for a compact selection guide.
+See [PATTERNS_SUMMARY.md](PATTERNS_SUMMARY.md) for a compact selection guide, [WHEN_NOT_TO_USE.md](WHEN_NOT_TO_USE.md) for counter-signals, [RUST_NATIVE_PATTERNS.md](RUST_NATIVE_PATTERNS.md) for patterns that start with Rust's type system, and [TRANSFER_GUIDE.md](TRANSFER_GUIDE.md) before translating Java or C++ designs.

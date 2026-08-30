@@ -12,5 +12,6 @@ This track explains the Java-to-Rust mental-model shift. Use the links below for
 | `synchronized`, executors, and thread pools | Ownership-aware concurrency | [Concurrency introduction](../../10-real-world-rust/concurrency_intro/README.md) |
 | `CompletableFuture` and virtual-thread mental models | Futures, tasks, and async boundaries | [Advanced async overview](../../07-advanced-concepts/advanced_async/README.md) |
 | Maven or Gradle | Cargo commands, project layout, and quality tooling | [Tooling and quality](../../03-tooling-and-quality/README.md) |
+| Framework-managed dependency injection | Explicit composition with structs and traits | [Intermediate Rust](../../06-intermediate-rust/README.md) |
 
 Treat these as comparisons, not one-to-one translations. Rust’s ownership model and type system often change the shape of the program, not just its syntax.

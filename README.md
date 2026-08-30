@@ -34,6 +34,8 @@ Use [`11-language-specific-tracks`](11-language-specific-tracks/) alongside the 
 
 The [learning path](LEARNING_PATH.md) gives the same sequence in a compact format. Module 06 also includes [supplementary review material](06-intermediate-rust/supplementary/README.md); it is useful after the primary sequence and remains Draft until it receives its own validation coverage.
 
+For the detailed beginner route, including stage checkpoints, use [From Zero: the canonical Rust path](docs/curriculum/from-zero.md).
+
 ## Get running
 
 Install the stable Rust toolchain with `rustup`, including `rustfmt` and `clippy`, plus Git and Make. The included [toolchain file](rust-toolchain.toml) selects the repository's Rust channel and components.

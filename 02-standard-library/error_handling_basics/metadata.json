@@ -6,7 +6,7 @@
   "status": "review",
   "level": "intermediate",
   "estimated_minutes": 120,
-  "prerequisites": ["01-control-flow", "01-pattern-matching"],
+  "prerequisites": ["01-control-flow"],
   "concepts": ["result", "option", "error-propagation", "question-mark-operator", "custom-errors"],
   "tracks": ["core", "java", "python", "cpp", "go"],
   "learning_objectives": [

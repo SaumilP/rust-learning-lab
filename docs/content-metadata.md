@@ -2,9 +2,9 @@
 
 Topic metadata gives repository tools and the future website a shared description of each learning topic without copying lesson bodies. Version 1 uses JSON so editors, Rust tooling, CI, and Astro can consume the same source without a format conversion layer.
 
-The [topic authoring guide](authoring/topic-guide.md) explains when to create a topic, how to choose its boundary, and how metadata evidence relates to the learning material.
+The [topic authoring guide](authoring/topic-guide.md) explains when to create a topic, how to choose its boundary, and how metadata evidence relates to the learning material. The [content rubric](authoring/content-rubric.md) defines the human review that is required before a topic can become Stable.
 
-The formal contract is [topic-metadata-v1.schema.json](../schemas/topic-metadata-v1.schema.json). A complete Review-status example is available in [topic-metadata.json](examples/topic-metadata.json). RLL-013 will add metadata to five representative topics before the contract is applied more broadly.
+The formal contract is [topic-metadata-v1.schema.json](../schemas/topic-metadata-v1.schema.json). A complete Review-status example is available in [topic-metadata.json](examples/topic-metadata.json). Metadata migration is staged: migrate a canonical topic when its learner boundary and currently supported evidence can be described truthfully.
 
 ## File placement
 
@@ -31,7 +31,7 @@ The optional `$schema` property lets an editor associate a metadata file with th
 
 A topic cannot use `stable` until its content rubric is `passed` and its example and exercise evidence is either `passed` or `not_applicable`. A topic cannot set `website.published` to `true` unless it is Stable, and every published topic requires a numeric website order. These rules are enforced by the Rust validator as well as represented in the JSON Schema.
 
-Passing metadata validation does not promote a topic. Status changes still require the evidence described in `CONTENT_STATUS.md` and must be reviewed with the content change. The validator checks duplicate IDs across every parsed metadata file, even when one of those files has other semantic errors, so an invalid file cannot hide an identifier collision.
+Passing metadata validation does not promote a topic. Status changes still require the evidence described in `CONTENT_STATUS.md` and the applicable criteria in the content rubric, and must be reviewed with the content change. The validator checks duplicate IDs across every parsed metadata file, even when one of those files has other semantic errors, so an invalid file cannot hide an identifier collision.
 
 ## Validator and export commands
 

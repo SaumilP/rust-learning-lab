@@ -18,7 +18,7 @@ Runnable examples should be small enough to expose the idea being taught. Add te
 
 ## Write the metadata
 
-Use the [version 1 metadata contract](../content-metadata.md) and start from the [documented example](../examples/topic-metadata.json). Place the finished file at `metadata.json` in the topic directory.
+Use the [version 1 metadata contract](../content-metadata.md), the [content rubric](content-rubric.md), and the [documented example](../examples/topic-metadata.json). Place the finished file at `metadata.json` in the topic directory.
 
 - Give the topic a lowercase kebab-case `id` that describes the concept rather than its current directory. Treat that ID as permanent once prerequisite links or exports depend on it.
 - Choose the public `status` from [CONTENT_STATUS.md](../../CONTENT_STATUS.md) and record only evidence that exists in the repository today.
